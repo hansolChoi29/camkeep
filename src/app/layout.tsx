@@ -1,7 +1,7 @@
-import Header from "@/components/Header";
 import "./globals.css";
 import { Metadata } from "next";
 import { Luckiest_Guy } from "next/font/google";
+import ClientLayout from "@/components/ClientLayout";
 // import Footer from "@/components/Footer";
 
 const luckiest = Luckiest_Guy({
@@ -27,8 +27,7 @@ export default function RootLayout({
   return (
     <html lang="ko" className={luckiest.variable}>
       <body>
-        <Header />
-        {children}
+        <ClientLayout>{children}</ClientLayout>
         {/* <Footer /> */}
       </body>
     </html>
