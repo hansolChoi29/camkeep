@@ -1,4 +1,3 @@
-// src/components/SplashScreen.tsx
 "use client";
 
 export default function SplashScreen() {
