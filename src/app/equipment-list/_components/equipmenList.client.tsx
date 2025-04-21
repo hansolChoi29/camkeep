@@ -94,7 +94,7 @@ export default function EquipmentListClient() {
   if (loading) return <p className="p-6 text-center">로딩중…</p>;
 
   return (
-    <main className="px-2">
+    <section className="sm:m-10">
       <nav className="flex sm:justify-center pl-4 sm:items-center  rounded-xl mb-12 bg-[#DCE4C9]  flex-wrap items-center h-auto overflow-auto">
         {CATEGORIES.map(({ label: cat, icon }) => (
           <button
@@ -187,6 +187,6 @@ export default function EquipmentListClient() {
       ) : (
         <p className="px-2 text-gray-500">등록된 상품이 없습니다.</p>
       )}
-    </main>
+    </section>
   );
 }
