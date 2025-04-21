@@ -18,3 +18,4 @@ export function middleware(request: NextRequest) {
 export const config = {
   matcher: ["/mypage/:path*"],
 };
+// dev 생성
