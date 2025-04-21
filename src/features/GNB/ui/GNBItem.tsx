@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { GNBItemData } from "../../types/gnbtype";
+import { GNBItemData } from "../../../types/gnbtype";
 
 export default function GNBItem({ label, href, img, active }: GNBItemData) {
   return (

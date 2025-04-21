@@ -1,7 +1,7 @@
 "use client";
 import { usePathname } from "next/navigation";
 import GNBItem from "./GNBItem";
-import { gnbItems } from "./gnbData";
+import { gnbItems } from "../gnbData";
 
 export default function GNB() {
   const pathname = usePathname();

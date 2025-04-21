@@ -3,9 +3,10 @@
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { SessionProvider } from "next-auth/react";
-import Header from "./Header";
+
+import GNB from "@/features/GNB/ui/GNB";
 import SplashScreen from "./SplashScreen";
-import GNB from "./GNB";
+import Header from "../../widgets/Header";
 
 export default function ClientLayout({
   children,

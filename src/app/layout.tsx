@@ -1,11 +1,11 @@
 import "./globals.css";
 import { Metadata } from "next";
 import { Luckiest_Guy } from "next/font/google";
-import ClientLayout from "@/components/ClientLayout";
+import ClientLayout from "@/app/_components/ClientLayout";
 // import Footer from "@/components/Footer";
 
 const luckiest = Luckiest_Guy({
-  subsets: ["latin"], 
+  subsets: ["latin"],
   weight: ["400"],
   display: "swap",
   variable: "--font-logo",

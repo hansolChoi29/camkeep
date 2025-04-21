@@ -27,21 +27,74 @@
 
 ---
 
+
+
+
 ```
 camkeep
+├─ .eslintrc.json
+├─ components.json
+├─ middleware.ts
+├─ next.config.mjs
+├─ package-lock.json
+├─ package.json
+├─ postcss.config.mjs
 ├─ public
 │  ├─ favicon.png
 │  └─ images
-│     └─ camkeep.png
+│     ├─ camkeep.png
+│     ├─ header-newbie.png
+│     ├─ menu-chair.png
+│     ├─ menu-checklist.png
+│     ├─ menu-community.png
+│     ├─ menu-person.png
+│     └─ menu-tent.png
+├─ README.md
 ├─ src
 │  ├─ app
-│  │  ├─ favicon.ico
+│  │  ├─ auth
+│  │  │  ├─ login
+│  │  │  │  ├─ page.tsx
+│  │  │  │  └─ _components
+│  │  │  │     └─ auth.client.tsx
+│  │  │  └─ register
+│  │  │     ├─ page.tsx
+│  │  │     └─ _components
+│  │  │        └─ register.client.tsx
 │  │  ├─ globals.css
 │  │  ├─ layout.tsx
-│  │  ├─ login
-│  │  │  └─ page.tsx
-│  │  └─ page.tsx
-│  └─ components
+│  │  ├─ page.tsx
+│  │  └─ _components
+│  │     ├─ ClientLayout.tsx
+│  │     ├─ home.client.tsx
+│  │     └─ SplashScreen.tsx
+│  ├─ components
+│  │  └─ ui
+│  │     └─ shadcn
+│  │        ├─ button.tsx
+│  │        └─ input.tsx
+│  ├─ features
+│  │  ├─ auth
+│  │  │  └─ ui
+│  │  ├─ GNB
+│  │  │  ├─ gnbData.ts
+│  │  │  └─ ui
+│  │  │     ├─ GNB.tsx
+│  │  │     ├─ GNBItem.tsx
+│  │  │     └─ index.ts
+│  │  └─ home
+│  ├─ lib
+│  │  ├─ auth
+│  │  │  └─ session.ts
+│  │  └─ utils.ts
+│  ├─ store
+│  │  └─ userStore.ts
+│  ├─ types
+│  │  ├─ auth.ts
+│  │  ├─ gnbtype.ts
+│  │  ├─ index.ts
+│  │  └─ user.ts
+│  └─ widgets
 │     ├─ Footer.tsx
 │     └─ Header.tsx
 ├─ tailwind.config.ts

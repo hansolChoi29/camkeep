@@ -2,7 +2,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Menu as MenuIcon, X as CloseIcon } from "lucide-react";
-import { gnbItems } from "./GNB/gnbData";
+import { gnbItems } from "../features/GNB/gnbData";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
