@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
+import { Input } from "@/components/ui/input";
 interface NaverItem {
   title: string;
   link: string;
@@ -120,12 +121,12 @@ export default function EquipmentListClient() {
       </nav>
 
       <div>
-        <input
+        <Input
           type="text"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder={`${selected} 검색`}
-          className="w-full border rounded-full px-4 py-2 focus:outline-none focus:ring"
+          className="w-full border px-4 py-2  focus-visible:ring-2 focus-visible:ring-[#B6A28E] "
         />
       </div>
 
@@ -160,12 +161,14 @@ export default function EquipmentListClient() {
               key={i}
               className="border border-[#E07B39] rounded-lg overflow-hidden flex flex-col bg-white"
             >
-              <div className="relative w-full h-40">
+              <div className="relative w-70 h-52">
                 <Image
                   src={item.image}
                   alt={item.title.replace(/<[^>]*>/g, "")}
                   fill
                   className="object-cover"
+                  // width={100}
+                  // height={100}
                 />
               </div>
               <div className="p-2 flex-1 flex flex-col justify-between">
