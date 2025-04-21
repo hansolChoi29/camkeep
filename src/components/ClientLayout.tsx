@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Header from "./Header";
 import SplashScreen from "./SplashScreen";
+import { SessionProvider } from "next-auth/react";
 export default function ClientLayout({
   children,
 }: {
@@ -23,8 +24,10 @@ export default function ClientLayout({
   return (
     <>
       {/* 로그인 페이지(/login)라면 Header를 그리지 않습니다 */}
-      {pathname !== "/login" && <Header />}
-      {children}
+      <SessionProvider>
+        {pathname !== "/login" && <Header />}
+        {children}
+      </SessionProvider>
     </>
   );
 }
