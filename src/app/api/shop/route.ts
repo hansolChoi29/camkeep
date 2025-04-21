@@ -1,4 +1,3 @@
-// src/app/api/shop/route.ts
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
@@ -35,10 +34,12 @@ export async function GET(req: Request) {
 
     const data = JSON.parse(text);
     return NextResponse.json(data);
-  } catch (e: any) {
-    console.error("🔥 Route handler exception:", e);
+  } catch (e: unknown) {
+    const message = e instanceof Error ? e.message : String(e);
+
+    console.error("🔥 Route handler exception:", message);
     return NextResponse.json(
-      { error: `서버 오류: ${e.message}` },
+      { error: `서버 오류: ${message}` },
       { status: 500 }
     );
   }
