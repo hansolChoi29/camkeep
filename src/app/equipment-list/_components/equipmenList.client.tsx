@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 interface NaverItem {
   title: string;
@@ -27,7 +27,13 @@ export default function EquipmentListClient() {
   const [loading, setLoading] = useState(true);
   const [selected, setSelected] = useState(CATEGORIES[0].label);
   const [search, setSearch] = useState("");
+  const [items, setItems] = useState<NaverItem[]>([]);
 
+  const [sortBy, setSortBy] = useState<
+    "popular" | "newest" | "priceHigh" | "priceLow"
+  >("popular");
+
+  // 데이터
   useEffect(() => {
     (async () => {
       const result: Record<string, NaverItem[]> = {};
@@ -49,16 +55,45 @@ export default function EquipmentListClient() {
     })();
   }, []);
 
+  const list = useMemo(() => {
+    let arr = data[selected] ?? [];
+
+    // 검색 필터
+    if (search) {
+      const term = search.trim().toLowerCase();
+      arr = arr.filter((i) =>
+        i.title
+          .replace(/<[^>]+>/g, "")
+          .toLowerCase()
+          .includes(term)
+      );
+    }
+
+    // 정렬
+    switch (sortBy) {
+      case "priceHigh":
+        arr = [...arr].sort((a, b) => Number(b.lprice) - Number(a.lprice));
+        break;
+      case "priceLow":
+        arr = [...arr].sort((a, b) => Number(a.lprice) - Number(b.lprice));
+        break;
+      case "newest":
+        // API가 최신순으로 내려준다고 가정 → 명시적으로 반환
+        break;
+      case "popular":
+      // API가 인기순으로 내려준다고 가정 → 명시적으로 반환
+      // 이것들 메타데이터 있어야 함
+      default:
+        break;
+    }
+
+    return arr;
+  }, [data, selected, search, sortBy]);
+
   if (loading) return <p className="p-6 text-center">로딩중…</p>;
 
-  let list = data[selected] || [];
-
-  if (search) {
-    list = list.filter((i) => i.title.replace(/<[^>]*>/g, "").includes(search));
-  }
-
   return (
-    <main className="">
+    <main className="px-2">
       <nav className=" sm:justify-center sm:items-center    rounded-xl m-3 bg-[#DCE4C9]    flex flex-wrap items-center h-auto   overflow-auto  ">
         {CATEGORIES.map(({ label: cat, icon }) => (
           <button
@@ -78,7 +113,7 @@ export default function EquipmentListClient() {
         ))}
       </nav>
 
-      <div className="px-2">
+      <div>
         <input
           type="text"
           value={search}
@@ -88,15 +123,33 @@ export default function EquipmentListClient() {
         />
       </div>
 
-      <div className="px-2 flex items-baseline justify-between">
+      <div className=" mt-4  flex items-baseline justify-between">
         <h2 className="text-xl font-bold">{selected}</h2>
         <span className="text-sm text-gray-600">총 {list.length}개</span>
       </div>
 
+      {/* 정렬 */}
+      <div className="mb-4 flex items-center gap-2">
+        <label htmlFor="sort" className="font-medium">
+          정렬:
+        </label>
+        <select
+          id="sort"
+          value={sortBy}
+          onChange={(e) => setSortBy(e.target.value as typeof sortBy)}
+          className="border rounded px-2 py-1"
+        >
+          <option value="popular">인기순</option>
+          <option value="newest">최신순</option>
+          <option value="priceHigh">가격 높은순</option>
+          <option value="priceLow">가격 낮은순</option>
+        </select>
+      </div>
+
       {errors[selected] ? (
-        <p className="px-2 text-red-600">조회 실패: {errors[selected]}</p>
+        <p className=" text-red-600">조회 실패: {errors[selected]}</p>
       ) : list.length > 0 ? (
-        <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 px-2">
+        <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 ">
           {list.map((item, i) => (
             <li
               key={i}
