@@ -1,8 +1,12 @@
 "use client";
+
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
+import { SessionProvider } from "next-auth/react";
 import Header from "./Header";
 import SplashScreen from "./SplashScreen";
+import GNB from "./GNB";
+
 export default function ClientLayout({
   children,
 }: {
@@ -16,15 +20,25 @@ export default function ClientLayout({
     return () => clearTimeout(timer);
   }, []);
 
-  if (loading) {
-    return <SplashScreen />;
+  if (loading) return <SplashScreen />;
+
+  if (pathname === "/login") {
+    return (
+      <SessionProvider>
+        <main className="flex min-h-screen w-full bg-[#FFAB5B] justify-center items-center">
+          {children}
+        </main>
+      </SessionProvider>
+    );
   }
 
   return (
-    <>
-      {/* 로그인 페이지(/login)라면 Header를 그리지 않습니다 */}
-      {pathname !== "/login" && <Header />}
-      {children}
-    </>
+    <SessionProvider>
+      <Header />
+
+      <div className="w-full sm:max-w-[560px] mx-auto px-4">{children}</div>
+
+      <GNB />
+    </SessionProvider>
   );
 }
