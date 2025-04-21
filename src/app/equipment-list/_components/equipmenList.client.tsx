@@ -3,6 +3,9 @@
 import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
+import { CATEGORIES } from "@/features/equipment-list/equipment-data";
+import EquipmentNav from "@/features/equipment-list/equipment-nav";
+
 interface NaverItem {
   title: string;
   link: string;
@@ -10,17 +13,17 @@ interface NaverItem {
   lprice: string;
   mallName: string;
 }
-const CATEGORIES = [
-  { label: "텐트", icon: "shop-tent.png" },
-  { label: "타프", icon: "shop-tarp.png" },
-  { label: "침낭", icon: "sleeping-bag.png" },
-  { label: "매트", icon: "shop-mat.png" },
-  { label: "테이블", icon: "shop-table.png" },
-  { label: "체어", icon: "shop-chair.png" },
-  { label: "랜턴", icon: "shop-lantern.png" },
-  { label: "스토브", icon: "shop-cooker.png" },
-  { label: "쿠커", icon: "shop-cockle.png" },
-];
+// const CATEGORIES = [
+//   { label: "텐트", icon: "shop-tent.png" },
+//   { label: "타프", icon: "shop-tarp.png" },
+//   { label: "침낭", icon: "sleeping-bag.png" },
+//   { label: "매트", icon: "shop-mat.png" },
+//   { label: "테이블", icon: "shop-table.png" },
+//   { label: "체어", icon: "shop-chair.png" },
+//   { label: "랜턴", icon: "shop-lantern.png" },
+//   { label: "스토브", icon: "shop-cooker.png" },
+//   { label: "쿠커", icon: "shop-cockle.png" },
+// ];
 
 export default function EquipmentListClient() {
   const [data, setData] = useState<Record<string, NaverItem[]>>({});
@@ -30,6 +33,7 @@ export default function EquipmentListClient() {
   const [search, setSearch] = useState("");
   const [items, setItems] = useState<NaverItem[]>([]);
 
+  // 정렬
   const [sortBy, setSortBy] = useState<
     "popular" | "newest" | "priceHigh" | "priceLow"
   >("popular");
@@ -95,7 +99,7 @@ export default function EquipmentListClient() {
 
   return (
     <section className="sm:m-10">
-      <nav className="flex sm:justify-center pl-4 sm:items-center  rounded-xl mb-12 bg-[#DCE4C9]  flex-wrap items-center h-auto overflow-auto">
+      {/* <nav className="flex sm:justify-center pl-4 sm:items-center  rounded-xl mb-12 bg-[#DCE4C9]  flex-wrap items-center h-auto overflow-auto">
         {CATEGORIES.map(({ label: cat, icon }) => (
           <button
             key={cat}
@@ -118,15 +122,19 @@ export default function EquipmentListClient() {
             <span className="text-xs sm:text-xl mt-1 font-semibold">{cat}</span>
           </button>
         ))}
-      </nav>
-
+      </nav> */}
+      <EquipmentNav
+        selected={selected}
+        setSelected={setSelected}
+        setSearch={setSearch}
+      />
       <div>
         <Input
           type="text"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder={`${selected} 검색`}
-          className="w-full border px-4 py-2  focus-visible:ring-2 focus-visible:ring-[#B6A28E] "
+          className="w-full border  focus-visible:ring-2 focus-visible:ring-[#B6A28E] "
         />
       </div>
 
@@ -155,29 +163,37 @@ export default function EquipmentListClient() {
       {errors[selected] ? (
         <p className=" text-red-600">조회 실패: {errors[selected]}</p>
       ) : list.length > 0 ? (
-        <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 ">
+        <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 ">
           {list.map((item, i) => (
             <li
               key={i}
-              className="border border-[#E07B39] rounded-lg overflow-hidden flex flex-col bg-white"
+              className="border sm:flex-row border-[#E07B39] rounded-lg overflow-hidden flex flex-col bg-white"
             >
-              <div className="relative w-70 h-52">
+              <div className="relative w-64 sm:w-[240px] sm:h-52  h-30">
                 <Image
                   src={item.image}
                   alt={item.title.replace(/<[^>]*>/g, "")}
-                  fill
-                  className="object-cover"
-                  // width={100}
-                  // height={100}
+                  // fill
+                  className="object-cover sm:w-[240px] sm:h-[220px]"
+                  width={159}
+                  height={80}
                 />
               </div>
-              <div className="p-2 flex-1 flex flex-col justify-between">
+              <div className="px-2 sm:w-[172px] w-38 flex-1 flex flex-col justify-between">
+                <div className="flex items-center justify-end">
+                  <button className="py-1 text-[#724E2B] text-[10px] sm:text-xs">
+                    {"<"} 자세히 보기
+                  </button>
+                </div>
                 <h3
-                  className="text-base font-semibold line-clamp-2"
+                  className="sm:text-sm text-sm font-semibold line-clamp-2 text-[#724E2B]"
                   dangerouslySetInnerHTML={{ __html: item.title }}
                 />
-                <p className="mt-1 text-base text-gray-600">{item.mallName}</p>
-                <p className="mt-1 sm:text-xl flex justify-end text-sm font-bold">
+                <p className="mb-1 pt-1 sm:text-sm text-xs text-[#724E2B]">
+                  {item.mallName}
+                </p>
+                <hr />
+                <p className="mt-2 sm:text-xl flex text-[#724E2B] justify-end text-sm font-bold">
                   {item.lprice}원
                 </p>
               </div>
