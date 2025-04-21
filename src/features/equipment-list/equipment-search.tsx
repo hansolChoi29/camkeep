@@ -16,7 +16,7 @@ export default function EquipmentSearch(props: SearchProps) {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder={`${selected} 검색`}
-          className="w-full border  focus-visible:ring-2 focus-visible:ring-[#B6A28E] "
+          className="w-80 border  focus-visible:ring-2 focus-visible:ring-[#B6A28E] "
         />
       </div>
     </>

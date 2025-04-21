@@ -100,13 +100,11 @@ export default function EquipmentListClient() {
           <h2 className="text-xl font-bold mb-2 mt-4">{selected}</h2>
           <span className="text-sm  mb-2">총 {list.length}개</span>
         </div>
-        <div>
-          <EquipmentSearch
-            search={search}
-            selected={selected}
-            setSearch={setSearch}
-          />
-        </div>
+        <EquipmentSearch
+          search={search}
+          selected={selected}
+          setSearch={setSearch}
+        />
         {/* 정렬 */}
         <div className="mb-4 flex items-center gap-2  justify-end ">
           <select
