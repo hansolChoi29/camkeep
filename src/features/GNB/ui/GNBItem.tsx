@@ -8,11 +8,11 @@ export default function GNBItem({ label, href, img, active }: GNBItemData) {
       href={href}
       className={`
         flex flex-col items-center
-        ${active ? "text-[#E07B39] font-bold" : "text-gray-600"}
+        ${active ? "text-white " : "text-white"}
       `}
     >
-      <Image src={img} alt={label} width={24} height={24} />
-      <span className="text-[12px] font-bold">{label}</span>
+      <Image src={img} alt={label} width={30} height={30} />
+      <span className="text-[12px] ">{label}</span>
     </Link>
   );
 }
