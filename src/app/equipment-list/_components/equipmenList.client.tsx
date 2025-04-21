@@ -1,7 +1,7 @@
 "use client";
+
 import { useEffect, useState } from "react";
 import Image from "next/image";
-
 interface NaverItem {
   title: string;
   link: string;
@@ -9,62 +9,121 @@ interface NaverItem {
   lprice: string;
   mallName: string;
 }
+const CATEGORIES = [
+  { label: "텐트", icon: "shop-tent.png" },
+  { label: "타프", icon: "shop-tarp.png" },
+  { label: "침낭", icon: "sleeping-bag.png" },
+  { label: "매트", icon: "shop-mat.png" },
+  { label: "테이블", icon: "shop-table.png" },
+  { label: "체어", icon: "shop-chair.png" },
+  { label: "랜턴", icon: "shop-lantern.png" },
+  { label: "스토브", icon: "shop-cooker.png" },
+  { label: "쿠커", icon: "shop-cockle.png" },
+];
 
 export default function EquipmentListClient() {
-  const [items, setItems] = useState<NaverItem[]>([]);
+  const [data, setData] = useState<Record<string, NaverItem[]>>({});
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [selected, setSelected] = useState(CATEGORIES[0].label);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
-    fetch("/api/shop?query=캠핑용품&display=30&start=1")
-      .then((r) => r.json())
-      .then((json) => {
-        if (json.items) setItems(json.items);
-        else throw new Error(json.error || "Invalid response");
-      })
-      .catch((e) => setError(e.message))
-      .finally(() => setLoading(false));
+    (async () => {
+      const result: Record<string, NaverItem[]> = {};
+      for (const { label: cat } of CATEGORIES) {
+        try {
+          const res = await fetch(
+            `/api/shop?query=${encodeURIComponent("캠핑 " + cat)}&display=30`
+          );
+          if (!res.ok) throw new Error(`${res.status}`);
+          const json = await res.json();
+          result[cat] = json.items || [];
+        } catch (e: any) {
+          result[cat] = [];
+          setErrors((e0) => ({ ...e0, [cat]: e.message }));
+        }
+      }
+      setData(result);
+      setLoading(false);
+    })();
   }, []);
 
-  if (loading) return <p>로딩중…</p>;
-  if (error) return <p>에러: {error}</p>;
-  if (!items.length) return <p>캠핑용품이 없습니다.</p>;
+  if (loading) return <p className="p-6 text-center">로딩중…</p>;
+
+  let list = data[selected] || [];
+
+  if (search) {
+    list = list.filter((i) => i.title.replace(/<[^>]*>/g, "").includes(search));
+  }
 
   return (
-    <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-6">
-      {items.map((item, i) => (
-        <li key={i} className="border rounded-md overflow-hidden">
-          {item.image ? (
-            <Image
-              src={item.image}
-              alt={item.title.replace(/<[^>]+>/g, "")}
-              width={200}
-              height={200}
-              className="w-full h-40 object-cover"
-            />
-          ) : (
-            <div className="w-full h-40 bg-gray-200 flex items-center justify-center text-sm text-gray-500">
-              No Image
-            </div>
-          )}
-          <div className="p-4">
-            <h2
-              className="text-lg font-semibold mb-2"
-              dangerouslySetInnerHTML={{ __html: item.title }}
-            />
-            <p className="text-sm text-gray-600">최저가: {item.lprice}원</p>
-            <p className="text-sm text-gray-500">{item.mallName}</p>
-            <a
-              href={item.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-2 text-blue-600 underline text-sm"
+    <main className="">
+      <nav className=" sm:justify-center sm:items-center    rounded-xl m-3 bg-[#DCE4C9]    flex flex-wrap items-center h-auto   overflow-auto  ">
+        {CATEGORIES.map(({ label: cat, icon }) => (
+          <button
+            key={cat}
+            onClick={() => {
+              setSelected(cat);
+              setSearch("");
+            }}
+            className={
+              "flex flex-col m-1 items-center px-2 py-1 rounded-lg " +
+              (selected === cat ? "border-[#E07B39] border  text-black" : "  ")
+            }
+          >
+            <Image src={`/images/${icon}`} alt={cat} width={30} height={30} />
+            <span className="text-xs mt-1 font-semibold">{cat}</span>
+          </button>
+        ))}
+      </nav>
+
+      <div className="px-2">
+        <input
+          type="text"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder={`${selected} 검색`}
+          className="w-full border rounded-full px-4 py-2 focus:outline-none focus:ring"
+        />
+      </div>
+
+      <div className="px-2 flex items-baseline justify-between">
+        <h2 className="text-xl font-bold">{selected}</h2>
+        <span className="text-sm text-gray-600">총 {list.length}개</span>
+      </div>
+
+      {errors[selected] ? (
+        <p className="px-2 text-red-600">조회 실패: {errors[selected]}</p>
+      ) : list.length > 0 ? (
+        <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 px-2">
+          {list.map((item, i) => (
+            <li
+              key={i}
+              className="border rounded-lg overflow-hidden flex flex-col bg-white"
             >
-              상세보기
-            </a>
-          </div>
-        </li>
-      ))}
-    </ul>
+              <div className="relative w-full h-40">
+                <Image
+                  src={item.image}
+                  alt={item.title.replace(/<[^>]*>/g, "")}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <div className="p-3 flex-1 flex flex-col justify-between">
+                <h3
+                  className="text-sm font-semibold line-clamp-2"
+                  dangerouslySetInnerHTML={{ __html: item.title }}
+                />
+                <p className="mt-1 text-xs text-gray-600">{item.mallName}</p>
+                <p className="mt-1 text-sm font-bold">{item.lprice}원</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className="px-2 text-gray-500">등록된 상품이 없습니다.</p>
+      )}
+    </main>
   );
 }

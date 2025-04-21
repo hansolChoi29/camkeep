@@ -37,7 +37,7 @@ export default function ClientLayout({
     <SessionProvider>
       <Header />
 
-      <div className="w-full sm:max-w-[560px] mx-auto px-4">{children}</div>
+      <div>{children}</div>
 
       <GNB />
     </SessionProvider>

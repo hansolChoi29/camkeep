@@ -1,4 +1,3 @@
-// src/api/goCamping.ts
 import axios from "axios";
 
 export interface CampingItem {
@@ -6,7 +5,6 @@ export interface CampingItem {
   facltNm: string;
   addr1: string;
   firstImageUrl: string;
-  // 필요하다면 더 필드를 여기에 추가하세요...
 }
 
 export async function fetchCampingList(
@@ -27,11 +25,8 @@ export async function fetchCampingList(
     }
   );
 
-  console.log("🛠️ fetchCampingList raw response:", data);
-
   const header = data.response?.header;
   if (header?.resultCode !== "0000") {
-    console.warn("⚠️ GoCamping header:", header);
     throw new Error(header?.resultMsg || "API error");
   }
 
