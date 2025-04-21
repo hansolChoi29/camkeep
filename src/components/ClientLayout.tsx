@@ -22,7 +22,7 @@ export default function ClientLayout({
 
   if (loading) return <SplashScreen />;
 
-  if (pathname === "/login") {
+  if (pathname === "/auth/login") {
     return (
       <SessionProvider>
         <main className="flex min-h-screen w-full bg-[#FFAB5B] justify-center items-center">

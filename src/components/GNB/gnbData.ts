@@ -1,4 +1,4 @@
-import { GNBItemData } from "./type";
+import { GNBItemData } from "../../types/gnbtype";
 
 export const gnbItems: GNBItemData[] = [
   {
