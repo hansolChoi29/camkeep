@@ -28,7 +28,6 @@
 ---
 
 
-
 ```
 camkeep
 ├─ .eslintrc.json
@@ -52,6 +51,10 @@ camkeep
 ├─ README.md
 ├─ src
 │  ├─ app
+│  │  ├─ api
+│  │  │  ├─ goCamping.ts
+│  │  │  └─ shop
+│  │  │     └─ route.ts
 │  │  ├─ auth
 │  │  │  ├─ login
 │  │  │  │  ├─ page.tsx
@@ -61,12 +64,22 @@ camkeep
 │  │  │     ├─ page.tsx
 │  │  │     └─ _components
 │  │  │        └─ register.client.tsx
+│  │  ├─ camping
+│  │  │  ├─ page.tsx
+│  │  │  └─ _components
+│  │  │     └─ camping.client.tsx
+│  │  ├─ equipment-list
+│  │  │  ├─ page.tsx
+│  │  │  └─ _components
+│  │  │     └─ equipmenList.client.tsx
 │  │  ├─ globals.css
 │  │  ├─ layout.tsx
 │  │  ├─ page.tsx
+│  │  ├─ wqe
 │  │  └─ _components
 │  │     ├─ ClientLayout.tsx
 │  │     ├─ home.client.tsx
+│  │     ├─ Providers.tsx
 │  │     └─ SplashScreen.tsx
 │  ├─ components
 │  │  └─ ui

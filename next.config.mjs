@@ -1,8 +1,8 @@
-// next.config.mjs
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  experimental: { appDir: true },
   images: {
-    domains: ["gocamping.or.kr"], // <- 요 부분이 반드시 있어야 합니다
+    domains: ["shopping-phinf.pstatic.net", "gocamping.or.kr"],
   },
 };
 

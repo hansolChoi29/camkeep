@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { CampingItem, fetchAllCampingList } from "@/api/goCamping";
+import { CampingItem, fetchAllCampingList } from "@/app/api/goCamping";
 
 export default function CampingClient() {
   const [list, setList] = useState<CampingItem[]>([]);
