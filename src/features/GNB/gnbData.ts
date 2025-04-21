@@ -7,7 +7,12 @@ export const gnbItems: GNBItemData[] = [
     href: "/camping",
     img: "/images/menu-chair.png",
   },
-  { id: "shop", label: "용품샵", href: "/shop", img: "/images/menu-tent.png" },
+  {
+    id: "shop",
+    label: "용품샵",
+    href: "/equipment-list",
+    img: "/images/menu-tent.png",
+  },
   {
     id: "community",
     label: "커뮤니티",

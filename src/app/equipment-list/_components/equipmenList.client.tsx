@@ -94,7 +94,7 @@ export default function EquipmentListClient() {
 
   return (
     <main className="px-2">
-      <nav className=" sm:justify-center sm:items-center    rounded-xl m-3 bg-[#DCE4C9]    flex flex-wrap items-center h-auto   overflow-auto  ">
+      <nav className="flex sm:justify-center pl-4 sm:items-center  rounded-xl mb-12 bg-[#DCE4C9]  flex-wrap items-center h-auto overflow-auto">
         {CATEGORIES.map(({ label: cat, icon }) => (
           <button
             key={cat}
@@ -107,8 +107,14 @@ export default function EquipmentListClient() {
               (selected === cat ? "border-[#E07B39] border  text-black" : "  ")
             }
           >
-            <Image src={`/images/${icon}`} alt={cat} width={30} height={30} />
-            <span className="text-xs mt-1 font-semibold">{cat}</span>
+            <Image
+              src={`/images/${icon}`}
+              alt={cat}
+              width={30}
+              height={30}
+              className="sm:w-14"
+            />
+            <span className="text-xs sm:text-xl mt-1 font-semibold">{cat}</span>
           </button>
         ))}
       </nav>
@@ -124,26 +130,25 @@ export default function EquipmentListClient() {
       </div>
 
       <div className=" mt-4  flex items-baseline justify-between">
-        <h2 className="text-xl font-bold">{selected}</h2>
-        <span className="text-sm text-gray-600">총 {list.length}개</span>
-      </div>
+        <div>
+          <h2 className="text-xl font-bold mb-2 mt-4">{selected}</h2>
+          <span className="text-sm  mb-2">총 {list.length}개</span>
+        </div>
 
-      {/* 정렬 */}
-      <div className="mb-4 flex items-center gap-2">
-        <label htmlFor="sort" className="font-medium">
-          정렬:
-        </label>
-        <select
-          id="sort"
-          value={sortBy}
-          onChange={(e) => setSortBy(e.target.value as typeof sortBy)}
-          className="border rounded px-2 py-1"
-        >
-          <option value="popular">인기순</option>
-          <option value="newest">최신순</option>
-          <option value="priceHigh">가격 높은순</option>
-          <option value="priceLow">가격 낮은순</option>
-        </select>
+        {/* 정렬 */}
+        <div className="mb-4 flex items-center gap-2  justify-end ">
+          <select
+            id="sort"
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value as typeof sortBy)}
+            className="border text-[#724E2B] border-[#B6A28E] rounded px-2 py-1"
+          >
+            <option value="popular">인기순</option>
+            <option value="newest">최신순</option>
+            <option value="priceHigh">가격 높은순</option>
+            <option value="priceLow">가격 낮은순</option>
+          </select>
+        </div>
       </div>
 
       {errors[selected] ? (
@@ -153,7 +158,7 @@ export default function EquipmentListClient() {
           {list.map((item, i) => (
             <li
               key={i}
-              className="border rounded-lg overflow-hidden flex flex-col bg-white"
+              className="border border-[#E07B39] rounded-lg overflow-hidden flex flex-col bg-white"
             >
               <div className="relative w-full h-40">
                 <Image
@@ -163,13 +168,15 @@ export default function EquipmentListClient() {
                   className="object-cover"
                 />
               </div>
-              <div className="p-3 flex-1 flex flex-col justify-between">
+              <div className="p-2 flex-1 flex flex-col justify-between">
                 <h3
-                  className="text-sm font-semibold line-clamp-2"
+                  className="text-base font-semibold line-clamp-2"
                   dangerouslySetInnerHTML={{ __html: item.title }}
                 />
-                <p className="mt-1 text-xs text-gray-600">{item.mallName}</p>
-                <p className="mt-1 text-sm font-bold">{item.lprice}원</p>
+                <p className="mt-1 text-base text-gray-600">{item.mallName}</p>
+                <p className="mt-1 sm:text-xl flex justify-end text-sm font-bold">
+                  {item.lprice}원
+                </p>
               </div>
             </li>
           ))}
