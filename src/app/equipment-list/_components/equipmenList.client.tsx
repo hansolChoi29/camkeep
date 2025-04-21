@@ -5,6 +5,7 @@ import Image from "next/image";
 import { CATEGORIES, Category } from "@/features/equipment-list/equipment-data";
 import EquipmentNav from "@/features/equipment-list/equipment-nav";
 import EquipmentSearch from "@/features/equipment-list/equipment-search";
+import EquipmentSort from "@/features/equipment-list/equipment-sort";
 
 interface NaverItem {
   title: string;
@@ -107,7 +108,8 @@ export default function EquipmentListClient() {
         />
         {/* 정렬 */}
         <div className="mb-4 flex items-center gap-2  justify-end ">
-          <select
+          <EquipmentSort sortBy={sortBy} setSortBy={setSortBy} />
+          {/* <select
             id="sort"
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value as typeof sortBy)}
@@ -117,7 +119,7 @@ export default function EquipmentListClient() {
             <option value="newest">최신순</option>
             <option value="priceHigh">가격 높은순</option>
             <option value="priceLow">가격 낮은순</option>
-          </select>
+          </select> */}
         </div>
       </div>
 
