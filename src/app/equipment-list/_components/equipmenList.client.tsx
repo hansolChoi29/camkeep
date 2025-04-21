@@ -2,9 +2,9 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
-import { Input } from "@/components/ui/input";
-import { CATEGORIES } from "@/features/equipment-list/equipment-data";
+import { CATEGORIES, Category } from "@/features/equipment-list/equipment-data";
 import EquipmentNav from "@/features/equipment-list/equipment-nav";
+import EquipmentSearch from "@/features/equipment-list/equipment-search";
 
 interface NaverItem {
   title: string;
@@ -13,25 +13,13 @@ interface NaverItem {
   lprice: string;
   mallName: string;
 }
-// const CATEGORIES = [
-//   { label: "텐트", icon: "shop-tent.png" },
-//   { label: "타프", icon: "shop-tarp.png" },
-//   { label: "침낭", icon: "sleeping-bag.png" },
-//   { label: "매트", icon: "shop-mat.png" },
-//   { label: "테이블", icon: "shop-table.png" },
-//   { label: "체어", icon: "shop-chair.png" },
-//   { label: "랜턴", icon: "shop-lantern.png" },
-//   { label: "스토브", icon: "shop-cooker.png" },
-//   { label: "쿠커", icon: "shop-cockle.png" },
-// ];
 
 export default function EquipmentListClient() {
   const [data, setData] = useState<Record<string, NaverItem[]>>({});
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
-  const [selected, setSelected] = useState(CATEGORIES[0].label);
+  const [selected, setSelected] = useState<Category>(CATEGORIES[0].label);
   const [search, setSearch] = useState("");
-  const [items, setItems] = useState<NaverItem[]>([]);
 
   // 정렬
   const [sortBy, setSortBy] = useState<
@@ -50,9 +38,11 @@ export default function EquipmentListClient() {
           if (!res.ok) throw new Error(`${res.status}`);
           const json = await res.json();
           result[cat] = json.items || [];
-        } catch (e: any) {
+        } catch (e: unknown) {
+          // e를 Error인지 확인하고, 아니면 문자열화
+          const message = e instanceof Error ? e.message : String(e);
           result[cat] = [];
-          setErrors((e0) => ({ ...e0, [cat]: e.message }));
+          setErrors((prev) => ({ ...prev, [cat]: message }));
         }
       }
       setData(result);
@@ -99,51 +89,24 @@ export default function EquipmentListClient() {
 
   return (
     <section className="sm:m-10">
-      {/* <nav className="flex sm:justify-center pl-4 sm:items-center  rounded-xl mb-12 bg-[#DCE4C9]  flex-wrap items-center h-auto overflow-auto">
-        {CATEGORIES.map(({ label: cat, icon }) => (
-          <button
-            key={cat}
-            onClick={() => {
-              setSelected(cat);
-              setSearch("");
-            }}
-            className={
-              "flex flex-col m-1 items-center px-2 py-1 rounded-lg " +
-              (selected === cat ? "border-[#E07B39] border  text-black" : "  ")
-            }
-          >
-            <Image
-              src={`/images/${icon}`}
-              alt={cat}
-              width={30}
-              height={30}
-              className="sm:w-14"
-            />
-            <span className="text-xs sm:text-xl mt-1 font-semibold">{cat}</span>
-          </button>
-        ))}
-      </nav> */}
       <EquipmentNav
         selected={selected}
         setSelected={setSelected}
         setSearch={setSearch}
       />
-      <div>
-        <Input
-          type="text"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          placeholder={`${selected} 검색`}
-          className="w-full border  focus-visible:ring-2 focus-visible:ring-[#B6A28E] "
-        />
-      </div>
 
       <div className=" mt-4  flex items-baseline justify-between">
         <div>
           <h2 className="text-xl font-bold mb-2 mt-4">{selected}</h2>
           <span className="text-sm  mb-2">총 {list.length}개</span>
         </div>
-
+        <div>
+          <EquipmentSearch
+            search={search}
+            selected={selected}
+            setSearch={setSearch}
+          />
+        </div>
         {/* 정렬 */}
         <div className="mb-4 flex items-center gap-2  justify-end ">
           <select

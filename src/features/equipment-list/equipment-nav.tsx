@@ -1,10 +1,9 @@
 import Image from "next/image";
-import { CATEGORIES } from "./equipment-data";
+import { CATEGORIES, Category } from "./equipment-data";
 
 interface NaProps {
-  selected: string;
-  setSelected: React.Dispatch<React.SetStateAction<string>>;
-  search: string;
+  selected: Category;
+  setSelected: React.Dispatch<React.SetStateAction<Category>>;
   setSearch: React.Dispatch<React.SetStateAction<string>>;
 }
 

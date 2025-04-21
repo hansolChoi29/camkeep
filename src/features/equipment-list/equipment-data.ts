@@ -8,4 +8,5 @@ export const CATEGORIES = [
   { label: "랜턴", icon: "shop-lantern.png" },
   { label: "스토브", icon: "shop-cooker.png" },
   { label: "쿠커", icon: "shop-cockle.png" },
-];
+] as const;
+export type Category = (typeof CATEGORIES)[number]["label"];
