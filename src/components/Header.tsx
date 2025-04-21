@@ -1,40 +1,46 @@
+// src/components/Header.tsx
 "use client";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useState } from "react";
+import Link from "next/link";
+import { Menu as MenuIcon, X as CloseIcon } from "lucide-react";
+import { gnbItems } from "./GNB/gnbData";
+
 export default function Header() {
-  const router = useRouter();
-
-  const handleHome = () => {
-    router.push("/");
-  };
-
-  const handlelogin = () => {
-    router.push("/login");
-  };
+  const [open, setOpen] = useState(false);
 
   return (
-    <header className="bg-[#E07B39] p-4">
-      <div className="flex justify-between">
-        <button onClick={handleHome}>
-          <Image
-            src="/images/camkeep.png"
-            alt="Camkeep 로고"
-            width={100}
-            height={20}
-            priority
-          />
-        </button>
+    <header className="fixed top-0 left-0 w-full h-16 bg-[#E07B39] z-50 flex items-center justify-between px-4">
+      <h1 className="logo text-[32px]">CAMKEEP</h1>
 
-        <div className="flex ">
-          <button className="mr-2 text-[18px] hover:text-white">메뉴</button>
-          <button
-            onClick={handlelogin}
-            className="text-[18px] hover:text-white"
-          >
-            로그인
-          </button>
+      <button
+        className="hidden sm:block text-white"
+        onClick={() => setOpen((v) => !v)}
+        aria-label="메뉴 열기"
+      >
+        {open ? <CloseIcon size={24} /> : <MenuIcon size={24} />}
+      </button>
+
+      {open && (
+        <div
+          className="
+            fixed top-16 right-4 w-40 bg-white shadow-lg rounded-md
+            flex flex-col divide-y
+            sm:flex               /* sm 이상에서만 표시 */
+            sm:divide-gray-200
+          "
+        >
+          {gnbItems.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="px-4 py-2 hover:bg-gray-100 logo text-[18px]"
+              onClick={() => setOpen(false)}
+            >
+              {item.label}
+            </Link>
+          ))}
         </div>
-      </div>
+      )}
     </header>
   );
 }
