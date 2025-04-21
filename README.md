@@ -28,13 +28,12 @@
 ---
 
 
-
-
 ```
 camkeep
 ├─ .eslintrc.json
 ├─ components.json
 ├─ middleware.ts
+├─ next-auth.d.ts
 ├─ next.config.mjs
 ├─ package-lock.json
 ├─ package.json
@@ -52,6 +51,10 @@ camkeep
 ├─ README.md
 ├─ src
 │  ├─ app
+│  │  ├─ api
+│  │  │  ├─ goCamping.ts
+│  │  │  └─ shop
+│  │  │     └─ route.ts
 │  │  ├─ auth
 │  │  │  ├─ login
 │  │  │  │  ├─ page.tsx
@@ -61,18 +64,28 @@ camkeep
 │  │  │     ├─ page.tsx
 │  │  │     └─ _components
 │  │  │        └─ register.client.tsx
+│  │  ├─ camping
+│  │  │  ├─ page.tsx
+│  │  │  └─ _components
+│  │  │     └─ camping.client.tsx
+│  │  ├─ equipment-list
+│  │  │  ├─ page.tsx
+│  │  │  └─ _components
+│  │  │     └─ equipmenList.client.tsx
 │  │  ├─ globals.css
 │  │  ├─ layout.tsx
 │  │  ├─ page.tsx
+│  │  ├─ wqe
 │  │  └─ _components
 │  │     ├─ ClientLayout.tsx
 │  │     ├─ home.client.tsx
+│  │     ├─ Providers.tsx
 │  │     └─ SplashScreen.tsx
 │  ├─ components
 │  │  └─ ui
-│  │     └─ shadcn
-│  │        ├─ button.tsx
-│  │        └─ input.tsx
+│  │     ├─ button.tsx
+│  │     ├─ carousel.tsx
+│  │     └─ input.tsx
 │  ├─ features
 │  │  ├─ auth
 │  │  │  └─ ui
@@ -82,7 +95,10 @@ camkeep
 │  │  │     ├─ GNB.tsx
 │  │  │     ├─ GNBItem.tsx
 │  │  │     └─ index.ts
-│  │  └─ home
+│  │  ├─ home
+│  │  │  ├─ home-camping-month.tsx
+│  │  │  └─ home-promotion.tsx
+│  │  └─ promotion-data.ts
 │  ├─ lib
 │  │  ├─ auth
 │  │  │  └─ session.ts
@@ -93,6 +109,7 @@ camkeep
 │  │  ├─ auth.ts
 │  │  ├─ gnbtype.ts
 │  │  ├─ index.ts
+│  │  ├─ promotion.ts
 │  │  └─ user.ts
 │  └─ widgets
 │     ├─ Footer.tsx

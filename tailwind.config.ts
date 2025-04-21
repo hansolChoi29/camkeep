@@ -6,10 +6,14 @@ const config: Config = {
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    // 모바일에서만 GNB보이게
+    "./src/features/**/*.{js,ts,jsx,tsx,mdx}",
+    // 모바일에서 메뉴 안보이는거
+    "./src/widgets/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     screens: {
-      sm: "560px", // sm: '560px'부터 적용
+      sm: "560px",
       md: "768px",
       lg: "1024px",
       xl: "1280px",
