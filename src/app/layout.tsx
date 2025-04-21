@@ -28,7 +28,7 @@ export default function RootLayout({
     <html lang="ko" className={luckiest.variable}>
       <body className="bg-[#F5F5DC]">
         <ClientLayout>
-          <div className="w-full sm:max-w-[560px] mx-auto px-4">
+          <div className="mt-44 sm:max-w-[560px] mx-auto px-4">
             {/* 현업에서는 GNB(Global Navigation Bar)를 고정(fixed) 시키는 경우가 많음 
             auth화면에서 GNB보이면 안됨 CLientLayout으로 빼서 분기만들어줌
             */}
