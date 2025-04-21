@@ -1,9 +1,29 @@
 import { GNBItemData } from "./type";
 
 export const gnbItems: GNBItemData[] = [
-  { label: "캠핑장", href: "/shop", img: "/images/menu-chair.png" },
-  { label: "용품샵", href: "/shop", img: "/images/menu-tent.png" },
-  { label: "커뮤니티", href: "/login", img: "/images/menu-community.png" },
-  { label: "체크리스트", href: "/login", img: "/images/menu-chair.png" },
-  { label: "마이페이지", href: "/mypage", img: "/images/menu-person.png" },
+  {
+    id: "camping",
+    label: "캠핑장",
+    href: "/camping",
+    img: "/images/menu-chair.png",
+  },
+  { id: "shop", label: "용품샵", href: "/shop", img: "/images/menu-tent.png" },
+  {
+    id: "community",
+    label: "커뮤니티",
+    href: "/community",
+    img: "/images/menu-community.png",
+  },
+  {
+    id: "checklist",
+    label: "체크리스트",
+    href: "/checklist",
+    img: "/images/menu-chair.png",
+  },
+  {
+    id: "mypage",
+    label: "마이페이지",
+    href: "/mypage",
+    img: "/images/menu-person.png",
+  },
 ];

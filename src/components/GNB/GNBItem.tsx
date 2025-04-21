@@ -12,7 +12,7 @@ export default function GNBItem({ label, href, img, active }: GNBItemData) {
       `}
     >
       <Image src={img} alt={label} width={24} height={24} />
-      <span className="text-[12px]">{label}</span>
+      <span className="text-[12px] font-bold">{label}</span>
     </Link>
   );
 }
