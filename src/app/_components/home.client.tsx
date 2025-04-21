@@ -1,15 +1,13 @@
 "use client";
 
+import HomeCampingMonth from "@/features/home/home-camping-month";
 import HomePromotion from "@/features/home/home-promotion";
 
-export default function PromotionCarousel() {
+export default function HomeClient() {
   return (
     <>
       <HomePromotion />
-
-      <section>
-        <h1>이달의 캠핑장</h1>
-      </section>
+      <HomeCampingMonth />
     </>
   );
 }

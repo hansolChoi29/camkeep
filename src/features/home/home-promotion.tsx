@@ -1,14 +1,14 @@
 "use client";
 
+import { PromoBanner } from "@/types/promotion";
+import { useRef } from "react";
+import Autoplay from "embla-carousel-autoplay";
+import { promoBanners } from "../promotion-data";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
-import { PromoBanner } from "@/types/promotion";
-import { useRef } from "react";
-import Autoplay from "embla-carousel-autoplay";
-import { promoBanners } from "../promotion-data";
 
 export default function HomePromotion() {
   const items: PromoBanner[] = promoBanners;

@@ -29,12 +29,12 @@
 
 
 
-
 ```
 camkeep
 ├─ .eslintrc.json
 ├─ components.json
 ├─ middleware.ts
+├─ next-auth.d.ts
 ├─ next.config.mjs
 ├─ package-lock.json
 ├─ package.json
@@ -70,9 +70,9 @@ camkeep
 │  │     └─ SplashScreen.tsx
 │  ├─ components
 │  │  └─ ui
-│  │     └─ shadcn
-│  │        ├─ button.tsx
-│  │        └─ input.tsx
+│  │     ├─ button.tsx
+│  │     ├─ carousel.tsx
+│  │     └─ input.tsx
 │  ├─ features
 │  │  ├─ auth
 │  │  │  └─ ui
@@ -82,7 +82,10 @@ camkeep
 │  │  │     ├─ GNB.tsx
 │  │  │     ├─ GNBItem.tsx
 │  │  │     └─ index.ts
-│  │  └─ home
+│  │  ├─ home
+│  │  │  ├─ home-camping-month.tsx
+│  │  │  └─ home-promotion.tsx
+│  │  └─ promotion-data.ts
 │  ├─ lib
 │  │  ├─ auth
 │  │  │  └─ session.ts
@@ -93,6 +96,7 @@ camkeep
 │  │  ├─ auth.ts
 │  │  ├─ gnbtype.ts
 │  │  ├─ index.ts
+│  │  ├─ promotion.ts
 │  │  └─ user.ts
 │  └─ widgets
 │     ├─ Footer.tsx
