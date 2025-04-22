@@ -22,7 +22,6 @@ export default function NewbieGuidClient() {
         </div>
 
         <div className="bg-[#DCE4C9] rounded-t-sm flex flex-col  items-center justify-center w-auto h-32">
-          <h1 className=" items-center flex justify-center pb-3 ">카테고리</h1>
           <hr />
           <NewbieGuideNav
             selected={selected}
