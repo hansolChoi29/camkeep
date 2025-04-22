@@ -1,4 +1,3 @@
-// ClientLayout.tsx
 "use client";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
