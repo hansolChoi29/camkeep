@@ -3,6 +3,7 @@ import { Metadata } from "next";
 import { Luckiest_Guy } from "next/font/google";
 import ClientLayout from "@/app/_components/ClientLayout";
 import { Providers } from "./_components/Providers";
+import Footer from "@/widgets/Footer";
 // import Footer from "@/components/Footer";
 
 const luckiest = Luckiest_Guy({
@@ -36,7 +37,9 @@ export default function RootLayout({
             </div>
           </ClientLayout>
         </Providers>
-        {/* <Footer /> */}
+        <div className="hidden sm:block">
+          <Footer />
+        </div>
       </body>
     </html>
   );
