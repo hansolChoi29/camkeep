@@ -1,3 +1,4 @@
+"use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
@@ -14,37 +15,30 @@ export function useAuthForm(mode: "login" | "register") {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  async function handleSubmit(e: React.FormEvent) {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
 
-    let result;
-    if (mode === "login") {
-      result = await supabase.auth.signInWithPassword({ email, password });
-    } else {
-      result = await supabase.auth.signUp({
-        email,
-        password,
-        options: { data: { nickname, phone } },
-      });
-    }
+    const res = await fetch(`/api/auth/${mode}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password, nickname, phone }),
+    });
 
     setLoading(false);
-
-    if (result.error) {
-      setError(result.error.message);
+    if (!res.ok) {
+      const data = await res.json();
+      setError(data.error ?? "알 수 없는 오류");
       return;
     }
 
-    // 로그인/회원가입 성공 후 세션을 localStorage에서 가져와 스토어에 저장
-    const {
-      data: { session },
-    } = await supabase.auth.getSession();
-    setSession(session);
+    // 쿠키에 세션이 저장되었으므로 서버에서 다시 불러와 스토어에 싱크
+    const { data } = await supabase.auth.getSession();
+    setSession(data.session);
 
-    router.push("/");
-  }
+    router.push("/mypage");
+  };
 
   return {
     form: { email, password, nickname, phone },

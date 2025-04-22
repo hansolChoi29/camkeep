@@ -8,20 +8,23 @@ export async function POST(
 ) {
   const { mode } = params;
   const supabase = createRouteHandlerClient({ cookies });
-
   const body = await req.json();
   const { email, password, nickname, phone } = body;
 
   if (mode === "login") {
-    const { error } = await supabase.auth.signInWithPassword({
+    const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 401 });
     }
-  } else if (mode === "register") {
-    const { error } = await supabase.auth.signUp({
+    // 성공 시 HTTP‑Only 쿠키(sb:token 등)가 자동 설정됩니다
+    return NextResponse.json({ ok: true });
+  }
+
+  if (mode === "register") {
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: { data: { nickname, phone } },
@@ -29,9 +32,8 @@ export async function POST(
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 400 });
     }
-  } else {
-    return NextResponse.json({ error: "Invalid auth mode" }, { status: 400 });
+    return NextResponse.json({ ok: true });
   }
 
-  return NextResponse.json({ ok: true });
+  return NextResponse.json({ error: "Invalid mode" }, { status: 400 });
 }

@@ -5,8 +5,8 @@ import type { Session, User } from "@supabase/supabase-js";
 interface AuthState {
   session: Session | null;
   user: User | null;
-  setSession: (session: Session | null) => void;
-  clearSession: () => void;
+  setSession(session: Session | null): void;
+  clearSession(): void;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -20,10 +20,7 @@ export const useAuthStore = create<AuthState>()(
     {
       name: "auth-storage",
       storage: createJSONStorage(() => localStorage),
-      partialize: (state) => ({
-        session: state.session,
-        user: state.user,
-      }),
+      partialize: (state) => ({ session: state.session, user: state.user }),
     }
   )
 );

@@ -1,3 +1,4 @@
+// middleware.ts
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { createMiddlewareSupabaseClient } from "@supabase/auth-helpers-nextjs";
@@ -9,13 +10,11 @@ export async function middleware(req: NextRequest) {
     data: { session },
   } = await supabase.auth.getSession();
 
-  const protectedPaths = ["/mypage"];
-  if (
-    !session &&
-    protectedPaths.some((p) => req.nextUrl.pathname.startsWith(p))
-  ) {
+  // /mypage 경로는 로그인된 사용자만 접근
+  if (req.nextUrl.pathname.startsWith("/mypage") && !session) {
     const redirectUrl = req.nextUrl.clone();
     redirectUrl.pathname = "/auth/login";
+    redirectUrl.searchParams.set("callbackUrl", req.nextUrl.pathname);
     return NextResponse.redirect(redirectUrl);
   }
 
@@ -23,5 +22,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/mypage", "/equipment/:path*", "/campsite/:path*"],
+  matcher: ["/mypage/:path*"],
 };
