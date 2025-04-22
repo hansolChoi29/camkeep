@@ -14,7 +14,6 @@ const fadeIn = keyframes`
   from { opacity: 0; }
   to   { opacity: 1; }
 `;
-
 const slideUp = keyframes`
   from { transform: translateY(20px); opacity: 0; }
   to   { transform: translateY(0); opacity: 1; }
@@ -53,7 +52,7 @@ export default function EquipmentModal({
       `}
     >
       <div
-        className="relative bg-white rounded-lg p-6 max-w-lg w-full mx-4 overflow-y-auto max-h-[80vh]"
+        className="relative bg-white overflow-y-auto w-full h-full p-4 sm:rounded-lg sm:p-6 sm:max-w-lg sm:mx-4 sm:h-auto sm:max-h-[80vh]"
         onClick={(e) => e.stopPropagation()}
         css={css`
           animation: ${slideUp} 0.3s ease-out;
@@ -68,17 +67,16 @@ export default function EquipmentModal({
         </button>
 
         {/* 모달 상세 정보 */}
-
+        <h3
+          className="text-xl font-bold mb-4 text-[#724E2B]"
+          dangerouslySetInnerHTML={{ __html: item.title }}
+        />
         <Image
           src={item.image}
           alt={item.title.replace(/<[^>]*>/g, "")}
           width={300}
           height={150}
           className="object-cover w-full rounded mb-4"
-        />
-        <h3
-          className="text-xl font-bold mb-4 text-[#724E2B]"
-          dangerouslySetInnerHTML={{ __html: item.title }}
         />
         <p className="mb-2 text-sm text-[#724E2B]">판매처: {item.mallName}</p>
         <p className="mb-2 text-sm text-[#724E2B]">
