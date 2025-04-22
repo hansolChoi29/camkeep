@@ -28,37 +28,11 @@
 ---
 
 
-
 ```
 camkeep
-├─ .eslintrc.json
-├─ components.json
-├─ middleware.ts
-├─ next-auth.d.ts
-├─ next.config.mjs
-├─ package-lock.json
-├─ package.json
-├─ postcss.config.mjs
 ├─ public
 │  ├─ favicon.png
 │  └─ images
-│     ├─ camkeep.png
-│     ├─ header-newbie.png
-│     ├─ menu-chair.png
-│     ├─ menu-checklist.png
-│     ├─ menu-community.png
-│     ├─ menu-person.png
-│     ├─ menu-tent.png
-│     ├─ shop-chair.png
-│     ├─ shop-cockle.png
-│     ├─ shop-cooker.png
-│     ├─ shop-lantern.png
-│     ├─ shop-mat.png
-│     ├─ shop-table.png
-│     ├─ shop-tarp.png
-│     ├─ shop-tent.png
-│     └─ sleeping-bag.png
-├─ README.md
 ├─ src
 │  ├─ app
 │  │  ├─ api
@@ -84,8 +58,11 @@ camkeep
 │  │  │     └─ equipmenList.client.tsx
 │  │  ├─ globals.css
 │  │  ├─ layout.tsx
+│  │  ├─ newbie-guide
+│  │  │  ├─ page.tsx
+│  │  │  └─ _components
+│  │  │     └─ newbie-guide.client.tsx
 │  │  ├─ page.tsx
-│  │  ├─ wqe
 │  │  └─ _components
 │  │     ├─ ClientLayout.tsx
 │  │     ├─ home.client.tsx
@@ -99,16 +76,26 @@ camkeep
 │  ├─ features
 │  │  ├─ auth
 │  │  │  └─ ui
+│  │  ├─ equipment-list
+│  │  │  ├─ equipment-data.ts
+│  │  │  ├─ equipment-list.tsx
+│  │  │  ├─ equipment-modal.tsx
+│  │  │  ├─ equipment-nav.tsx
+│  │  │  ├─ equipment-search.tsx
+│  │  │  ├─ equipment-sort.tsx
+│  │  │  └─ index.ts
 │  │  ├─ GNB
+│  │  │  ├─ GNB.tsx
 │  │  │  ├─ gnbData.ts
-│  │  │  └─ ui
-│  │  │     ├─ GNB.tsx
-│  │  │     ├─ GNBItem.tsx
-│  │  │     └─ index.ts
+│  │  │  ├─ GNBItem.tsx
+│  │  │  └─ index.ts
 │  │  ├─ home
 │  │  │  ├─ home-camping-month.tsx
-│  │  │  └─ home-promotion.tsx
-│  │  └─ promotion-data.ts
+│  │  │  ├─ home-promotion.tsx
+│  │  │  └─ promotion-data.ts
+│  │  └─ newbie-guide
+│  │     ├─ newbie-guide-nav.tsx
+│  │     └─ newbie-quide-data.ts
 │  ├─ lib
 │  │  ├─ auth
 │  │  │  └─ session.ts
