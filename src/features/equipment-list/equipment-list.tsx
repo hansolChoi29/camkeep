@@ -75,28 +75,11 @@ export default function EquipmentList({
         <p className="px-2 text-gray-500">등록된 상품이 없습니다.</p>
       )}
 
-      <EquipmentModal open={modalOpen} onClose={() => setModalOpen(false)}>
-        {currentItem && (
-          <div>
-            <h3 className="text-lg font-bold mb-2 text-[#724E2B]">
-              {currentItem.title.replace(/<[^>]*>/g, "")}
-            </h3>
-            <Image
-              src={currentItem.image}
-              alt={currentItem.title.replace(/<[^>]*>/g, "")}
-              width={300}
-              height={150}
-              className="object-cover mb-4 w-full rounded"
-            />
-            <p className="mb-1 text-sm text-[#724E2B]">
-              판매처: {currentItem.mallName}
-            </p>
-            <p className="text-lg font-bold text-[#724E2B]">
-              가격: {currentItem.lprice}원
-            </p>
-          </div>
-        )}
-      </EquipmentModal>
+      <EquipmentModal
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        item={currentItem}
+      />
     </>
   );
 }
