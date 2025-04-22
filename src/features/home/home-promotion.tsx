@@ -3,7 +3,7 @@
 import { PromoBanner } from "@/types/promotion";
 import { useRef } from "react";
 import Autoplay from "embla-carousel-autoplay";
-import { promoBanners } from "../promotion-data";
+import { promoBanners } from "./promotion-data";
 import {
   Carousel,
   CarouselContent,
