@@ -5,6 +5,7 @@ import Image from "next/image";
 import { CampingItem, fetchAllCampingList } from "@/app/api/goCamping";
 
 export default function CampingClient() {
+  // const [list, setList] = useState([]);
   const [list, setList] = useState<CampingItem[]>([]);
   const [isPending, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -12,12 +13,15 @@ export default function CampingClient() {
   useEffect(() => {
     fetchAllCampingList()
       .then(setList)
-      .catch((err) => setError(err.message))
+      .catch((err) => {
+        if (err instanceof Error) setError(err.message);
+        else setError("알 수 없는 에러");
+      })
       .finally(() => setLoading(false));
   }, []);
 
   if (isPending) return <p>로딩중…</p>;
-  if (error) return <p>{error}</p>;
+  if (error) return <p className="text-red-600">{error}</p>;
   if (list.length === 0) return <p>캠핑장 데이터가 없습니다.</p>;
 
   return (
