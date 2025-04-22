@@ -80,26 +80,6 @@ export default function EquipmentList({
         onClose={() => setModalOpen(false)}
         item={currentItem}
       />
-      {currentItem && (
-        <div>
-          <h3 className="text-lg font-bold mb-2 text-[#724E2B]">
-            {currentItem.title.replace(/<[^>]*>/g, "")}
-          </h3>
-          <Image
-            src={currentItem.image}
-            alt={currentItem.title.replace(/<[^>]*>/g, "")}
-            width={300}
-            height={150}
-            className="object-cover mb-4 w-full rounded"
-          />
-          <p className="mb-1 text-sm text-[#724E2B]">
-            판매처: {currentItem.mallName}
-          </p>
-          <p className="text-lg font-bold text-[#724E2B]">
-            가격: {currentItem.lprice}원
-          </p>
-        </div>
-      )}
     </>
   );
 }
