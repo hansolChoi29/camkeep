@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { SessionProvider } from "next-auth/react";
 
 import GNB from "@/features/GNB/ui/GNB";
 import SplashScreen from "./SplashScreen";
@@ -17,29 +16,25 @@ export default function ClientLayout({
   const pathname = usePathname();
 
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 1000);
-    return () => clearTimeout(timer);
+    const t = setTimeout(() => setLoading(false), 1000);
+    return () => clearTimeout(t);
   }, []);
 
   if (loading) return <SplashScreen />;
 
   if (pathname === "/auth/login") {
     return (
-      <SessionProvider>
-        <main className="flex min-h-screen w-full bg-[#FFAB5B] justify-center items-center">
-          {children}
-        </main>
-      </SessionProvider>
+      <main className="flex min-h-screen w-full bg-[#FFAB5B] justify-center items-center">
+        {children}
+      </main>
     );
   }
 
   return (
-    <SessionProvider>
+    <>
       <Header />
-
       <div>{children}</div>
-
       <GNB />
-    </SessionProvider>
+    </>
   );
 }
