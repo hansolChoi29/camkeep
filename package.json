@@ -7,12 +7,13 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-     "genTypes": "npx supabase login && npx supabase gen types typescript --project-id dsggwbvtcrwuopwelpxy --schema public > src/types/supabase/supabase-type.ts"
+    "genTypes": "npx supabase login && npx supabase gen types typescript --project-id dsggwbvtcrwuopwelpxy --schema public > src/types/supabase/supabase-type.ts"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@radix-ui/react-slot": "^1.2.0",
+    "@supabase/auth-helpers-nextjs": "^0.10.0",
     "@supabase/supabase-js": "^2.49.4",
     "@tanstack/react-query": "^5.74.4",
     "axios": "^1.8.4",

@@ -27,7 +27,6 @@
 
 ---
 
-
 ```
 camkeep
 ├─ public
@@ -36,6 +35,8 @@ camkeep
 ├─ src
 │  ├─ app
 │  │  ├─ api
+│  │  │  ├─ auth
+│  │  │  │  └─ route.ts
 │  │  │  ├─ goCamping.ts
 │  │  │  └─ shop
 │  │  │     └─ route.ts
@@ -75,7 +76,6 @@ camkeep
 │  │     └─ input.tsx
 │  ├─ features
 │  │  ├─ auth
-│  │  │  └─ ui
 │  │  ├─ equipment-list
 │  │  │  ├─ equipment-data.ts
 │  │  │  ├─ equipment-list.tsx
@@ -99,6 +99,7 @@ camkeep
 │  ├─ lib
 │  │  ├─ auth
 │  │  │  └─ session.ts
+│  │  ├─ supabaseClient.ts
 │  │  └─ utils.ts
 │  ├─ store
 │  │  └─ userStore.ts
@@ -107,6 +108,8 @@ camkeep
 │  │  ├─ gnbtype.ts
 │  │  ├─ index.ts
 │  │  ├─ promotion.ts
+│  │  ├─ supabase
+│  │  │  └─ supabase-type.ts
 │  │  └─ user.ts
 │  └─ widgets
 │     ├─ Footer.tsx
