@@ -12,19 +12,23 @@ export default function Header() {
     <header
       className="
     fixed top-0 left-0 w-full h-16 bg-[#E07B39] z-50
-    flex items-center justify-center  /* 로고 중앙 */
+   flex items-center justify-center sm:justify-start /* 로고 중앙 */
     px-4
   "
     >
-      {/* 로고 (항상 중앙) */}
       <Link href="/">
-        <h1 className="logo text-[32px]">CAMKEEP</h1>
+        <h1 className="logo text-[32px] hover:text-white  transform transition-transform duration-200 ease-in-out hover:scale-110">
+          CAMKEEP
+        </h1>
       </Link>
 
       {/* 오른쪽 버튼 그룹: 절대 위치로 배치 */}
       <div className="absolute right-4 flex items-center space-x-4">
         {/* 초보자가이드 버튼 (항상 보임) */}
-        <Link href="/newbie-guide">
+        <Link
+          href="/newbie-guide"
+          className="transform transition-transform duration-200 ease-in-out hover:scale-110"
+        >
           <Image
             src="/images/header-newbie.png"
             alt="Newbie Guide"
