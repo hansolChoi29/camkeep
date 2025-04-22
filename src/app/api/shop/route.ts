@@ -30,7 +30,7 @@ export async function GET(req: Request) {
     }
 
     return NextResponse.json(json, { status: 200 });
-  } catch (err) {
+  } catch {
     // 네트워크 오류에도 빈 배열 응답
     return NextResponse.json({ items: [] }, { status: 200 });
   }
