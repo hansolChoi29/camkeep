@@ -1,5 +1,4 @@
 "use client";
-
 import AuthForm from "@/features/auth/auth-form";
 import { useAuthForm } from "@/features/auth/hooks/useAuthForm";
 

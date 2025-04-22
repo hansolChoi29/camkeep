@@ -14,7 +14,7 @@ export default function HomePromotion() {
   const items: PromoBanner[] = promoBanners;
   const carouselRef = useRef<HTMLDivElement>(null);
 
-  const plugins = [Autoplay({ delay: 2000, stopOnInteraction: false })];
+  const plugins = [Autoplay({ delay: 3000, stopOnInteraction: false })];
 
   return (
     <>
