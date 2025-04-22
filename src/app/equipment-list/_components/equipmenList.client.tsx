@@ -109,17 +109,6 @@ export default function EquipmentListClient() {
         {/* 정렬 */}
         <div className="mb-4 flex items-center gap-2  justify-end ">
           <EquipmentSort sortBy={sortBy} setSortBy={setSortBy} />
-          {/* <select
-            id="sort"
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value as typeof sortBy)}
-            className="border text-[#724E2B] border-[#B6A28E] rounded px-2 py-1"
-          >
-            <option value="popular">인기순</option>
-            <option value="newest">최신순</option>
-            <option value="priceHigh">가격 높은순</option>
-            <option value="priceLow">가격 낮은순</option>
-          </select> */}
         </div>
       </div>
 

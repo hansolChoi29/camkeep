@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 
-import GNB from "@/features/GNB/ui/GNB";
+import GNB from "@/features/GNB/GNB";
 import SplashScreen from "./SplashScreen";
 import Header from "../../widgets/Header";
 

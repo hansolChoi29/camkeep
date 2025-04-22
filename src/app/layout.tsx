@@ -27,14 +27,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko" className={luckiest.variable}>
-      <body className="bg-[#F5F5DC]">
+      <body className="bg-[#F5F5DC] flex flex-col min-h-screen">
         {/* QueryClientProvider 는 클라이언트 전용 컴포넌트라서, App Router의 RootLayout(서버 컴포넌트)에 바로 감싸 두면 에러 남. */}
         <Providers>
           <ClientLayout>
-            <div className="mt-28 max-w-[560px] sm:max-w-none mx-auto px-4">
-              {/* 현업에서는 GNB(Global Navigation Bar)를 고정(fixed) 시키는 경우가 많음 
-            auth화면에서 GNB보이면 안됨 CLientLayout으로 빼서 분기만들어줌
-            */}
+            <div className="flex-1 overflow-auto mt-20 max-w-[560px] sm:max-w-none mx-auto px-4 pb-16">
               {children}
             </div>
           </ClientLayout>
@@ -43,7 +40,4 @@ export default function RootLayout({
       </body>
     </html>
   );
-
-
 }
-
