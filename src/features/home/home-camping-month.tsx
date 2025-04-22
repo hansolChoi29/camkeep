@@ -4,7 +4,6 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
 
@@ -20,7 +19,7 @@ export default function HomeCampingMonth() {
             <CarouselItem>.3..</CarouselItem>
           </CarouselContent>
           <CarouselPrevious />
-          <CarouselNext />
+          {/* <CarouselNext /> */}
         </Carousel>
       </section>
     </>

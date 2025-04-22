@@ -1,8 +1,13 @@
 "use client";
-import { useEffect, useState } from "react";
-import Image from "next/image";
 
-interface NaverItem {
+import { useEffect, useMemo, useState } from "react";
+import { CATEGORIES, Category } from "@/features/equipment-list/equipment-data";
+import EquipmentNav from "@/features/equipment-list/equipment-nav";
+import EquipmentSearch from "@/features/equipment-list/equipment-search";
+import EquipmentSort from "@/features/equipment-list/equipment-sort";
+import EauipmentList from "@/features/equipment-list/equipment-list";
+
+export interface NaverItem {
   title: string;
   link: string;
   image: string;
@@ -11,60 +16,105 @@ interface NaverItem {
 }
 
 export default function EquipmentListClient() {
-  const [items, setItems] = useState<NaverItem[]>([]);
+  const [data, setData] = useState<Record<string, NaverItem[]>>({});
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [selected, setSelected] = useState<Category>(CATEGORIES[0].label);
+  const [search, setSearch] = useState("");
 
+  // 정렬
+  const [sortBy, setSortBy] = useState<
+    "popular" | "newest" | "priceHigh" | "priceLow"
+  >("popular");
+
+  // 데이터
   useEffect(() => {
-    fetch("/api/shop?query=캠핑용품&display=30&start=1")
-      .then((r) => r.json())
-      .then((json) => {
-        if (json.items) setItems(json.items);
-        else throw new Error(json.error || "Invalid response");
-      })
-      .catch((e) => setError(e.message))
-      .finally(() => setLoading(false));
+    (async () => {
+      const result: Record<string, NaverItem[]> = {};
+      for (const { label: cat } of CATEGORIES) {
+        try {
+          const res = await fetch(
+            `/api/shop?query=${encodeURIComponent("캠핑 " + cat)}&display=30`
+          );
+          if (!res.ok) throw new Error(`${res.status}`);
+          const json = await res.json();
+          result[cat] = json.items || [];
+        } catch (e: unknown) {
+          // e를 Error인지 확인하고, 아니면 문자열화
+          const message = e instanceof Error ? e.message : String(e);
+          result[cat] = [];
+          setErrors((prev) => ({ ...prev, [cat]: message }));
+        }
+      }
+      setData(result);
+      setLoading(false);
+    })();
   }, []);
 
-  if (loading) return <p>로딩중…</p>;
-  if (error) return <p>에러: {error}</p>;
-  if (!items.length) return <p>캠핑용품이 없습니다.</p>;
+  const list = useMemo(() => {
+    let arr = data[selected] ?? [];
+
+    // 검색 필터
+    if (search) {
+      const term = search.trim().toLowerCase();
+      arr = arr.filter((i) =>
+        i.title
+          .replace(/<[^>]+>/g, "")
+          .toLowerCase()
+          .includes(term)
+      );
+    }
+
+    // 정렬
+    switch (sortBy) {
+      case "priceHigh":
+        arr = [...arr].sort((a, b) => Number(b.lprice) - Number(a.lprice));
+        break;
+      case "priceLow":
+        arr = [...arr].sort((a, b) => Number(a.lprice) - Number(b.lprice));
+        break;
+      case "newest":
+        // API가 최신순으로 내려준다고 가정 → 명시적으로 반환
+        break;
+      case "popular":
+      // API가 인기순으로 내려준다고 가정 → 명시적으로 반환
+      // 이것들 메타데이터 있어야 함
+      default:
+        break;
+    }
+
+    return arr;
+  }, [data, selected, search, sortBy]);
+
+  if (loading) return <p className="p-6 text-center">로딩중…</p>;
 
   return (
-    <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-6">
-      {items.map((item, i) => (
-        <li key={i} className="border rounded-md overflow-hidden">
-          {item.image ? (
-            <Image
-              src={item.image}
-              alt={item.title.replace(/<[^>]+>/g, "")}
-              width={200}
-              height={200}
-              className="w-full h-40 object-cover"
-            />
-          ) : (
-            <div className="w-full h-40 bg-gray-200 flex items-center justify-center text-sm text-gray-500">
-              No Image
-            </div>
-          )}
-          <div className="p-4">
-            <h2
-              className="text-lg font-semibold mb-2"
-              dangerouslySetInnerHTML={{ __html: item.title }}
-            />
-            <p className="text-sm text-gray-600">최저가: {item.lprice}원</p>
-            <p className="text-sm text-gray-500">{item.mallName}</p>
-            <a
-              href={item.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-2 text-blue-600 underline text-sm"
-            >
-              상세보기
-            </a>
-          </div>
-        </li>
-      ))}
-    </ul>
+    <section className="sm:m-10">
+      <EquipmentNav
+        selected={selected}
+        setSelected={setSelected}
+        setSearch={setSearch}
+      />
+
+      <EquipmentSearch
+        search={search}
+        selected={selected}
+        setSearch={setSearch}
+      />
+      <div className="sm:ml-8 mt-4 flex items-center justify-between">
+        {/* 왼쪽 그룹: 제목 + 개수 */}
+        <div className="flex flex-col sm:flex-row sm:items-center">
+          <h2 className="sm:text-xl text-xs font-bold mr-4 mb-1 sm:mb-0">
+            {selected}
+          </h2>
+          <span className="text-sm text-[#724E2B]">총 {list.length}개</span>
+        </div>
+
+        {/* 오른쪽 정렬 컴포넌트 */}
+        <EquipmentSort sortBy={sortBy} setSortBy={setSortBy} />
+      </div>
+
+      <EauipmentList selected={selected} list={list} errors={errors} />
+    </section>
   );
 }

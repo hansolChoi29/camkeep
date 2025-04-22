@@ -28,6 +28,7 @@
 ---
 
 
+
 ```
 camkeep
 ├─ .eslintrc.json
@@ -47,7 +48,16 @@ camkeep
 │     ├─ menu-checklist.png
 │     ├─ menu-community.png
 │     ├─ menu-person.png
-│     └─ menu-tent.png
+│     ├─ menu-tent.png
+│     ├─ shop-chair.png
+│     ├─ shop-cockle.png
+│     ├─ shop-cooker.png
+│     ├─ shop-lantern.png
+│     ├─ shop-mat.png
+│     ├─ shop-table.png
+│     ├─ shop-tarp.png
+│     ├─ shop-tent.png
+│     └─ sleeping-bag.png
 ├─ README.md
 ├─ src
 │  ├─ app

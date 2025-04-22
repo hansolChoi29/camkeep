@@ -8,8 +8,10 @@ export default function Header() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="fixed top-0 left-0 w-full h-16 bg-[#E07B39] z-50 flex items-center justify-between px-4">
-      <h1 className="logo text-[32px] ">CAMKEEP</h1>
+    <header className="fixed top-0 left-0 w-full h-16 bg-[#E07B39] z-50 flex sm:justify-between justify-center px-4">
+      <div className="flex justify-center items-center">
+        <h1 className="logo text-[32px] ">CAMKEEP</h1>
+      </div>
 
       <button
         className="hidden sm:block text-white"
