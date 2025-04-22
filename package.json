@@ -6,19 +6,30 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "genTypes": "npx supabase login && npx supabase gen types typescript --project-id dsggwbvtcrwuopwelpxy --schema public > src/types/supabase/supabase-type.ts"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
     "@radix-ui/react-slot": "^1.2.0",
+    "@supabase/auth-helpers-nextjs": "^0.10.0",
+    "@supabase/supabase-js": "^2.49.4",
+    "@tanstack/react-query": "^5.74.4",
+    "axios": "^1.8.4",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "embla-carousel-autoplay": "^8.6.0",
+    "embla-carousel-react": "^8.6.0",
+    "framer-motion": "^12.7.4",
     "lucide-react": "^0.501.0",
     "next": "14.2.28",
     "next-auth": "^4.24.11",
     "react": "^18",
     "react-dom": "^18",
     "tailwind-merge": "^3.2.0",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "zustand": "^5.0.3"
   },
   "devDependencies": {
     "@types/node": "^20",

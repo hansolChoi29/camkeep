@@ -1,15 +1,16 @@
 import "./globals.css";
 import { Metadata } from "next";
 import { Luckiest_Guy } from "next/font/google";
-import ClientLayout from "@/components/ClientLayout";
-import GNB from "@/components/GNB";
+import ClientLayout from "@/app/_components/ClientLayout";
+import { Providers } from "./_components/Providers";
+import Footer from "@/widgets/Footer";
 // import Footer from "@/components/Footer";
 
 const luckiest = Luckiest_Guy({
-  subsets: ["latin"], // Luckiest Guy는 영문 전용
-  weight: ["400"], // 지원하는 weight
+  subsets: ["latin"],
+  weight: ["400"],
   display: "swap",
-  variable: "--font-logo", // CSS 변수 이름
+  variable: "--font-logo",
 });
 
 export const metadata: Metadata = {
@@ -27,15 +28,18 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko" className={luckiest.variable}>
-      <body className="bg-[#F5F5DC]">
-        <ClientLayout>
-          <div className="w-full sm:max-w-[560px] mx-auto px-4">
-            {/* 현업에서는 GNB(Global Navigation Bar)를 고정(fixed) 시키는 경우가 많음 */}
-            {children}
-          </div>
-        </ClientLayout>
-        <GNB />
-        {/* <Footer /> */}
+      <body className="bg-[#F5F5DC] flex flex-col min-h-screen sm:px-32">
+        {/* QueryClientProvider 는 클라이언트 전용 컴포넌트라서, App Router의 RootLayout(서버 컴포넌트)에 바로 감싸 두면 에러 남. */}
+        <Providers>
+          <ClientLayout>
+            <div className="flex-1 overflow-auto mt-20 max-w-[560px] sm:max-w-none mx-auto px-4 pb-16">
+              {children}
+            </div>
+          </ClientLayout>
+        </Providers>
+        <div className="hidden sm:block">
+          <Footer />
+        </div>
       </body>
     </html>
   );

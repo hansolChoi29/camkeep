@@ -32,16 +32,86 @@ camkeep
 ├─ public
 │  ├─ favicon.png
 │  └─ images
-│     └─ camkeep.png
 ├─ src
 │  ├─ app
-│  │  ├─ favicon.ico
+│  │  ├─ api
+│  │  │  ├─ auth
+│  │  │  │  └─ route.ts
+│  │  │  ├─ goCamping.ts
+│  │  │  └─ shop
+│  │  │     └─ route.ts
+│  │  ├─ auth
+│  │  │  ├─ login
+│  │  │  │  ├─ page.tsx
+│  │  │  │  └─ _components
+│  │  │  │     └─ auth.client.tsx
+│  │  │  └─ register
+│  │  │     ├─ page.tsx
+│  │  │     └─ _components
+│  │  │        └─ register.client.tsx
+│  │  ├─ camping
+│  │  │  ├─ page.tsx
+│  │  │  └─ _components
+│  │  │     └─ camping.client.tsx
+│  │  ├─ equipment-list
+│  │  │  ├─ page.tsx
+│  │  │  └─ _components
+│  │  │     └─ equipmenList.client.tsx
 │  │  ├─ globals.css
 │  │  ├─ layout.tsx
-│  │  ├─ login
-│  │  │  └─ page.tsx
-│  │  └─ page.tsx
-│  └─ components
+│  │  ├─ newbie-guide
+│  │  │  ├─ page.tsx
+│  │  │  └─ _components
+│  │  │     └─ newbie-guide.client.tsx
+│  │  ├─ page.tsx
+│  │  └─ _components
+│  │     ├─ ClientLayout.tsx
+│  │     ├─ home.client.tsx
+│  │     ├─ Providers.tsx
+│  │     └─ SplashScreen.tsx
+│  ├─ components
+│  │  └─ ui
+│  │     ├─ button.tsx
+│  │     ├─ carousel.tsx
+│  │     └─ input.tsx
+│  ├─ features
+│  │  ├─ auth
+│  │  ├─ equipment-list
+│  │  │  ├─ equipment-data.ts
+│  │  │  ├─ equipment-list.tsx
+│  │  │  ├─ equipment-modal.tsx
+│  │  │  ├─ equipment-nav.tsx
+│  │  │  ├─ equipment-search.tsx
+│  │  │  ├─ equipment-sort.tsx
+│  │  │  └─ index.ts
+│  │  ├─ GNB
+│  │  │  ├─ GNB.tsx
+│  │  │  ├─ gnbData.ts
+│  │  │  ├─ GNBItem.tsx
+│  │  │  └─ index.ts
+│  │  ├─ home
+│  │  │  ├─ home-camping-month.tsx
+│  │  │  ├─ home-promotion.tsx
+│  │  │  └─ promotion-data.ts
+│  │  └─ newbie-guide
+│  │     ├─ newbie-guide-nav.tsx
+│  │     └─ newbie-quide-data.ts
+│  ├─ lib
+│  │  ├─ auth
+│  │  │  └─ session.ts
+│  │  ├─ supabaseClient.ts
+│  │  └─ utils.ts
+│  ├─ store
+│  │  └─ userStore.ts
+│  ├─ types
+│  │  ├─ auth.ts
+│  │  ├─ gnbtype.ts
+│  │  ├─ index.ts
+│  │  ├─ promotion.ts
+│  │  ├─ supabase
+│  │  │  └─ supabase-type.ts
+│  │  └─ user.ts
+│  └─ widgets
 │     ├─ Footer.tsx
 │     └─ Header.tsx
 ├─ tailwind.config.ts
