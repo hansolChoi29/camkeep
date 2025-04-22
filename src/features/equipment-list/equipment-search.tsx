@@ -10,13 +10,13 @@ export default function EquipmentSearch(props: SearchProps) {
   const { search, setSearch, selected } = props;
   return (
     <>
-      <div>
+      <div className="flex justify-center">
         <Input
           type="text"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder={`${selected} 검색`}
-          className="w-80 border  focus-visible:ring-2 focus-visible:ring-[#B6A28E] "
+          className=" border  w-96 focus-visible:ring-2 focus-visible:ring-[#B6A28E] "
         />
       </div>
     </>

@@ -9,17 +9,14 @@ interface SortProps {
 
 export default function EquipmentSort({ sortBy, setSortBy }: SortProps) {
   return (
-    <div className="mb-4 flex items-center gap-2">
-      <label htmlFor="sort" className="font-medium">
-        정렬:
-      </label>
+    <div className="mb-4 sm:mr-14 ">
       <select
         id="sort"
         value={sortBy}
         onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
           setSortBy(e.target.value as SortOption)
         }
-        className="border text-[#724E2B] border-[#B6A28E] rounded px-2 py-1"
+        className="border  text-[#724E2B] border-[#B6A28E] rounded px-2 py-1"
       >
         <option value="popular">인기순</option>
         <option value="newest">최신순</option>

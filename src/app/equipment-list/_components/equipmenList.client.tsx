@@ -1,13 +1,13 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import Image from "next/image";
 import { CATEGORIES, Category } from "@/features/equipment-list/equipment-data";
 import EquipmentNav from "@/features/equipment-list/equipment-nav";
 import EquipmentSearch from "@/features/equipment-list/equipment-search";
 import EquipmentSort from "@/features/equipment-list/equipment-sort";
+import EauipmentList from "@/features/equipment-list/equipment-list";
 
-interface NaverItem {
+export interface NaverItem {
   title: string;
   link: string;
   image: string;
@@ -96,65 +96,18 @@ export default function EquipmentListClient() {
         setSearch={setSearch}
       />
 
-      <div className=" mt-4  flex items-baseline justify-between">
-        <div>
-          <h2 className="text-xl font-bold mb-2 mt-4">{selected}</h2>
-          <span className="text-sm  mb-2">총 {list.length}개</span>
-        </div>
-        <EquipmentSearch
-          search={search}
-          selected={selected}
-          setSearch={setSearch}
-        />
-        {/* 정렬 */}
-        <div className="mb-4 flex items-center gap-2  justify-end ">
-          <EquipmentSort sortBy={sortBy} setSortBy={setSortBy} />
-        </div>
-      </div>
+      <EquipmentSearch
+        search={search}
+        selected={selected}
+        setSearch={setSearch}
+      />
+      <div className=" mt-4 flex  justify-between">
+        <h2 className="sm:text-xl text-xs font-bold mb-2 mt-4">{selected}</h2>
+        <span className="text-sm  mb-2">총 {list.length}개</span>
 
-      {errors[selected] ? (
-        <p className=" text-red-600">조회 실패: {errors[selected]}</p>
-      ) : list.length > 0 ? (
-        <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 ">
-          {list.map((item, i) => (
-            <li
-              key={i}
-              className="border sm:flex-row border-[#E07B39] rounded-lg overflow-hidden flex flex-col bg-white"
-            >
-              <div className="relative w-64 sm:w-[240px] sm:h-52  h-30">
-                <Image
-                  src={item.image}
-                  alt={item.title.replace(/<[^>]*>/g, "")}
-                  // fill
-                  className="object-cover sm:w-[240px] sm:h-[220px]"
-                  width={159}
-                  height={80}
-                />
-              </div>
-              <div className="px-2 sm:w-[172px] w-38 flex-1 flex flex-col justify-between">
-                <div className="flex items-center justify-end">
-                  <button className="py-1 text-[#724E2B] text-[10px] sm:text-xs">
-                    {"<"} 자세히 보기
-                  </button>
-                </div>
-                <h3
-                  className="sm:text-sm text-sm font-semibold line-clamp-2 text-[#724E2B]"
-                  dangerouslySetInnerHTML={{ __html: item.title }}
-                />
-                <p className="mb-1 pt-1 sm:text-sm text-xs text-[#724E2B]">
-                  {item.mallName}
-                </p>
-                <hr />
-                <p className="mt-2 sm:text-xl flex text-[#724E2B] justify-end text-sm font-bold">
-                  {item.lprice}원
-                </p>
-              </div>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p className="px-2 text-gray-500">등록된 상품이 없습니다.</p>
-      )}
+        <EquipmentSort sortBy={sortBy} setSortBy={setSortBy} />
+      </div>
+      <EauipmentList selected={selected} list={list} errors={errors} />
     </section>
   );
 }
