@@ -101,12 +101,19 @@ export default function EquipmentListClient() {
         selected={selected}
         setSearch={setSearch}
       />
-      <div className=" mt-4 flex  justify-between">
-        <h2 className="sm:text-xl text-xs font-bold mb-2 mt-4">{selected}</h2>
-        <span className="text-sm  mb-2">총 {list.length}개</span>
+      <div className="sm:ml-8 mt-4 flex items-center justify-between">
+        {/* 왼쪽 그룹: 제목 + 개수 */}
+        <div className="flex flex-col sm:flex-row sm:items-center">
+          <h2 className="sm:text-xl text-xs font-bold mr-4 mb-1 sm:mb-0">
+            {selected}
+          </h2>
+          <span className="text-sm text-[#724E2B]">총 {list.length}개</span>
+        </div>
 
+        {/* 오른쪽 정렬 컴포넌트 */}
         <EquipmentSort sortBy={sortBy} setSortBy={setSortBy} />
       </div>
+
       <EauipmentList selected={selected} list={list} errors={errors} />
     </section>
   );

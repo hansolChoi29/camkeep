@@ -32,11 +32,6 @@ export default function EauipmentList(props: EquipmentListProps) {
                 />
 
                 <div className="px-2 sm:w-43 w-38 flex-1 flex flex-col justify-between">
-                  <div className="flex items-center justify-end">
-                    <button className="py-1 text-[#724E2B] text-xs sm:text-xs">
-                      {"<"} 자세히 보기
-                    </button>
-                  </div>
                   <h3
                     className="sm:text-sm text-sm font-semibold line-clamp-2 text-[#724E2B]"
                     dangerouslySetInnerHTML={{ __html: item.title }}
@@ -44,6 +39,11 @@ export default function EauipmentList(props: EquipmentListProps) {
                   <p className="mb-1 pt-1 sm:text-sm text-xs text-[#724E2B]">
                     {item.mallName}
                   </p>
+                  <div className="flex items-center justify-end">
+                    <button className="py-1 text-[#724E2B] text-xs sm:text-xs">
+                      {"<"} 자세히 보기
+                    </button>
+                  </div>
                   <hr />
                   <p className="mt-2 sm:text-xl flex text-[#724E2B] justify-end text-sm font-bold">
                     {item.lprice}원
