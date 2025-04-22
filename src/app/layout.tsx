@@ -3,6 +3,7 @@ import { Metadata } from "next";
 import { Luckiest_Guy } from "next/font/google";
 import ClientLayout from "@/app/_components/ClientLayout";
 import { Providers } from "./_components/Providers";
+import Footer from "@/widgets/Footer";
 // import Footer from "@/components/Footer";
 
 const luckiest = Luckiest_Guy({
@@ -27,7 +28,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko" className={luckiest.variable}>
-      <body className="bg-[#F5F5DC] flex flex-col min-h-screen">
+      <body className="bg-[#F5F5DC] flex flex-col min-h-screen sm:px-32">
         {/* QueryClientProvider 는 클라이언트 전용 컴포넌트라서, App Router의 RootLayout(서버 컴포넌트)에 바로 감싸 두면 에러 남. */}
         <Providers>
           <ClientLayout>
@@ -36,7 +37,9 @@ export default function RootLayout({
             </div>
           </ClientLayout>
         </Providers>
-        {/* <Footer /> */}
+        <div className="hidden sm:block">
+          <Footer />
+        </div>
       </body>
     </html>
   );

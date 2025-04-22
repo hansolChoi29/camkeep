@@ -16,7 +16,7 @@ export default function ClientLayout({
   const pathname = usePathname();
 
   useEffect(() => {
-    const t = setTimeout(() => setLoading(false), 1000);
+    const t = setTimeout(() => setLoading(false), 3000);
     return () => clearTimeout(t);
   }, []);
 
