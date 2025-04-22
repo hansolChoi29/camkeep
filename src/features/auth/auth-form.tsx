@@ -1,25 +1,17 @@
 "use client";
 import { FormEvent } from "react";
 
-interface Props {
+interface AuthFormProps {
   mode: "login" | "register";
-  form: {
-    email: string;
-    password: string;
-    nickname: string;
-    phone: string;
-  };
+  form: { email: string; password: string; nickname: string; phone: string };
   setters: {
-    setEmail: (v: string) => void;
-    setPassword: (v: string) => void;
-    setNickname: (v: string) => void;
-    setPhone: (v: string) => void;
+    setEmail(v: string): void;
+    setPassword(v: string): void;
+    setNickname(v: string): void;
+    setPhone(v: string): void;
   };
-  state: {
-    error: string | null;
-    loading: boolean;
-  };
-  handleSubmit: (e: FormEvent) => void;
+  state: { error: string | null; loading: boolean };
+  handleSubmit(e: FormEvent): void;
 }
 
 export default function AuthForm({
@@ -28,7 +20,7 @@ export default function AuthForm({
   setters: { setEmail, setPassword, setNickname, setPhone },
   state: { error, loading },
   handleSubmit,
-}: Props) {
+}: AuthFormProps) {
   return (
     <form
       onSubmit={handleSubmit}

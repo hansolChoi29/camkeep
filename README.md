@@ -29,26 +29,45 @@
 
 ```
 camkeep
+├─ .eslintrc.json
+├─ components.json
+├─ middleware.ts
+├─ next-auth.d.ts
+├─ next.config.mjs
+├─ package-lock.json
+├─ package.json
+├─ postcss.config.mjs
 ├─ public
 │  ├─ favicon.png
 │  └─ images
+│     ├─ camkeep.png
+│     ├─ header-newbie.png
+│     ├─ menu-chair.png
+│     ├─ menu-checklist.png
+│     ├─ menu-community.png
+│     ├─ menu-person.png
+│     ├─ menu-tent.png
+│     ├─ shop-chair.png
+│     ├─ shop-cockle.png
+│     ├─ shop-cooker.png
+│     ├─ shop-lantern.png
+│     ├─ shop-mat.png
+│     ├─ shop-table.png
+│     ├─ shop-tarp.png
+│     ├─ shop-tent.png
+│     └─ sleeping-bag.png
+├─ README.md
 ├─ src
 │  ├─ app
 │  │  ├─ api
-│  │  │  ├─ auth
-│  │  │  │  └─ route.ts
 │  │  │  ├─ goCamping.ts
 │  │  │  └─ shop
 │  │  │     └─ route.ts
 │  │  ├─ auth
-│  │  │  ├─ login
-│  │  │  │  ├─ page.tsx
-│  │  │  │  └─ _components
-│  │  │  │     └─ auth.client.tsx
-│  │  │  └─ register
+│  │  │  └─ [mode]
 │  │  │     ├─ page.tsx
 │  │  │     └─ _components
-│  │  │        └─ register.client.tsx
+│  │  │        └─ auth.client.tsx
 │  │  ├─ camping
 │  │  │  ├─ page.tsx
 │  │  │  └─ _components
@@ -59,6 +78,10 @@ camkeep
 │  │  │     └─ equipmenList.client.tsx
 │  │  ├─ globals.css
 │  │  ├─ layout.tsx
+│  │  ├─ mypage
+│  │  │  ├─ page.tsx
+│  │  │  └─ _components
+│  │  │     └─ mypage.client.tsx
 │  │  ├─ newbie-guide
 │  │  │  ├─ page.tsx
 │  │  │  └─ _components
@@ -70,12 +93,16 @@ camkeep
 │  │     ├─ Providers.tsx
 │  │     └─ SplashScreen.tsx
 │  ├─ components
+│  │  ├─ ClientLayout.tsx
 │  │  └─ ui
 │  │     ├─ button.tsx
 │  │     ├─ carousel.tsx
 │  │     └─ input.tsx
 │  ├─ features
 │  │  ├─ auth
+│  │  │  ├─ auth-form.tsx
+│  │  │  └─ hooks
+│  │  │     └─ useAuthForm.ts
 │  │  ├─ equipment-list
 │  │  │  ├─ equipment-data.ts
 │  │  │  ├─ equipment-list.tsx
@@ -102,7 +129,7 @@ camkeep
 │  │  ├─ supabaseClient.ts
 │  │  └─ utils.ts
 │  ├─ store
-│  │  └─ userStore.ts
+│  │  └─ useAuthStore.ts
 │  ├─ types
 │  │  ├─ auth.ts
 │  │  ├─ gnbtype.ts

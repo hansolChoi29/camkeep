@@ -4,6 +4,8 @@ import { Luckiest_Guy } from "next/font/google";
 import ClientLayout from "@/app/_components/ClientLayout";
 import { Providers } from "./_components/Providers";
 import Footer from "@/widgets/Footer";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth/session";
 // import Footer from "@/components/Footer";
 
 const luckiest = Luckiest_Guy({
@@ -21,16 +23,18 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = await getServerSession(authOptions);
+
   return (
     <html lang="ko" className={luckiest.variable}>
       <body className="bg-[#F5F5DC] flex flex-col min-h-screen sm:px-32">
         {/* QueryClientProvider 는 클라이언트 전용 컴포넌트라서, App Router의 RootLayout(서버 컴포넌트)에 바로 감싸 두면 에러 남. */}
-        <Providers>
+        <Providers session={session}>
           <ClientLayout>
             <div className="flex-1 overflow-auto mt-20 max-w-[560px] sm:max-w-none mx-auto px-4 pb-16">
               {children}

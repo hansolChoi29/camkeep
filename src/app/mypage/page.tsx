@@ -1,33 +1,18 @@
-"use client";
-// import { useEffect } from "react";
-// import { useRouter, useSearchParams } from "next/navigation";
-// import { useSession } from "next-auth/react";
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import MypageClient from "./_components/mypage.client";
 
-export default function MyPage() {
-  //   const { data: session, status } = useSession();
-  //   const router = useRouter();
-  //   const params = useSearchParams();
-  //   const callbackUrl = params.get("callbackUrl") || "/";
+export default async function MyPage() {
+  const supabase = createServerComponentClient({ cookies });
 
-  //   useEffect(() => {
-  //     if (status === "unauthenticated") {
-  //       router.push(`/login?callbackUrl=${encodeURIComponent(callbackUrl)}`);
-  //     }
-  //   }, [status, callbackUrl, router]);
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+  console.log("🔥 server session:", session);
+  if (!session) {
+    redirect(`/auth/login?callbackUrl=/mypage`);
+  }
 
-  //   if (status === "loading" || status === "unauthenticated") {
-  //     return <div>Loading…</div>;
-  //   }
-  //   if (!session) {
-  //     router.push("/login");
-  //     return null;
-  //   }
-  return (
-    <section className="w-full sm:max-w-[560px] mx-auto ">
-      <h2 className="mt-[144px] text-[20px]">
-        Welcome
-        {/* {session.user?.name} */}
-      </h2>
-    </section>
-  );
+  return <MypageClient email={session.user.email!} />;
 }
