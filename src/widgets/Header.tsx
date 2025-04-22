@@ -3,6 +3,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { Menu as MenuIcon, X as CloseIcon } from "lucide-react";
 import { gnbItems } from "../features/GNB/gnbData";
+import Image from "next/image";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -12,7 +13,7 @@ export default function Header() {
       <div className="flex justify-center items-center">
         <h1 className="logo text-[32px] ">CAMKEEP</h1>
       </div>
-
+      <button></button>
       <button
         className="hidden sm:block text-white"
         onClick={() => setOpen((v) => !v)}
@@ -28,7 +29,7 @@ export default function Header() {
             flex flex-col divide-y
             sm:flex               /* sm 이상에서만 표시 */
             sm:divide-gray-200
-          "
+            "
         >
           {gnbItems.map((item) => (
             <Link
