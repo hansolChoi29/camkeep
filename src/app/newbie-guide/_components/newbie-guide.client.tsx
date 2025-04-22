@@ -1,5 +1,4 @@
 "use client";
-import { Category } from "@/features/equipment-list";
 import NewbieGuideNav from "@/features/newbie-guide/newbie-guide-nav";
 import { CATEGORIES } from "@/features/newbie-guide/newbie-quide-data";
 import { useState } from "react";
@@ -9,7 +8,7 @@ export type GuideCategory = (typeof CATEGORIES)[number]["label"];
 export default function NewbieGuidClient() {
   const [selected, setSelected] = useState<GuideCategory>(CATEGORIES[0].label);
   const [search, setSearch] = useState("");
-
+  console.log("search", search);
   const current = CATEGORIES.find((c) => c.label === selected);
 
   return (

@@ -1,8 +1,7 @@
 "use client";
-
 import { FormEvent } from "react";
 
-interface AuthFormProps {
+interface Props {
   mode: "login" | "register";
   form: {
     email: string;
@@ -29,7 +28,7 @@ export default function AuthForm({
   setters: { setEmail, setPassword, setNickname, setPhone },
   state: { error, loading },
   handleSubmit,
-}: AuthFormProps) {
+}: Props) {
   return (
     <form
       onSubmit={handleSubmit}
@@ -72,7 +71,6 @@ export default function AuthForm({
               className="w-full mt-1 p-2 border rounded"
             />
           </label>
-
           <label className="block mb-3">
             전화번호
             <input

@@ -1,40 +1,51 @@
+// useAuthForm.ts
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { supabase } from "@/lib/supabaseClient";
 import { useAuthStore } from "@/store/useAuthStore";
 
 export function useAuthForm(mode: "login" | "register") {
-  const setSession = useAuthStore((s) => s.setSession);
   const router = useRouter();
+  const setSession = useAuthStore((s) => s.setSession);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [nickname, setNickname] = useState("");
   const [phone, setPhone] = useState("");
-
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
     setError(null);
-    const payload: any = { email, password };
-    if (mode === "register") {
-      payload.nickname = nickname;
-      payload.phone = phone;
+
+    let result;
+    if (mode === "login") {
+      result = await supabase.auth.signInWithPassword({ email, password });
+    } else {
+      result = await supabase.auth.signUp({
+        email,
+        password,
+        options: { data: { nickname, phone } },
+      });
     }
-    const res = await fetch(`/api/auth/${mode}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
+
     setLoading(false);
-    if (!res.ok) {
-      const { error: msg } = await res.json();
-      setError(msg || "알 수 없는 오류");
+
+    if (result.error) {
+      setError(result.error.message);
       return;
     }
+
+    // 로그인/회원가입 성공 후 세션을 localStorage에서 가져와 스토어에 저장
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+    setSession(session);
+
     router.push("/");
-  };
+  }
 
   return {
     form: { email, password, nickname, phone },
