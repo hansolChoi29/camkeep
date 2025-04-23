@@ -9,10 +9,26 @@ export default async function MyPage() {
   const {
     data: { session },
   } = await supabase.auth.getSession();
-  console.log("🔥 server session:", session);
+
   if (!session) {
     redirect(`/auth/login?callbackUrl=/mypage`);
   }
 
-  return <MypageClient email={session.user.email!} />;
+  const { data: profile, error: profileError } = await supabase
+    .from("users")
+    .select("nickname, phone")
+    .eq("id", session.user.id)
+    .single();
+
+  if (profileError || !profile) {
+    redirect(`/auth/login?callbackUrl=/mypage`);
+  }
+
+  return (
+    <MypageClient
+      email={session.user.email!}
+      nickname={profile.nickname}
+      phone={profile.phone}
+    />
+  );
 }
