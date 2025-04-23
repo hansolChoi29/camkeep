@@ -18,7 +18,7 @@ export default function HomePromotion() {
 
   return (
     <>
-      <section className="overflow-hidden">
+      <section className="mt-20 overflow-hidden">
         <Carousel
           opts={{ loop: true }}
           plugins={plugins}

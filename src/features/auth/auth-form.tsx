@@ -24,64 +24,69 @@ export default function AuthForm({
   return (
     <form
       onSubmit={handleSubmit}
-      className="max-w-sm mx-auto p-6 bg-white rounded shadow"
+      className="w-full max-w-md  sm:px-0 mx-auto p-6 text-white"
     >
-      <h1 className="text-2xl mb-4 capitalize text-center">{mode}</h1>
+      <h1 className="logo text-5xl flex items-center justify-center">
+        CAMKEEP
+      </h1>
+      <h2 className="text-2xl mb-4 font-bold text-center">로그인</h2>
       {error && <p className="text-red-600 mb-2">{error}</p>}
 
-      <label className="block mb-3">
-        이메일
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-          className="w-full mt-1 p-2 border rounded"
-        />
-      </label>
+      <div className="main">
+        <label className="block mb-4">
+          이메일
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            className="w-full mt-1 p-2 border rounded        "
+          />
+        </label>
 
-      <label className="block mb-3">
-        비밀번호
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          className="w-full mt-1 p-2 border rounded"
-        />
-      </label>
+        <label className="block mb-4">
+          비밀번호
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            className="w-full mt-1 p-2 border rounded"
+          />
+        </label>
 
-      {mode === "register" && (
-        <>
-          <label className="block mb-3">
-            닉네임
-            <input
-              type="text"
-              value={nickname}
-              onChange={(e) => setNickname(e.target.value)}
-              required
-              className="w-full mt-1 p-2 border rounded"
-            />
-          </label>
-          <label className="block mb-3">
-            전화번호
-            <input
-              type="tel"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              className="w-full mt-1 p-2 border rounded"
-            />
-          </label>
-        </>
-      )}
+        {mode === "register" && (
+          <>
+            <label className="block mb-4">
+              닉네임
+              <input
+                type="text"
+                value={nickname}
+                onChange={(e) => setNickname(e.target.value)}
+                required
+                className="w-full mt-1 p-2 border rounded"
+              />
+            </label>
+            <label className="block mb-4">
+              전화번호
+              <input
+                type="tel"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                className="w-full mt-1 p-2 border rounded"
+              />
+            </label>
+          </>
+        )}
 
-      <button
-        type="submit"
-        disabled={loading}
-        className="w-full bg-[#504B38] text-white py-2 rounded hover:bg-[#cf6e33] transition"
-      >
-        {loading ? "처리중…" : mode === "login" ? "로그인" : "회원가입"}
-      </button>
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full bg-[#F5F5DC] text-black py-2 rounded hover:bg-[#cf6e33] hover:text-white transition"
+        >
+          {loading ? "처리중…" : mode === "login" ? "로그인" : "회원가입"}
+        </button>
+      </div>
     </form>
   );
 }
