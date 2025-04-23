@@ -107,13 +107,13 @@ export default function MypageClient({
   };
 
   return (
-    <section className="w-full sm:max-w-[560px] mx-auto p-4 bg-[#DCE4C9] rounded">
+    <section className="w-full text-[#504B38] sm:max-w-[560px] mx-auto p-4 bg-[#B9B28A] rounded">
       {/* 프로필 사진 */}
       <div className="flex flex-col items-center">
         {photoUrl ? (
           <img src={photoUrl} alt="프로필" className="w-32 h-32 rounded-full" />
         ) : (
-          <div className="w-32 h-32 bg-gray-200 rounded-full flex items-center justify-center">
+          <div className="w-32 h-32 border rounded-full flex items-center justify-center">
             No Image
           </div>
         )}
@@ -146,7 +146,7 @@ export default function MypageClient({
             <button
               onClick={saveNickname}
               disabled={saving}
-              className="px-3 py-1 bg-[#504B38] text-white rounded"
+              className="px-3 py-1   rounded"
             >
               {saving ? "저장 중…" : "저장"}
             </button>
@@ -181,7 +181,7 @@ export default function MypageClient({
         </button>
         <button
           onClick={handleLogout}
-          className="px-4 py-2 bg-red-500 text-white rounded"
+          className="px-4 py-2 bg-[#504B38] text-white rounded"
         >
           로그아웃
         </button>
