@@ -27,6 +27,7 @@ export default async function MyPage() {
   return (
     <MypageClient
       email={session.user.email!}
+      userId={session.user.id}
       nickname={profile.nickname}
       phone={profile.phone}
     />
