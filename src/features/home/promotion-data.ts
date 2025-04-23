@@ -1,7 +1,7 @@
 import { PromoBanner } from "@/types/promotion";
 
 export const promoBanners: PromoBanner[] = [
-  { id: "coupon", text: "플랫폼 통해 예약 시 쿠폰적용" },
+  { id: "coupon", text: "개발자를 꿈꾸는 사람이 만든 작품입니다." },
   { id: "season", text: "시즌별 이벤트" },
   {
     id: "guide",

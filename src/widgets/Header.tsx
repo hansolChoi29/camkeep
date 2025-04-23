@@ -11,13 +11,13 @@ export default function Header() {
   return (
     <header
       className="
-    fixed top-0 left-0 w-full h-16 bg-[#E07B39] z-50
+    fixed top-0 left-0 w-full h-16 bg-[#B9B28A] z-50
    flex items-center justify-center sm:justify-start /* 로고 중앙 */
     px-4
   "
     >
       <Link href="/">
-        <h1 className="logo text-[32px] hover:text-white  transform transition-transform duration-200 ease-in-out hover:scale-110">
+        <h1 className="logo text-[32px]  hover:text-white  transform transition-transform duration-200 ease-in-out hover:scale-110">
           CAMKEEP
         </h1>
       </Link>

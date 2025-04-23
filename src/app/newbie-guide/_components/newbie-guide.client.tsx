@@ -20,7 +20,7 @@ export default function NewbieGuidClient() {
           </h1>
         </div>
 
-        <div className="bg-[#DCE4C9] rounded-t-sm flex flex-col  items-center justify-center w-auto h-32">
+        <div className="bg-[#B9B28A]  rounded-t-sm flex flex-col  items-center justify-center w-auto h-32">
           <hr />
           <NewbieGuideNav
             selected={selected}
@@ -31,7 +31,7 @@ export default function NewbieGuidClient() {
       </article>
 
       <article className="bg-white p-6 rounded shadow">
-        <h2 className="text-2xl font-semibold mb-4 text-[#E07B39]">
+        <h2 className="text-2xl font-semibold mb-4 text-[#504B38]">
           {current?.label}
         </h2>
         <p className="whitespace-pre-wrap text-gray-800 leading-relaxed">

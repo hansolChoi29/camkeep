@@ -1,21 +1,23 @@
 "use client";
-
-import { ReactNode } from "react";
+import { Session, SessionContextProvider } from "@supabase/auth-helpers-react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { SessionProvider } from "next-auth/react";
-import type { Session } from "next-auth";
+import { supabase } from "@/lib/supabaseClient";
 
 const queryClient = new QueryClient();
 
-interface ProvidersProps {
-  session: Session | null;
-  children: ReactNode;
-}
-
-export function Providers({ session, children }: ProvidersProps) {
+export function Providers({
+  initialSession,
+  children,
+}: {
+  initialSession: Session | null;
+  children: React.ReactNode;
+}) {
   return (
-    <SessionProvider session={session}>
+    <SessionContextProvider
+      supabaseClient={supabase}
+      initialSession={initialSession}
+    >
       <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-    </SessionProvider>
+    </SessionContextProvider>
   );
 }
