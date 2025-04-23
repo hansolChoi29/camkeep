@@ -1,11 +1,10 @@
-// src/app/mypage/_components/mypage.client.tsx
 "use client";
 
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { supabase } from "@/lib/supabaseClient";
 import { useAuthStore } from "@/store/useAuthStore";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import Image from "next/image";
 
 interface MypageClientProps {
   email: string;
@@ -67,51 +66,53 @@ export default function MypageClient({
 
   console.log("userId", userId);
   // 파일 선택 → Storage 업로드 → publicUrl → 서버 API 호출
-  const handleFileChange = async (e) => {
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
     setUploading(true);
 
     try {
-      // 1) 인증된 상태로 storage 업로드
-      const ext = file.name.split(".").pop();
-      const filePath = `${userId}/avatar.${ext}`;
-      const { error: upErr } = await supabase.storage
-        .from("avatars")
-        .upload(filePath, file, { upsert: true });
-      if (upErr) throw upErr;
+      const formData = new FormData();
+      formData.append("avatar", file);
+      formData.append("userId", userId);
 
-      // 2) public URL
-      const { data: urlData, error: urlErr } = supabase.storage
-        .from("avatars")
-        .getPublicUrl(filePath);
-      if (urlErr) throw urlErr;
-
-      // 3) users 테이블 업데이트 (쿠키 세션 포함)
-      const res = await fetch("/api/user/photo", {
+      const res = await fetch("/api/upload-avatar", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({ publicUrl: urlData.publicUrl }),
+        body: formData,
       });
-      if (!res.ok) throw new Error((await res.json()).error);
+      console.log("🛠 POST status:", res.status);
 
-      // 4) UI 갱신
-      // setPhotoUrl(urlData.publicUrl);
+      const json = await res.json();
+
+      console.log("🛠 응답 JSON:", json);
+
+      if (!res.ok) throw new Error(json.error);
+
+      // 성공하면 화면 갱신
+      setPhotoUrl(json.publicUrl);
+      alert("성공적으로 변경되었습니다.");
+
+      router.refresh();
     } catch (err) {
-      console.error("업로드 실패:", err.message);
-      alert("업로드 실패: " + err.message);
+      const message = err instanceof Error ? err.message : String(err);
+      alert("업로드 실패: " + message);
     } finally {
       setUploading(false);
     }
   };
 
   return (
-    <section className="w-full text-[#504B38] sm:max-w-[560px] mx-auto p-4 bg-[#B9B28A] rounded">
+    <section className="flex main flex-col items-center justify-center w-full max-w-md p-6    min-h-screen mx-auto">
       {/* 프로필 사진 */}
       <div className="flex flex-col items-center">
         {photoUrl ? (
-          <img src={photoUrl} alt="프로필" className="w-32 h-32 rounded-full" />
+          <Image
+            src={photoUrl}
+            alt="프로필"
+            width={100}
+            height={100}
+            className="w-32 h-32 rounded-full"
+          />
         ) : (
           <div className="w-32 h-32 border rounded-full flex items-center justify-center">
             No Image
@@ -171,8 +172,7 @@ export default function MypageClient({
         )}
       </div>
 
-      {/* 뒤로가기·로그아웃 */}
-      <div className="mt-6 flex justify-between">
+      <div className="w-auto gap-2 mt-6 flex flex-col justify-between">
         <button
           onClick={() => router.push(callback)}
           className="px-4 py-2 border rounded"
@@ -181,10 +181,11 @@ export default function MypageClient({
         </button>
         <button
           onClick={handleLogout}
-          className="px-4 py-2 bg-[#504B38] text-white rounded"
+          className="px-4 py-2 bg-[#7A73D1] text-white  rounded"
         >
           로그아웃
         </button>
+        <button className="bg-[#7A73D1] rounded  text-white">회원탈퇴</button>
       </div>
     </section>
   );

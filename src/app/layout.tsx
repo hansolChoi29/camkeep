@@ -34,7 +34,7 @@ export default async function RootLayout({
 
   return (
     <html lang="ko" className={luckiest.variable}>
-      <body className="mt-20 bg-[#EFEEEA] flex flex-col min-h-screen sm:px-32">
+      <body className="mt-20 bg-[#f3f4ff] flex flex-col min-h-screen sm:px-32">
         {/* QueryClientProvider 는 클라이언트 전용 컴포넌트라서, App Router의 RootLayout(서버 컴포넌트)에 바로 감싸 두면 에러 남. */}
         <Providers initialSession={initialSession}>
           <ClientLayout>{children}</ClientLayout>

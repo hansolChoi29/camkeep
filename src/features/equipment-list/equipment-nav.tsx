@@ -11,7 +11,7 @@ export default function EquipmentNav(props: NaProps) {
   const { selected, setSelected, setSearch } = props;
   return (
     <div>
-      <nav className="flex sm:justify-center pl-4 sm:items-center  rounded-xl mb-12 bg-[#B9B28A]  flex-wrap items-center h-auto overflow-auto">
+      <nav className="flex sm:justify-center pl-4 sm:items-center  rounded-xl mb-12 bg-[#7A73D1] text-white  flex-wrap items-center h-auto overflow-auto">
         {CATEGORIES.map(({ label: cat, icon }) => (
           <button
             key={cat}
@@ -28,7 +28,7 @@ export default function EquipmentNav(props: NaProps) {
               ${
                 selected === cat
                   ? "border-[#F8F3D9] border text-[#F8F3D9]"
-                  : "border-transparent"
+                  : "border-transparent text-white"
               }
             `}
           >

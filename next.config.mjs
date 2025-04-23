@@ -2,7 +2,11 @@
 const nextConfig = {
   experimental: { appDir: true },
   images: {
-    domains: ["shopping-phinf.pstatic.net", "gocamping.or.kr"],
+    domains: [
+      "shopping-phinf.pstatic.net",
+      "gocamping.or.kr",
+      "sjnpgqafckrncydthmis.supabase.co",
+    ],
   },
 };
 
