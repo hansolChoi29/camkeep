@@ -10,13 +10,11 @@
   font-style: normal;
 }
 
-main {
+.main {
   font-family: "Ownglyph_corncorn-Rg", sans-serif;
-  margin: 0;
-  padding: 0;
 }
 header {
-  background-color: #e07b39;
+  background-color: #504b38;
   margin: 0;
   padding: 1rem;
 }

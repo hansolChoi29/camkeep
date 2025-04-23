@@ -101,7 +101,7 @@ export default function EquipmentModal({
           href={item.link}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-block mt-2 px-4 py-2 bg-[#E07B39] text-white rounded text-center"
+          className="inline-block mt-2 px-4 py-2 bg-[#504B38] text-white rounded text-center"
         >
           구매 페이지로 이동
         </a>

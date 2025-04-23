@@ -35,7 +35,7 @@ export default function EquipmentList({
               key={i}
               className="
                 border w-40 h-auto flex flex-col items-center
-                sm:w-80 border-[#E07B39] rounded-lg overflow-hidden bg-white
+                sm:w-80 border-[#504B38] rounded-lg overflow-hidden bg-white
               "
             >
               <Image
