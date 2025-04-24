@@ -117,6 +117,7 @@ export default function MypageClient({
         email={email}
         phone={phone}
         points={points}
+        handleLogout={handleLogout}
       />
 
       <hr className="w-full border-t-1 border-[#578E7E] my-4" />
@@ -128,13 +129,8 @@ export default function MypageClient({
         >
           Go Back
         </button>
-        <button
-          onClick={handleLogout}
-          className="px-4 py-2 bg-[#578E7E] text-white  rounded transform transition-transform duration-200 ease-in-out hover:scale-110"
-        >
-          로그아웃
-        </button>
-        <button className="px-4 py-2 bg-[#578E7E] rounded  text-white transform transition-transform duration-200 ease-in-out hover:scale-110">
+
+        <button className="px-4 py-2 w-96 bg-[#578E7E] rounded  text-white transform transition-transform duration-200 ease-in-out hover:scale-110">
           회원탈퇴
         </button>
       </div>
