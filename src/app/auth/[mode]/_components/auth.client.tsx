@@ -12,5 +12,6 @@ export default function AuthClient({ mode }: { mode: "login" | "register" }) {
       state={state}
       handleSubmit={handleSubmit}
     />
+    
   );
 }

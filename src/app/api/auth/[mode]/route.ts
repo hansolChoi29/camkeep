@@ -12,12 +12,8 @@ export async function POST(
   // 로그인
   if (mode === "login") {
     const { email, password } = await req.json();
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    if (error)
-      return NextResponse.json({ error: error.message }, { status: 401 });
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) return NextResponse.json({ error: error.message }, { status: 401 });
     return NextResponse.json({ ok: true });
   }
 
@@ -29,16 +25,14 @@ export async function POST(
       password,
       options: { data: { nickname, phone } },
     });
-    if (error)
-      return NextResponse.json({ error: error.message }, { status: 400 });
+    if (error) return NextResponse.json({ error: error.message }, { status: 400 });
     return NextResponse.json({ ok: true });
   }
 
   // 로그아웃
   if (mode === "logout") {
     const { error } = await supabase.auth.signOut();
-    if (error)
-      return NextResponse.json({ error: error.message }, { status: 400 });
+    if (error) return NextResponse.json({ error: error.message }, { status: 400 });
     // 세션 쿠키를 자동으로 지워 줍니다.
     return NextResponse.json({ ok: true });
   }
