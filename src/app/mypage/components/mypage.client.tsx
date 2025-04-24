@@ -23,7 +23,7 @@ interface MypageClientProps {
 export default function MypageClient({
   email,
   userId,
-  nickname: initialNickname,
+  nickname: initialNicknameProp,
   phone,
   points,
   photo: initialPhoto,
@@ -33,9 +33,9 @@ export default function MypageClient({
   const clearSession = useAuthStore((s) => s.clearSession);
   // 닉네임 수정 상태
   const [editing, setEditing] = useState(false);
-  const [newNickname, setNewNickname] = useState(initialNickname);
+  const [nickname, setNickname] = useState(initialNicknameProp);
   const [saving, setSaving] = useState(false);
-
+  const [newNickname, setNewNickname] = useState(initialNicknameProp);
   // 사진 업로드 상태
   const [photoUrl, setPhotoUrl] = useState<string | null>(initialPhoto);
   const [uploading, setUploading] = useState(false);
@@ -69,10 +69,12 @@ export default function MypageClient({
       .eq("id", userId)
       .single();
     setSaving(false);
-    console.log("userId", userId);
+
     if (error) {
       setToastMsg("닉네임 업데이트 실패: " + error.message);
     } else {
+      setNickname(newNickname);
+
       setEditing(false);
       setToastMsg("닉네임이 성공적으로 변경되었습니다.");
     }
@@ -123,7 +125,7 @@ export default function MypageClient({
           handleFileChange={handleFileChange}
           uploading={uploading}
           editing={editing}
-          initialNickname={initialNickname}
+          initialNickname={nickname}
           newNickname={newNickname}
           setNewNickname={setNewNickname}
           saveNickname={saveNickname}
