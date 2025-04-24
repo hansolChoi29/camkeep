@@ -10,6 +10,7 @@ export function useAuthForm(mode: "login" | "register") {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [nickname, setNickname] = useState("");
   const [phone, setPhone] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -19,6 +20,12 @@ export function useAuthForm(mode: "login" | "register") {
     e.preventDefault();
     setLoading(true);
     setError(null);
+
+    if (mode === "register" && password !== confirmPassword) {
+      setLoading(false);
+      setError("비밀번호가 일치하지 않습니다.");
+      return;
+    }
 
     const res = await fetch(`/api/auth/${mode}`, {
       method: "POST",
@@ -41,8 +48,14 @@ export function useAuthForm(mode: "login" | "register") {
   };
 
   return {
-    form: { email, password, nickname, phone },
-    setters: { setEmail, setPassword, setNickname, setPhone },
+    form: { email, password, confirmPassword, nickname, phone },
+    setters: {
+      setEmail,
+      setPassword,
+      setConfirmPassword,
+      setNickname,
+      setPhone,
+    },
     state: { error, loading },
     handleSubmit,
   };

@@ -17,6 +17,7 @@ interface MypageClientProps {
   phone: string;
   points: number;
   photo: string | null;
+  handleLogout: (e: React.MouseEvent<HTMLButtonElement>) => Promise<void>;
 }
 
 export default function MypageClient({
@@ -44,10 +45,13 @@ export default function MypageClient({
   const supabase = useSupabaseClient();
   // 로그아웃
   const handleLogout = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (!error) {
-      clearSession();
+    const res = await fetch("/api/auth/logout", { method: "POST" });
+    if (res.ok) {
+      alert("성공적으로 로그아웃되었습니다.");
       router.push("/auth/login");
+    } else {
+      const { error } = await res.json();
+      console.error("Logout error:", error);
     }
   };
 
