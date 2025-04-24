@@ -12,7 +12,7 @@ export default function EquipmentNav(props: NaProps) {
   return (
     <div className="overflow-auto mb-12  justify-center items-center flex flex-col">
       <nav>
-        <div className="mt-44 flex-wrap flex justify-center rounded-xl  bg-[#D4C9BE] ">
+        <div className="mt-44 flex-wrap flex justify-center rounded-xl  bg-[#F5ECD5]   ">
           {CATEGORIES.map(({ label: cat, icon }) => (
             <button
               key={cat}
@@ -21,12 +21,12 @@ export default function EquipmentNav(props: NaProps) {
                 setSearch("");
               }}
               className={`
-              items-center m-1 px-2 py-1 rounded-lg font-bold bg-[#D4C9BE] text-black
+              items-center m-1 px-2 py-1 rounded-lg font-bold  text-black
               transition duration-200 ease-in-out transform
-              hover:bg-[#D4C9BE]/20 hover:scale-105 active:scale-95
+              hover:bg-[#F1EFEC]/20 hover:scale-105 active:scale-95
               ${
                 selected === cat
-                  ? "border border-[#F1EFEC] "
+                  ? "border border-[#D4C9BE] "
                   : "border-transparent "
               }
             `}

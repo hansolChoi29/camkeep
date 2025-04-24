@@ -10,7 +10,7 @@ export default function GNBItem({ label, href, img, active }: GNBItemData) {
         flex flex-col items-center w-20
         ${
           active
-            ? "text-white border border-white rounded-sm p-1"
+            ? "text-[#3D3D3D] border border-[#3D3D3D] rounded-sm p-1"
             : "text-black"
         }
       `}
