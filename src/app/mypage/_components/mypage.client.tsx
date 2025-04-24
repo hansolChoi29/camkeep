@@ -4,7 +4,11 @@ import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuthStore } from "@/store/useAuthStore";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
-import Image from "next/image";
+import MypageProfile from "@/features/mypage/mypage-profile";
+import MypageCart from "@/features/mypage/mypage-cart";
+import MypageCommu from "@/features/mypage/mypage-commu";
+import MypageComment from "@/features/mypage/mypage-comment";
+import MypageCoupon from "@/features/mypage/mypage-coupon";
 
 interface MypageClientProps {
   email: string;
@@ -102,74 +106,43 @@ export default function MypageClient({
   };
 
   return (
-    <section className="flex main flex-col items-center justify-center w-full max-w-md p-6    min-h-screen mx-auto">
-      {/* 프로필 사진 */}
-      <div className="flex flex-col items-center">
-        {photoUrl ? (
-          <Image
-            src={photoUrl}
-            alt="프로필"
-            width={100}
-            height={100}
-            className="w-32 h-32 rounded-full"
-          />
-        ) : (
-          <div className="w-32 h-32 border rounded-full flex items-center justify-center">
-            No Image
-          </div>
-        )}
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleFileChange}
-          disabled={uploading}
-          className="mt-2"
-        />
-        {uploading && <p className="text-sm">업로드 중…</p>}
+    <section className="flex main flex-col items-center justify-center w-full max-w-md p-6 min-h-screen mx-auto">
+      <MypageProfile
+        photoUrl={photoUrl}
+        handleFileChange={handleFileChange}
+        uploading={uploading}
+        editing={editing}
+        initialNickname={initialNickname}
+        newNickname={newNickname}
+        setNewNickname={setNewNickname}
+        saveNickname={saveNickname}
+        cancelEditing={() => setEditing((v) => !v)}
+        saving={saving}
+        email={email}
+        phone={phone}
+        points={points}
+        handleLogout={handleLogout}
+      />
+
+      <hr className="w-full border-t-1 border-[#578E7E] my-4" />
+      <div>
+        <h1>장바구니</h1>
+        <MypageCart />
       </div>
 
-      {/* 기본 정보 */}
-      <p className="mt-4">이메일: {email}</p>
-      <p>전화번호: {phone}</p>
-      <p>포인트: {points}</p>
+      <div>
+        <h1>내가 작성한 커뮤</h1>
+        <MypageCommu />
+      </div>
 
-      {/* 닉네임 수정 */}
-      <div className="mt-4 flex items-center space-x-2">
-        {editing ? (
-          <>
-            <input
-              type="text"
-              value={newNickname}
-              onChange={(e) => setNewNickname(e.target.value)}
-              disabled={saving}
-              className="border p-1 rounded"
-            />
-            <button
-              onClick={saveNickname}
-              disabled={saving}
-              className="px-3 py-1   rounded"
-            >
-              {saving ? "저장 중…" : "저장"}
-            </button>
-            <button
-              onClick={() => setEditing(false)}
-              disabled={saving}
-              className="px-3 py-1 border rounded"
-            >
-              취소
-            </button>
-          </>
-        ) : (
-          <>
-            <p>닉네임: {initialNickname}</p>
-            <button
-              onClick={() => setEditing(true)}
-              className="px-3 py-1 border rounded"
-            >
-              수정
-            </button>
-          </>
-        )}
+      <div>
+        <h1>내가 작성한 뎃글</h1>
+        <MypageComment />
+      </div>
+
+      <div>
+        <h1>내 쿠폰</h1>
+        <MypageCoupon />
       </div>
 
       <div className="w-auto gap-2 mt-6 flex flex-col justify-between">
@@ -179,13 +152,10 @@ export default function MypageClient({
         >
           Go Back
         </button>
-        <button
-          onClick={handleLogout}
-          className="px-4 py-2 bg-[#7A73D1] text-white  rounded"
-        >
-          로그아웃
+
+        <button className="px-4 py-2 w-96 bg-[#578E7E] rounded  text-white transform transition-transform duration-200 ease-in-out hover:scale-110">
+          회원탈퇴
         </button>
-        <button className="bg-[#7A73D1] rounded  text-white">회원탈퇴</button>
       </div>
     </section>
   );

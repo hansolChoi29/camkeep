@@ -34,7 +34,7 @@ export default function SplashScreen() {
     >
       {/* 로고용 백그라운드 박스 + 로고 폰트 */}
       <motion.div
-        className="logo flex flex-col items-center justify-center bg-[#FFAB5B] w-full h-full"
+        className="logo flex flex-col items-center justify-center bg-[#578E7E] w-full h-full"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
@@ -44,7 +44,7 @@ export default function SplashScreen() {
           {title.map((char, idx) => (
             <motion.span
               key={idx}
-              className="text-[48px] font-bold text-black"
+              className="text-[48px] font-bold text-[#FFFAEC]"
               variants={letterVariants}
             >
               {char}
@@ -53,7 +53,7 @@ export default function SplashScreen() {
         </div>
         {/* 문구는 글자 애니메이션 끝나고 페이드인 */}
         <motion.p
-          className="text-base mt-4 text-black"
+          className="text-base mt-4 text-[#FFFAEC]"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: title.length * 0.15 + 0.5, duration: 0.8 }}

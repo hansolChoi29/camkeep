@@ -8,8 +8,8 @@ export default function GNB() {
 
   return (
     <nav
-      className="fixed bottom-0 left-0 w-full h-16 bg-white border-t
-        flex justify-around items-center z-40  
+      className="fixed bottom-0 left-0 w-full h-16  border-t
+        flex justify-around items-center z-40 inner-shadow-300 shadow-inner bg-white p-4 
         sm:hidden"
     >
       {gnbItems.map((item) => (
