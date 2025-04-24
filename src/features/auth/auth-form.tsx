@@ -24,7 +24,7 @@ export default function AuthForm({
   return (
     <form
       onSubmit={handleSubmit}
-      className="w-full max-w-md  sm:px-0 mx-auto p-6 text-[#3D3D3D]"
+      className="w-full max-w-md  sm:px-0 mx-auto p-6 text-[#FFFAEC]"
     >
       <h1 className="logo text-5xl flex items-center justify-center">
         CAMKEEP
@@ -78,7 +78,6 @@ export default function AuthForm({
             </label>
           </>
         )}
-
         <button
           type="submit"
           disabled={loading}
@@ -86,6 +85,12 @@ export default function AuthForm({
         >
           {loading ? "처리중…" : mode === "login" ? "로그인" : "회원가입"}
         </button>
+        <div className="flex mt-2 justify-end">
+          <p>회원이 아니신가요?</p>
+          <button className="ml-2 text-black  hover:text-red-700">
+            회원가입
+          </button>
+        </div>
       </div>
     </form>
   );

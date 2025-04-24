@@ -7,18 +7,11 @@ export async function POST(
   { params }: { params: { mode: string } }
 ) {
   const mode = params.mode;
-
-  if (mode !== "login" && mode !== "register") {
-    return NextResponse.json(
-      { error: `Unknown auth mode: ${mode}` },
-      { status: 404 }
-    );
-  }
-
   const supabase = createRouteHandlerClient({ cookies });
-  const { email, password, nickname, phone } = await req.json();
 
+  // 로그인
   if (mode === "login") {
+    const { email, password } = await req.json();
     const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -26,7 +19,11 @@ export async function POST(
     if (error)
       return NextResponse.json({ error: error.message }, { status: 401 });
     return NextResponse.json({ ok: true });
-  } else {
+  }
+
+  // 회원가입
+  if (mode === "register") {
+    const { email, password, nickname, phone } = await req.json();
     const { error } = await supabase.auth.signUp({
       email,
       password,
@@ -36,4 +33,19 @@ export async function POST(
       return NextResponse.json({ error: error.message }, { status: 400 });
     return NextResponse.json({ ok: true });
   }
+
+  // 로그아웃
+  if (mode === "logout") {
+    const { error } = await supabase.auth.signOut();
+    if (error)
+      return NextResponse.json({ error: error.message }, { status: 400 });
+    // 세션 쿠키를 자동으로 지워 줍니다.
+    return NextResponse.json({ ok: true });
+  }
+
+  // 모드가 잘못된 경우
+  return NextResponse.json(
+    { error: `Unknown auth mode: ${mode}` },
+    { status: 404 }
+  );
 }
