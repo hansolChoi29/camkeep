@@ -9,6 +9,7 @@ import MypageCart from "@/features/mypage/mypage-cart";
 import MypageCommu from "@/features/mypage/mypage-commu";
 import MypageComment from "@/features/mypage/mypage-comment";
 import MypageCoupon from "@/features/mypage/mypage-coupon";
+import { SimpleToast } from "@/components/SimpleToast";
 
 interface MypageClientProps {
   email: string;
@@ -39,6 +40,8 @@ export default function MypageClient({
   const [photoUrl, setPhotoUrl] = useState<string | null>(initialPhoto);
   const [uploading, setUploading] = useState(false);
 
+  const [toastMsg, setToastMsg] = useState<string | null>(null);
+
   const callback = params.get("callbackUrl") ?? "/";
 
   const supabase = useSupabaseClient();
@@ -47,8 +50,10 @@ export default function MypageClient({
     const res = await fetch("/api/auth/logout", { method: "POST" });
     if (res.ok) {
       clearSession();
-      alert("성공적으로 로그아웃되었습니다.");
-      router.push("/auth/login");
+      setToastMsg("성공적으로 로그아웃되었습니다.");
+      setTimeout(() => {
+        router.push("/auth/login");
+      }, 1500);
     } else {
       const { error } = await res.json();
       console.error("Logout error:", error);
@@ -66,9 +71,10 @@ export default function MypageClient({
     setSaving(false);
     console.log("userId", userId);
     if (error) {
-      alert("닉네임 업데이트 실패: " + error.message);
+      setToastMsg("닉네임 업데이트 실패: " + error.message);
     } else {
       setEditing(false);
+      setToastMsg("닉네임이 성공적으로 변경되었습니다.");
     }
   };
 
@@ -98,69 +104,79 @@ export default function MypageClient({
 
       // 성공하면 화면 갱신
       setPhotoUrl(json.publicUrl);
-      alert("성공적으로 변경되었습니다.");
+      setToastMsg("프로필 사진이 성공적으로 변경되었습니다.");
 
       router.refresh();
     } catch (err) {
       const message = err instanceof Error ? err.message : String(err);
-      alert("업로드 실패: " + message);
+      setToastMsg("업로드 실패: " + message);
     } finally {
       setUploading(false);
     }
   };
 
   return (
-    <section className="flex main flex-col items-center justify-center w-full max-w-md p-6 min-h-screen mx-auto">
-      <MypageProfile
-        photoUrl={photoUrl}
-        handleFileChange={handleFileChange}
-        uploading={uploading}
-        editing={editing}
-        initialNickname={initialNickname}
-        newNickname={newNickname}
-        setNewNickname={setNewNickname}
-        saveNickname={saveNickname}
-        cancelEditing={() => setEditing((v) => !v)}
-        saving={saving}
-        email={email}
-        phone={phone}
-        points={points}
-        handleLogout={handleLogout}
-      />
+    <>
+      <section className="flex main flex-col items-center justify-center w-full max-w-md p-6 min-h-screen mx-auto">
+        <MypageProfile
+          photoUrl={photoUrl}
+          handleFileChange={handleFileChange}
+          uploading={uploading}
+          editing={editing}
+          initialNickname={initialNickname}
+          newNickname={newNickname}
+          setNewNickname={setNewNickname}
+          saveNickname={saveNickname}
+          cancelEditing={() => setEditing((v) => !v)}
+          saving={saving}
+          email={email}
+          phone={phone}
+          points={points}
+          handleLogout={handleLogout}
+        />
 
-      <hr className="w-full border-t-1 border-[#578E7E] my-4" />
-      <div>
-        <h1>장바구니</h1>
-        <MypageCart />
-      </div>
+        <hr className="w-full border-t-1 border-[#578E7E] my-4" />
+        <div>
+          <h1>장바구니</h1>
+          <MypageCart />
+        </div>
 
-      <div>
-        <h1>내가 작성한 커뮤</h1>
-        <MypageCommu />
-      </div>
+        <div>
+          <h1>내가 작성한 커뮤</h1>
+          <MypageCommu />
+        </div>
 
-      <div>
-        <h1>내가 작성한 뎃글</h1>
-        <MypageComment />
-      </div>
+        <div>
+          <h1>내가 작성한 뎃글</h1>
+          <MypageComment />
+        </div>
 
-      <div>
-        <h1>내 쿠폰</h1>
-        <MypageCoupon />
-      </div>
+        <div>
+          <h1>내 쿠폰</h1>
+          <MypageCoupon />
+        </div>
 
-      <div className="w-auto gap-2 mt-6 flex flex-col justify-between">
-        <button
-          onClick={() => router.push(callback)}
-          className="px-4 py-2 border rounded"
-        >
-          Go Back
-        </button>
+        <div className="w-auto gap-2 mt-6 flex flex-col justify-between">
+          <button
+            onClick={() => router.push(callback)}
+            className="px-4 py-2 border rounded"
+          >
+            Go Back
+          </button>
 
-        <button className="px-4 py-2 w-96 bg-[#578E7E] rounded  text-white transform transition-transform duration-200 ease-in-out hover:scale-110">
-          회원탈퇴
-        </button>
-      </div>
-    </section>
+          <button className="px-4 py-2 w-96 bg-[#578E7E] rounded  text-white transform transition-transform duration-200 ease-in-out hover:scale-110">
+            회원탈퇴
+          </button>
+        </div>
+      </section>
+
+      {toastMsg && (
+        <SimpleToast
+          message={toastMsg}
+          duration={2000}
+          onClose={() => setToastMsg(null)}
+        />
+      )}
+    </>
   );
 }
