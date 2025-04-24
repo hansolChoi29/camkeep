@@ -2,7 +2,7 @@ export default function CommunityClient() {
   return (
     <div>
       <p>dd</p>
-      <p>dd04241826</p>
+      <p>dd042418fd26</p>
     </div>
   );
 }
