@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { SessionProvider } from "next-auth/react";
-import SplashScreen from "@/app/_components/SplashScreen";
+import SplashScreen from "@/app/components/SplashScreen";
 import Header from "@/widgets/Header";
 export default function ClientLayout({
   children,

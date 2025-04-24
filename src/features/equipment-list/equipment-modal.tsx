@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { useEffect } from "react";
 import Image from "next/image";
-import { NaverItem } from "@/app/equipment-list/_components/equipmenList.client";
+import { NaverItem } from "@/app/equipment-list/components/equipmentList.client";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 interface EquipmentModalProps {
@@ -15,6 +15,7 @@ export default function EquipmentModal({
   onClose,
   item,
 }: EquipmentModalProps) {
+  const router = useRouter();
   useEffect(() => {
     if (open) {
       document.body.classList.add("overflow-hidden");
@@ -34,10 +35,8 @@ export default function EquipmentModal({
     tap: { scale: 0.95 },
   };
 
-  const route = useRouter();
-
   const handleGet = () => {
-    route.push("/");
+    router.push("/");
   };
   return (
     <AnimatePresence>

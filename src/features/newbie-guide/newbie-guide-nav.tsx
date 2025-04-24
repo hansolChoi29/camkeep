@@ -1,7 +1,7 @@
 "use client";
 
 import { CATEGORIES } from "./newbie-quide-data";
-import { GuideCategory } from "@/app/newbie-guide/_components/newbie-guide.client";
+import { GuideCategory } from "@/app/newbie-guide/components/newbie-guide.client";
 import { motion } from "framer-motion";
 
 interface NewbieGuideNavProps {

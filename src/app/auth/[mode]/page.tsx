@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import AuthClient from "./_components/auth.client";
+import AuthClient from "../components/auth.client";
 
 interface Props {
   params: { mode: string };

@@ -1,4 +1,3 @@
-// app/api/upload-avatar/route.ts
 import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
@@ -12,7 +11,9 @@ export async function POST(req: Request) {
   }
 
   // 1) 스토리지에 업로드
-  const ext = (file as any).name.split(".").pop();
+  // const ext = (file as any).name.split(".").pop();
+  const fileObj = file as File;
+  const ext = fileObj.name.split(".").pop();
   const filePath = `${userId}/avatar.${ext}`;
   const { error: uploadErr, data: uploadData } = await supabaseAdmin.storage
     .from("avatars")

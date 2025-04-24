@@ -1,10 +1,10 @@
 import "./globals.css";
 import { Metadata } from "next";
 import { Luckiest_Guy } from "next/font/google";
-import ClientLayout from "@/app/_components/ClientLayout";
-import { Providers } from "./_components/Providers";
+import ClientLayout from "@/app/components/ClientLayout";
 import { cookies } from "next/headers";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import { Providers } from "./components/Providers";
 // import Footer from "@/components/Footer";
 
 const luckiest = Luckiest_Guy({

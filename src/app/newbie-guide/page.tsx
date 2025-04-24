@@ -1,4 +1,4 @@
-import NewbieGuidClient from "./_components/newbie-guide.client";
+import NewbieGuidClient from "./components/newbie-guide.client";
 
 export default async function NewbieGuidePage() {
   return (

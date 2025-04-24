@@ -17,7 +17,6 @@ interface MypageClientProps {
   phone: string;
   points: number;
   photo: string | null;
-  handleLogout: (e: React.MouseEvent<HTMLButtonElement>) => Promise<void>;
 }
 
 export default function MypageClient({
@@ -47,6 +46,7 @@ export default function MypageClient({
   const handleLogout = async () => {
     const res = await fetch("/api/auth/logout", { method: "POST" });
     if (res.ok) {
+      clearSession();
       alert("성공적으로 로그아웃되었습니다.");
       router.push("/auth/login");
     } else {
