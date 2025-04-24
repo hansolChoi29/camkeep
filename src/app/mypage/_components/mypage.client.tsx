@@ -5,6 +5,10 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useAuthStore } from "@/store/useAuthStore";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import MypageProfile from "@/features/mypage/mypage-profile";
+import MypageCart from "@/features/mypage/mypage-cart";
+import MypageCommu from "@/features/mypage/mypage-commu";
+import MypageComment from "@/features/mypage/mypage-comment";
+import MypageCoupon from "@/features/mypage/mypage-coupon";
 
 interface MypageClientProps {
   email: string;
@@ -121,6 +125,25 @@ export default function MypageClient({
       />
 
       <hr className="w-full border-t-1 border-[#578E7E] my-4" />
+      <div>
+        <h1>장바구니</h1>
+        <MypageCart />
+      </div>
+
+      <div>
+        <h1>내가 작성한 커뮤</h1>
+        <MypageCommu />
+      </div>
+
+      <div>
+        <h1>내가 작성한 뎃글</h1>
+        <MypageComment />
+      </div>
+
+      <div>
+        <h1>내 쿠폰</h1>
+        <MypageCoupon />
+      </div>
 
       <div className="w-auto gap-2 mt-6 flex flex-col justify-between">
         <button
