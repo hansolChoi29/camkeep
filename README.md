@@ -28,44 +28,19 @@
 ---
 
 
-
 ```
 camkeep
-├─ .eslintrc.json
-├─ components.json
-├─ middleware.ts
-├─ next-auth.d.ts
-├─ next.config.mjs
-├─ package-lock.json
-├─ package.json
-├─ postcss.config.mjs
 ├─ public
 │  ├─ favicon.png
 │  └─ images
-│     ├─ camkeep.png
-│     ├─ header-newbie.png
-│     ├─ menu-chair.png
-│     ├─ menu-checklist.png
-│     ├─ menu-community.png
-│     ├─ menu-person.png
-│     ├─ menu-tent.png
-│     ├─ shop-chair.png
-│     ├─ shop-cockle.png
-│     ├─ shop-cooker.png
-│     ├─ shop-lantern.png
-│     ├─ shop-mat.png
-│     ├─ shop-table.png
-│     ├─ shop-tarp.png
-│     ├─ shop-tent.png
-│     ├─ sleeping-bag.png
-│     └─ update.png
-├─ README.md
 ├─ src
 │  ├─ app
 │  │  ├─ api
 │  │  │  ├─ auth
 │  │  │  │  └─ [mode]
 │  │  │  │     └─ route.ts
+│  │  │  ├─ go-camping
+│  │  │  │  └─ route.ts
 │  │  │  ├─ shop
 │  │  │  │  └─ route.ts
 │  │  │  └─ upload-avatar
