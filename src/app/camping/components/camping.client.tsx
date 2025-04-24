@@ -2,22 +2,24 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { CampingItem, fetchAllCampingList } from "@/app/api/goCamping";
-
+import { CampingItem } from "@/lib/camping";
+import { fetchAllCampingList } from "@/lib/camping";
 export default function CampingClient() {
-  // const [list, setList] = useState([]);
   const [list, setList] = useState<CampingItem[]>([]);
-  const [isPending, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isPending, setIsPending] = useState(true);
 
   useEffect(() => {
     fetchAllCampingList()
-      .then(setList)
-      .catch((err) => {
-        if (err instanceof Error) setError(err.message);
-        else setError("알 수 없는 에러");
+      .then((items) => {
+        setList(items);
+        setIsPending(false);
       })
-      .finally(() => setLoading(false));
+      .catch((err: unknown) => {
+        const msg = err instanceof Error ? err.message : String(err);
+        setError(msg);
+        setIsPending(false);
+      });
   }, []);
 
   if (isPending) return <p>로딩중…</p>;

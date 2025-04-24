@@ -1,4 +1,4 @@
-import HomeClient from "./_components/home.client";
+import HomeClient from "./components/HomeClient";
 
 export default async function Home() {
   return (

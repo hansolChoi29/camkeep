@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { NaverItem } from "@/app/equipment-list/_components/equipmenList.client";
+import { NaverItem } from "@/app/equipment-list/components/equipmentList.client";
 import EquipmentModal from "./equipment-modal";
 
 interface EquipmentListProps {

@@ -1,9 +1,8 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
-import Image from "next/image";
 import { Dispatch, SetStateAction } from "react";
-
+import Image from "next/image";
 export interface MypageProfileProps {
   photoUrl: string | null;
   handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -59,14 +58,19 @@ export default function MypageProfile(props: MypageProfileProps) {
           </div>
         )}
         <label className="absolute bottom-0 right-1 bg-white p-2 rounded-full shadow cursor-pointer">
-          <input
+          <Input
             type="file"
             accept="image/*"
             onChange={handleFileChange}
             disabled={uploading}
             className="hidden"
           />
-          <img src="/images/update.png" width={30} height={30} />
+          <Image
+            src="/images/update.png"
+            alt="프로필 수정 아이콘"
+            width={30}
+            height={30}
+          />
         </label>
         {uploading && <p className="mt-2 text-sm text-gray-500">업로드 중…</p>}
       </div>
@@ -75,7 +79,7 @@ export default function MypageProfile(props: MypageProfileProps) {
         <div className="flex items-center">
           {editing ? (
             <>
-              <input
+              <Input
                 type="text"
                 value={newNickname}
                 onChange={(e) => setNewNickname(e.target.value)}
@@ -106,7 +110,12 @@ export default function MypageProfile(props: MypageProfileProps) {
                 onClick={cancelEditing}
                 className=" border rounded border-none"
               >
-                <img src="/images/update.png" width={25} height={25} />
+                <Image
+                  src="/images/update.png"
+                  alt="프로필 수정 아이콘"
+                  width={25}
+                  height={25}
+                />
               </button>
             </div>
           )}
