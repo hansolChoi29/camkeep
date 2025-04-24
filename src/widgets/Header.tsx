@@ -11,13 +11,14 @@ export default function Header() {
   return (
     <header
       className="
-    fixed top-0 text-[#211C84] left-0 w-full h-16 bg-[#7A73D1] z-50
-   flex items-center justify-center sm:justify-start /* 로고 중앙 */
-    px-4
+    fixed top-0 left-0 w-full h-16 z-50
+    bg-white shadow-md
+    flex items-center justify-center sm:justify-start
+    px-4 text-[#578E7E]
   "
     >
       <Link href="/">
-        <h1 className="logo  text-[32px]  hover:text-white  transform transition-transform duration-200 ease-in-out hover:scale-110">
+        <h1 className="logo  text-[32px]  hover:text-[#3D3D3D]  transform transition-transform duration-200 ease-in-out hover:scale-110">
           CAMKEEP
         </h1>
       </Link>
@@ -40,7 +41,7 @@ export default function Header() {
 
         {/* 메뉴 토글 버튼 (PC에서만 보임) */}
         <button
-          className="hidden sm:block text-white"
+          className="hidden sm:block text-black"
           onClick={() => setOpen((v) => !v)}
           aria-label={open ? "메뉴 닫기" : "메뉴 열기"}
         >

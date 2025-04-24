@@ -1,23 +1,14 @@
 /** @jsxImportSource @emotion/react */
 import { useEffect } from "react";
-import { css, keyframes } from "@emotion/react";
 import Image from "next/image";
 import { NaverItem } from "@/app/equipment-list/_components/equipmenList.client";
-
+import { AnimatePresence, motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 interface EquipmentModalProps {
   open: boolean;
   onClose: () => void;
   item: NaverItem | null;
 }
-
-const fadeIn = keyframes`
-  from { opacity: 0; }
-  to   { opacity: 1; }
-`;
-const slideUp = keyframes`
-  from { transform: translateY(20px); opacity: 0; }
-  to   { transform: translateY(0); opacity: 1; }
-`;
 
 export default function EquipmentModal({
   open,
@@ -37,75 +28,141 @@ export default function EquipmentModal({
 
   if (!open || !item) return null;
 
-  const handleOverlayClick = () => {
-    if (window.innerWidth < 640) {
-      onClose();
-    }
+  const btnVariants = {
+    rest: { scale: 1, boxShadow: "0px 0px 0px rgba(0,0,0,0)" },
+    hover: { scale: 1.05, boxShadow: "0px 4px 12px rgba(0,0,0,0.15)" },
+    tap: { scale: 0.95 },
   };
 
-  return (
-    <div
-      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-      onClick={handleOverlayClick}
-      css={css`
-        animation: ${fadeIn} 0.2s ease-out;
-      `}
-    >
-      <div
-        className="relative bg-white overflow-y-auto w-full h-full p-4 sm:rounded-lg sm:p-6 sm:max-w-lg sm:mx-4 sm:h-auto sm:max-h-[80vh]"
-        onClick={(e) => e.stopPropagation()}
-        css={css`
-          animation: ${slideUp} 0.3s ease-out;
-        `}
-      >
-        <button
-          onClick={onClose}
-          className="absolute top-2 right-2 text-gray-600 hover:text-gray-800 text-xl leading-none"
-          aria-label="닫기"
-        >
-          &times;
-        </button>
+  const route = useRouter();
 
-        {/* 모달 상세 정보 */}
-        <h3
-          className="text-xl font-bold mb-4 text-[#724E2B]"
-          dangerouslySetInnerHTML={{ __html: item.title }}
-        />
-        <Image
-          src={item.image}
-          alt={item.title.replace(/<[^>]*>/g, "")}
-          width={300}
-          height={150}
-          className="object-cover w-full rounded mb-4"
-        />
-        <p className="mb-2 text-sm text-[#724E2B]">판매처: {item.mallName}</p>
-        <p className="mb-2 text-sm text-[#724E2B]">
-          브랜드: {item.brand || "정보 없음"}
-        </p>
-        <p className="mb-2 text-sm text-[#724E2B]">
-          제조사: {item.maker || "정보 없음"}
-        </p>
-        <p className="mb-2 text-sm text-[#724E2B]">
-          카테고리: {item.category1} / {item.category2} / {item.category3}
-        </p>
-        <p className="mb-2 text-sm text-[#724E2B]">
-          상품 타입: {item.productType === "1" ? "일반" : "렌탈"}
-        </p>
-        <p className="mb-4 text-lg font-bold text-[#724E2B]">
-          최저가: {item.lprice}원
-        </p>
-        {item.hprice && (
-          <p className="mb-4 text-sm text-[#724E2B]">최고가: {item.hprice}원</p>
-        )}
-        <a
-          href={item.link}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-block mt-2 px-4 py-2 bg-[#504B38] text-white rounded text-center"
+  const handleGet = () => {
+    route.push("/");
+  };
+  return (
+    <AnimatePresence>
+      {open && (
+        // overlay
+        <motion.div
+          className="fixed  inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+          onClick={onClose}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
         >
-          구매 페이지로 이동
-        </a>
-      </div>
-    </div>
+          {/* modal content */}
+          <motion.div
+            className="p-4 relative bg-white  overflow-y-auto w-full max-h-[80vh] sm:rounded-lg sm:max-w-lg [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+            onClick={(e) => e.stopPropagation()}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            transition={{ duration: 0.3 }}
+          >
+            <button
+              onClick={onClose}
+              className="flex w-full mb-1 justify-end text-[#578E7E] hover:text-black text-3xl font-bold leading-none"
+              aria-label="닫기"
+            >
+              &times;
+            </button>
+
+            <Image
+              src={item.image}
+              alt={item.title.replace(/<[^>]*>/g, "")}
+              width={300}
+              height={150}
+              className="object-cover w-full rounded "
+            />
+
+            <h3
+              className="text-xl mt-1 font-bold mb-1 text-[#3D3D3D]"
+              dangerouslySetInnerHTML={{ __html: item.title }}
+            />
+
+            <div className="mb-2 flex gap-1 text-sm text-[#123458] justify-end">
+              <p className="bg-[#578E7E] text-[#FFFAEC] rounded p-1 font-bold">
+                {item.category1}
+              </p>
+              <p className="bg-[#578E7E] text-[#FFFAEC] rounded p-1 font-bold">
+                {item.category2}
+              </p>
+              <p className="bg-[#578E7E] text-[#FFFAEC] rounded p-1 font-bold">
+                {item.category3}
+              </p>
+            </div>
+
+            <div className="bg-white rounded p-2">
+              <p className="pb-2 text-sm ">판매처: {item.mallName}</p>
+              <p className="pb-2 text-sm ">
+                브랜드: {item.brand || "정보 없음"}
+              </p>
+              <p className="pb-2 text-sm ">
+                제조사: {item.maker || "정보 없음"}
+              </p>
+
+              <p className="pb-2 text-sm ">
+                상품 타입: {item.productType === "1" ? "일반" : "렌탈"}
+              </p>
+
+              <hr className="w-full border-t-1 border-[#578E7E] my-4" />
+
+              <div className="flex justify-end">
+                <p className="pt-2 text-lg font-bold text-[#3D3D3D]">
+                  최저가: {item.lprice}원
+                </p>
+                {item.hprice && (
+                  <p className=" text-sm text-[#3D3D3D]">
+                    최고가: {item.hprice}원
+                  </p>
+                )}
+              </div>
+            </div>
+
+            {/* 버튼 */}
+            <div className=" flex justify-center items-center gap-6 ">
+              <motion.button
+                variants={btnVariants}
+                initial="rest"
+                whileHover="hover"
+                whileTap="tap"
+                animate="rest"
+                className="inline-block w-32 px-2 py-1 bg-[#578E7E] font-bold text-[#FFFAEC] rounded text-center"
+              >
+                {" "}
+                장바구니넣기
+              </motion.button>
+
+              <motion.button
+                onClick={handleGet}
+                variants={btnVariants}
+                initial="rest"
+                whileHover="hover"
+                whileTap="tap"
+                animate="rest"
+                className="inline-block px-2 w-32 py-1 bg-[#578E7E] font-bold text-[#FFFAEC] rounded text-center"
+              >
+                바로 구매
+              </motion.button>
+              <motion.a
+                href={item.link}
+                target="_blank"
+                rel="noopener"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="inline-block px-2 w-40 py-1 bg-[#578E7E] font-bold text-[#FFFAEC] rounded text-center"
+                variants={btnVariants}
+                initial="rest"
+                whileHover="hover"
+                whileTap="tap"
+                animate="rest"
+              >
+                구매 페이지로 이동
+              </motion.a>
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }
