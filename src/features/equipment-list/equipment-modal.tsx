@@ -52,7 +52,7 @@ export default function EquipmentModal({
       `}
     >
       <div
-        className="relative bg-white overflow-y-auto w-full h-full p-4 sm:rounded-lg sm:p-6 sm:max-w-lg sm:mx-4 sm:h-auto sm:max-h-[80vh]"
+        className="relative bg-[#F1EFEC] overflow-y-auto w-full h-full p-4 sm:rounded-lg sm:p-6 sm:max-w-lg sm:mx-4 sm:h-auto sm:max-h-[80vh]"
         onClick={(e) => e.stopPropagation()}
         css={css`
           animation: ${slideUp} 0.3s ease-out;
@@ -60,7 +60,7 @@ export default function EquipmentModal({
       >
         <button
           onClick={onClose}
-          className="absolute top-2 right-2 text-gray-600 hover:text-gray-800 text-xl leading-none"
+          className="absolute top-2 right-2 text-[#030303] hover:text-[#4D55CC] text-3xl font-bold leading-none"
           aria-label="닫기"
         >
           &times;
@@ -68,7 +68,7 @@ export default function EquipmentModal({
 
         {/* 모달 상세 정보 */}
         <h3
-          className="text-xl font-bold mb-4 text-[#724E2B]"
+          className="text-xl font-bold mb-4 text-[#030303]"
           dangerouslySetInnerHTML={{ __html: item.title }}
         />
         <Image
@@ -78,30 +78,30 @@ export default function EquipmentModal({
           height={150}
           className="object-cover w-full rounded mb-4"
         />
-        <p className="mb-2 text-sm text-[#724E2B]">판매처: {item.mallName}</p>
-        <p className="mb-2 text-sm text-[#724E2B]">
+        <p className="mb-2 text-sm text-[#123458]">판매처: {item.mallName}</p>
+        <p className="mb-2 text-sm text-[#123458]">
           브랜드: {item.brand || "정보 없음"}
         </p>
-        <p className="mb-2 text-sm text-[#724E2B]">
+        <p className="mb-2 text-sm text-[#123458]">
           제조사: {item.maker || "정보 없음"}
         </p>
-        <p className="mb-2 text-sm text-[#724E2B]">
+        <p className="mb-2 text-sm text-[#123458]">
           카테고리: {item.category1} / {item.category2} / {item.category3}
         </p>
-        <p className="mb-2 text-sm text-[#724E2B]">
+        <p className="mb-2 text-sm text-[#123458]">
           상품 타입: {item.productType === "1" ? "일반" : "렌탈"}
         </p>
-        <p className="mb-4 text-lg font-bold text-[#724E2B]">
+        <p className="mb-4 text-lg font-bold text-[#123458]">
           최저가: {item.lprice}원
         </p>
         {item.hprice && (
-          <p className="mb-4 text-sm text-[#724E2B]">최고가: {item.hprice}원</p>
+          <p className="mb-4 text-sm text-[#123458]">최고가: {item.hprice}원</p>
         )}
         <a
           href={item.link}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-block mt-2 px-4 py-2 bg-[#504B38] text-white rounded text-center"
+          className="inline-block mt-2 px-4 py-2 bg-[#211C84] text-white rounded text-center"
         >
           구매 페이지로 이동
         </a>

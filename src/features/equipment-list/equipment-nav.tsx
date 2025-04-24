@@ -10,38 +10,40 @@ interface NaProps {
 export default function EquipmentNav(props: NaProps) {
   const { selected, setSelected, setSearch } = props;
   return (
-    <div>
-      <nav className="flex sm:justify-center pl-4 sm:items-center  rounded-xl mb-12 bg-[#7A73D1] text-white  flex-wrap items-center h-auto overflow-auto">
-        {CATEGORIES.map(({ label: cat, icon }) => (
-          <button
-            key={cat}
-            onClick={() => {
-              setSelected(cat);
-              setSearch("");
-            }}
-            className={`
-              flex flex-col m-1 font-bold text-[#504B38] items-center
-              px-2 py-1 rounded-lg
-              transition-colors transition-transform duration-200 ease-in-out
-              hover:bg-[#F8F3D9]/20 hover:scale-105
-              active:scale-95
+    <div className="overflow-auto mb-12  justify-center items-center flex flex-col">
+      <nav>
+        <div className="mt-44 flex-wrap flex justify-center rounded-xl  bg-[#D4C9BE] ">
+          {CATEGORIES.map(({ label: cat, icon }) => (
+            <button
+              key={cat}
+              onClick={() => {
+                setSelected(cat);
+                setSearch("");
+              }}
+              className={`
+              items-center m-1 px-2 py-1 rounded-lg font-bold bg-[#D4C9BE] text-black
+              transition duration-200 ease-in-out transform
+              hover:bg-[#D4C9BE]/20 hover:scale-105 active:scale-95
               ${
                 selected === cat
-                  ? "border-[#F8F3D9] border text-[#F8F3D9]"
-                  : "border-transparent text-white"
+                  ? "border border-[#F1EFEC] "
+                  : "border-transparent "
               }
             `}
-          >
-            <Image
-              src={`/images/${icon}`}
-              alt={cat}
-              width={30}
-              height={30}
-              className="sm:w-14"
-            />
-            <span className="text-xs sm:text-xl mt-1 font-semibold">{cat}</span>
-          </button>
-        ))}
+            >
+              <Image
+                src={`/images/${icon}`}
+                alt={cat}
+                width={30}
+                height={30}
+                className="sm:w-14"
+              />
+              <span className="mt-1 font-semibold text-xs sm:text-xl">
+                {cat}
+              </span>
+            </button>
+          ))}
+        </div>
       </nav>
     </div>
   );

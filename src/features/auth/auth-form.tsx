@@ -82,7 +82,7 @@ export default function AuthForm({
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-[#F5F5DC] text-black py-2 rounded hover:bg-[#cf6e33] hover:text-white transition"
+          className="w-full bg-[#D4C9BE] text-black py-2 rounded hover:bg-[#D4C9BE] hover:text-white transition"
         >
           {loading ? "처리중…" : mode === "login" ? "로그인" : "회원가입"}
         </button>

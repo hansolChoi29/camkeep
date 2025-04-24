@@ -35,7 +35,7 @@ export default function EquipmentList({
               key={i}
               className="
                 border w-40 h-auto flex flex-col items-center
-                sm:w-80 border-[#504B38] rounded-lg overflow-hidden bg-white
+                sm:w-80 border-[#D4C9BE] rounded-lg overflow-hidden bg-white
               "
             >
               <Image
@@ -49,22 +49,22 @@ export default function EquipmentList({
 
               <div className="px-2 sm:w-43 w-38 flex-1 flex flex-col justify-between">
                 <h3
-                  className="sm:text-sm text-sm font-semibold line-clamp-2 text-[#724E2B]"
+                  className="sm:text-sm text-sm font-semibold line-clamp-2 text-[#030303]"
                   dangerouslySetInnerHTML={{ __html: item.title }}
                 />
-                <p className="mb-1 pt-1 sm:text-sm text-xs text-[#724E2B]">
+                <p className="mb-1 pt-1 sm:text-sm text-xs text-[#030303]">
                   {item.mallName}
                 </p>
                 <div className="flex items-center justify-end">
                   <button
-                    className="py-1 text-[#724E2B] text-xs"
+                    className="py-1 text-[#030303] text-xs"
                     onClick={() => openModal(item)}
                   >
                     &lt; 자세히 보기
                   </button>
                 </div>
                 <hr />
-                <p className="mt-2 sm:text-xl flex justify-end text-sm font-bold text-[#724E2B]">
+                <p className="mt-2 sm:text-xl flex justify-end text-sm font-bold text-[#123458]">
                   {item.lprice}원
                 </p>
               </div>

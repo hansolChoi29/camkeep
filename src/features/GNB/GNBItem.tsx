@@ -11,7 +11,7 @@ export default function GNBItem({ label, href, img, active }: GNBItemData) {
         ${
           active
             ? "text-white border border-white rounded-sm p-1"
-            : "text-white"
+            : "text-black"
         }
       `}
     >

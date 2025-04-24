@@ -16,7 +16,7 @@ export default function EquipmentSort({ sortBy, setSortBy }: SortProps) {
         onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
           setSortBy(e.target.value as SortOption)
         }
-        className="border  text-[#724E2B] border-[#B6A28E] rounded px-2 py-1"
+        className="border  text-[#030303] border-[#030303] rounded px-2 py-1"
       >
         <option value="popular">인기순</option>
         <option value="newest">최신순</option>
