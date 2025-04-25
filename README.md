@@ -39,6 +39,10 @@ camkeep
 │  │  │  ├─ auth
 │  │  │  │  └─ [mode]
 │  │  │  │     └─ route.ts
+│  │  │  ├─ comments
+│  │  │  │  └─ route.ts
+│  │  │  ├─ community
+│  │  │  │  └─ route.ts
 │  │  │  ├─ go-camping
 │  │  │  │  └─ route.ts
 │  │  │  ├─ shop
@@ -82,6 +86,7 @@ camkeep
 │  ├─ components
 │  │  ├─ components
 │  │  │  └─ client-layout.tsx
+│  │  ├─ SimpleToast.tsx
 │  │  └─ ui
 │  │     ├─ button.tsx
 │  │     ├─ carousel.tsx
@@ -90,6 +95,9 @@ camkeep
 │  │  ├─ auth
 │  │  │  ├─ auth-form.tsx
 │  │  │  └─ useAuthForm.tsx
+│  │  ├─ community
+│  │  │  ├─ community-newpost-modal.tsx
+│  │  │  └─ CommunityList.tsx
 │  │  ├─ equipment-list
 │  │  │  ├─ equipment-data.ts
 │  │  │  ├─ equipment-list.tsx

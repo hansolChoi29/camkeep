@@ -16,6 +16,7 @@ export default function EquipmentModal({
   item,
 }: EquipmentModalProps) {
   const router = useRouter();
+
   useEffect(() => {
     if (open) {
       document.body.classList.add("overflow-hidden");
