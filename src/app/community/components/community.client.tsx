@@ -77,7 +77,7 @@ export default function CommunityClient() {
         {posts.map((p) => (
           <AccordionItem key={p.id} value={p.id} className="w-full">
             <AccordionTrigger className="w-full bg-white shadow-lg rounded-lg flex items-center justify-between px-6 py-4">
-              <div className="flex items-center space-x-3">
+              <div className="flex flex-col items-center space-x-3">
                 {p.user?.photo && (
                   <img
                     src={p.user.photo}
@@ -85,21 +85,20 @@ export default function CommunityClient() {
                     className="w-8 h-8 rounded-full object-cover"
                   />
                 )}
-                <span className="text-lg font-semibold text-[#578E7E]">
-                  {p.title}
+                <span className="flex items-center space-x-2 text-sm text-gray-400 ">
+                  {p.user?.nickname}
                 </span>
               </div>
-              <div className="flex items-center space-x-2 text-sm text-gray-400">
-                <span>{new Date(p.created_at).toLocaleDateString()}</span>
-                <span>by {p.user?.nickname}</span>
+              <div className="  text-lg font-semibold text-[#578E7E]">
+                <span> {p.title}</span>
               </div>
             </AccordionTrigger>
 
             <AccordionContent className="w-full bg-white shadow-inner rounded-b-lg border-t px-6 py-4">
               {/* 사진 갤러리 */}
-              {p.photos?.length > 0 && (
+              {(p.photos?.length ?? 0) > 0 && (
                 <div className="grid grid-cols-2 gap-2 mb-4">
-                  {p.photos.map((url) => (
+                  {p.photos?.map((url) => (
                     <img
                       key={url}
                       src={url}
@@ -109,6 +108,9 @@ export default function CommunityClient() {
                 </div>
               )}
 
+              <p className="w-full flex justify-end">
+                {new Date(p.created_at).toLocaleDateString()}
+              </p>
               <p className="text-gray-700 whitespace-pre-wrap break-words mb-4">
                 {p.content}
               </p>

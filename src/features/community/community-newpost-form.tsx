@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { useUser } from "@supabase/auth-helpers-react";
-import { supabase } from "@/lib/supabaseClient";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { v4 as uuidv4 } from "uuid";
 import { SimpleToast } from "@/components/SimpleToast";
 interface Props {
@@ -10,23 +10,32 @@ interface Props {
 }
 
 export default function CommunityNewPostForm({ onSubmit, loading }: Props) {
-  const user = useUser();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [files, setFiles] = useState<FileList | null>(null);
   const [toast, setToast] = useState<string | null>(null);
+  const user = useUser();
+  const supabase = createClientComponentClient();
 
   const uploadPhotos = async (): Promise<string[]> => {
     if (!files || files.length === 0) return [];
+
     const urls: string[] = [];
+
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
+
       const ext = file.name.split(".").pop();
+
       const fileName = `posts/${uuidv4()}.${ext}`;
+
       const { data, error } = await supabase.storage
         .from("post-photos")
         .upload(fileName, file);
-      if (error) throw error;
+      if (error) {
+        console.error("Storage upload failed:", error);
+        throw error;
+      }
 
       const {
         data: { publicUrl },

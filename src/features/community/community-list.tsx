@@ -40,8 +40,10 @@ export default function CommentsList({
   };
 
   return (
-    <div className="space-y-2">
-      <span className="text-sm text-gray-500">댓글 {comments.length}개</span>
+    <div className="space-y-2 flex items-center">
+      <span className="text-sm text-gray-500 mr-2">
+        댓글 {comments.length}개
+      </span>
       <div className="flex space-x-2">
         <input
           className="flex-1 border px-2 py-1 rounded"
@@ -51,7 +53,7 @@ export default function CommentsList({
         />
         <button
           onClick={submit}
-          className="bg-blue-500 text-white px-3 py-1 rounded"
+          className="bg-[#578E7E] text-white px-3 py-1 rounded"
         >
           등록
         </button>
