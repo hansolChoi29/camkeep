@@ -39,6 +39,8 @@ camkeep
 │  │  │  ├─ auth
 │  │  │  │  └─ [mode]
 │  │  │  │     └─ route.ts
+│  │  │  ├─ community
+│  │  │  │  └─ route.ts
 │  │  │  ├─ go-camping
 │  │  │  │  └─ route.ts
 │  │  │  ├─ shop
@@ -82,6 +84,7 @@ camkeep
 │  ├─ components
 │  │  ├─ components
 │  │  │  └─ client-layout.tsx
+│  │  ├─ SimpleToast.tsx
 │  │  └─ ui
 │  │     ├─ button.tsx
 │  │     ├─ carousel.tsx
