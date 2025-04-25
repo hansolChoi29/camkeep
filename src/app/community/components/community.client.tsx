@@ -14,7 +14,7 @@ interface Post {
   title: string;
   content: string;
   created_at: string;
-  user: {
+  user?: {
     nickname: string;
     photo: string | null;
   };
@@ -54,12 +54,13 @@ export default function CommunityClient() {
   };
 
   return (
-    <div className="w-full max-w-screen-lg mx-auto px-4 sm:px-0 mt-20 sm:mt-44 mb-44">
+    <div className="w-full max-w-screen-xl mx-auto px-4 sm:px-44 mt-20 sm:mt-44 mb-44">
       {error && <div className="text-red-500 mb-4 text-center">{error}</div>}
 
+      {/* 데스크탑에서만 보이는 게시글 올리기 버튼 */}
       <button
         onClick={() => setModalOpen(true)}
-        className="hidden sm:inline-flex items-center mb-6 bg-[#578E7E] text-white px-4 py-2 rounded hover:bg-[#46715f] transition"
+        className="hidden lg:inline-flex items-center  mb-6 bg-[#578E7E] text-black px-4 py-2 rounded hover:bg-[#46715f] transition"
       >
         게시글 올리기
       </button>
@@ -72,23 +73,32 @@ export default function CommunityClient() {
         {posts.map((p) => (
           <AccordionItem key={p.id} value={p.id} className="w-full">
             <AccordionTrigger className="w-full bg-white shadow-lg rounded-lg flex items-center justify-between px-6 py-4">
-              <div className="flex items-center space-x-3">
-                <img
-                  src={p.user.photo ?? "/default-avatar.png"}
-                  alt={p.user.nickname}
-                  className="w-8 h-8 rounded-full object-cover"
-                />
+              <div className="flex flex-col items-center space-x-3 w-44">
+                {p.user?.photo && (
+                  <img
+                    src={p.user.photo}
+                    alt={p.user.nickname}
+                    className="w-12 h-12 rounded-full object-cover"
+                  />
+                )}
                 <span className="text-lg font-semibold text-[#578E7E]">
-                  {p.title}
+                  {p.user && (
+                    <span className="text-sm text-gray-400">
+                      {p.user.nickname}
+                    </span>
+                  )}
                 </span>
               </div>
-              <span className="text-sm text-gray-400">
-                {new Date(p.created_at).toLocaleDateString()} by{" "}
-                {p.user.nickname}
-              </span>
+              <p className="text-[#578E7E] font-bold w-full flex justify-start">
+                {p.title}
+              </p>
             </AccordionTrigger>
-            <AccordionContent className="w-full bg-white shadow-inner rounded-b-lg border-t px-6 py-4">
-              <p className="text-gray-700 whitespace-pre-wrap break-words">
+
+            <AccordionContent className="w-full bg-white shadow-inner rounded-b-lg border-t px-6 py-4 ">
+              <p className="w-full flex justify-end text-[#585858]">
+                {new Date(p.created_at).toLocaleDateString()}
+              </p>
+              <p className="text-black whitespace-pre-wrap break-words">
                 {p.content}
               </p>
             </AccordionContent>

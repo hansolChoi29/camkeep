@@ -20,9 +20,10 @@ export default function GNB({ onCommunityClick }: Props) {
             <GNBItem.Button
               key={item.id}
               id={item.id}
-              label="새 글 작성" // 버튼 텍스트 변경
-              img="/images/menu-community.png" // 원하는 아이콘으로 바꿔도 OK
+              label=""
+              img="/images/newpost.png" // 원하는 아이콘으로 바꿔도 OK
               onClick={onCommunityClick} // 모달 열기 핸들러
+              className="border rounded-full p-1"
             />
           );
         }
