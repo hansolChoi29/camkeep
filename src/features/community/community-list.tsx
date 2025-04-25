@@ -1,36 +1,61 @@
-// src/features/community/CommunityList.tsx
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useUser } from "@supabase/auth-helpers-react";
 
-interface Post {
+interface Comment {
   id: string;
-  title: string;
   content: string;
   created_at: string;
+  user: { nickname: string; photo: string | null };
 }
 
-export default function CommunityList() {
-  const [posts, setPosts] = useState<Post[]>([]);
-  useEffect(() => {
-    fetch("/api/community")
+export default function CommentsList({
+  postId,
+  currentUser,
+}: {
+  postId: string;
+  currentUser: ReturnType<typeof useUser>;
+}) {
+  const [comments, setComments] = useState<Comment[]>([]);
+  const [newComment, setNewComment] = useState("");
+
+  const fetchComments = () =>
+    fetch(`/api/community/${postId}/comments`)
       .then((r) => r.json())
-      .then(setPosts)
-      .catch(console.error);
-  }, []);
+      .then(setComments);
+
+  useEffect(() => {
+    fetchComments();
+  }, [postId]);
+
+  const submit = async () => {
+    if (!currentUser) return alert("로그인 필요");
+    await fetch(`/api/community/${postId}/comments`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ content: newComment }),
+    });
+    setNewComment("");
+    fetchComments();
+  };
 
   return (
-    <ul className="space-y-4 m-1 mb-44  px-2 sm:px-0 mt-20 sm:mt-44 w-full">
-      {posts.map((p) => (
-        <li key={p.id} className="border p-4 rounded w-full">
-          <h3 className="font-bold">{p.title}</h3>
-          <p className="text-sm text-gray-500">
-            {new Date(p.created_at).toLocaleString()}
-          </p>
-          <p className="mt-2 whitespace-normal break-all [overflow-wrap:anywhere]">
-            {p.content}
-          </p>
-        </li>
-      ))}
-    </ul>
+    <div className="space-y-2">
+      <span className="text-sm text-gray-500">댓글 {comments.length}개</span>
+      <div className="flex space-x-2">
+        <input
+          className="flex-1 border px-2 py-1 rounded"
+          placeholder="댓글 달기..."
+          value={newComment}
+          onChange={(e) => setNewComment(e.target.value)}
+        />
+        <button
+          onClick={submit}
+          className="bg-blue-500 text-white px-3 py-1 rounded"
+        >
+          등록
+        </button>
+      </div>
+    </div>
   );
 }
