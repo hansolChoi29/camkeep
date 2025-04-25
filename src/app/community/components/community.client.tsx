@@ -88,7 +88,7 @@ export default function CommunityClient() {
   };
 
   return (
-    <div className="flex flex-col w-screen h-screen p-44">
+    <div className="flex flex-col w-screen h-screen px-2 sm:px-32 mt-20 sm:mt-44">
       <ul className="space-y-4">
         {posts.map((p) => (
           <li key={p.id} className="border p-4 rounded">
