@@ -88,30 +88,7 @@ export default function CommunityClient() {
   };
 
   return (
-    <div className="flex main mt-32 flex-col ">
-      <form onSubmit={createPost} className="space-y-2">
-        <input
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder="제목"
-          required
-          className="w-full border px-3 py-2 rounded"
-        />
-        <textarea
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-          placeholder="내용"
-          required
-          className="w-full border px-3 py-2 rounded h-32"
-        />
-        <button
-          type="submit"
-          disabled={loading}
-          className="bg-blue-600 text-white px-4 py-2 rounded"
-        >
-          {loading ? "작성 중…" : "게시하기"}
-        </button>
-      </form>
+    <div className="flex flex-col w-screen h-screen p-44">
       <ul className="space-y-4">
         {posts.map((p) => (
           <li key={p.id} className="border p-4 rounded">
@@ -123,6 +100,33 @@ export default function CommunityClient() {
           </li>
         ))}
       </ul>
+      <div className="fixed bottom-0 left-0  bg-white border-t p-4 shadow-lg z-50">
+        <form onSubmit={createPost} className="space-y-2 ">
+          <div className="w-full flex justify-end">
+            <button
+              type="submit"
+              disabled={loading}
+              className="bg-[#578E7E] text-white p-1  rounded  "
+            >
+              {loading ? "작성 중…" : "게시하기"}
+            </button>
+          </div>
+          <input
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="제목"
+            required
+            className="w-full border px-3 py-2 rounded"
+          />
+          <textarea
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            placeholder="내용"
+            required
+            className="w-full border px-3 py-2 rounded h-32"
+          />
+        </form>
+      </div>
       {toastMsg && (
         <SimpleToast
           message={toastMsg}
