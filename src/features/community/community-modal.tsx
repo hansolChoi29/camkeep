@@ -28,7 +28,7 @@ export default function CommunityNewpostModal({
     <AnimatePresence>
       {open && (
         <motion.div
-          className="fixed  inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+          className="fixed inset-0  bg-black bg-opacity-50 flex items-center justify-center z-50"
           onClick={onClose}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -36,12 +36,12 @@ export default function CommunityNewpostModal({
           transition={{ duration: 0.2 }}
         >
           <motion.div
-            onClick={onClose}
+            onClick={(e) => e.stopPropagation()}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="p-4 relative bg-white  overflow-y-auto w-full max-h-[80vh] sm:rounded-lg sm:max-w-lg [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+            className=" p-4 bg-white overflow-y-auto sm:rounded-lg sm:max-w-lg sm:max-h-[80vh] w-full h-full       sm:rounded-lg[scrollbar-width:none]  sm:w-auto sm:h-auto   [&::-webkit-scrollbar]:hidden"
           >
             <motion.button
               variants={btnVariants}
@@ -50,7 +50,7 @@ export default function CommunityNewpostModal({
               whileHover="hover"
               whileTap="tap"
               animate="rest"
-              className="absolute top-2 right-2 text-gray-500 hover:text-gray-800"
+              className="absolute top-2 right-4 text-gray-500 hover:text-gray-800"
             >
               ✕
             </motion.button>

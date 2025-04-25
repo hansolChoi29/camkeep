@@ -26,7 +26,7 @@ export default function ClientLayout({
       {/* 로그인 페이지(/login)라면 Header를 그리지 않습니다 */}
       <SessionProvider>
         {pathname !== "/login" && <Header />}
-        {children}
+        <div className="flex-1 min-w-0">{children}</div>
       </SessionProvider>
     </>
   );

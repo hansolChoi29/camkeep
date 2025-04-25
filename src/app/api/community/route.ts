@@ -7,7 +7,18 @@ export async function GET() {
   const supabase = createRouteHandlerClient({ cookies });
   const { data, error } = await supabase
     .from("community_posts")
-    .select("id, title, content, created_at, user_id")
+    .select(
+      `
+        id,
+        title,
+        content,
+        created_at,
+        user:users (
+          nickname,
+          photo
+        )
+      `
+    )
     .order("created_at", { ascending: false });
 
   if (error) {

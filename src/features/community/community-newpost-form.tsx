@@ -18,6 +18,7 @@ export default function CommunityNewPostForm({ onSubmit, loading }: Props) {
       return;
     }
     onSubmit(title.trim(), content.trim());
+    setToast("작성완료 되었습니다.");
   };
 
   return (
