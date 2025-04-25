@@ -7,6 +7,8 @@ import SplashScreen from "./SplashScreen";
 import Header from "@/widgets/Header";
 import GNB from "@/features/GNB/GNB";
 import { useAuthStore } from "@/store/useAuthStore";
+import CommunityModal from "@/features/community/community-modal";
+import CommunityNewPostForm from "@/features/community/community-newpost-form";
 
 export default function ClientLayout({
   children,
@@ -14,29 +16,27 @@ export default function ClientLayout({
   children: React.ReactNode;
 }) {
   const [loading, setLoading] = useState(true);
-  const pathname = usePathname();
+  const [modalOpen, setModalOpen] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const setSession = useAuthStore((s) => s.setSession);
+  const pathname = usePathname();
 
-  // 1) 스플래시
+  // Splash & Auth 복원
   useEffect(() => {
     const t = setTimeout(() => setLoading(false), 1500);
     return () => clearTimeout(t);
   }, []);
-
-  // 2) supabase 세션 복원 + 이벤트 리스너
   useEffect(() => {
     supabase.auth
       .getSession()
       .then(({ data: { session } }) => setSession(session));
-    const { data: listener } = supabase.auth.onAuthStateChange(
-      (_event, session) => setSession(session)
+    const { data: listener } = supabase.auth.onAuthStateChange((_e, session) =>
+      setSession(session)
     );
     return () => listener.subscription.unsubscribe();
   }, [setSession]);
 
   if (loading) return <SplashScreen />;
-
-  // 로그인/회원가입 화면에서는 GNB/헤더 생략
   if (["/auth/login", "/auth/register"].includes(pathname)) {
     return (
       <main className="flex min-h-screen items-center justify-center bg-[#FFAB5B]">
@@ -45,11 +45,32 @@ export default function ClientLayout({
     );
   }
 
+  const handleNewPost = async (title: string, content: string) => {
+    setSubmitting(true);
+    const res = await fetch("/api/community", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ title, content }),
+    });
+    if (res.ok) {
+      setModalOpen(false);
+      window.location.reload();
+    } else {
+      console.error((await res.json()).error);
+    }
+    setSubmitting(false);
+  };
+
   return (
     <>
       <Header />
       <div>{children}</div>
-      <GNB />
+      <GNB onCommunityClick={() => setModalOpen(true)} />
+      {modalOpen && (
+        <CommunityModal open={modalOpen} onClose={() => setModalOpen(false)}>
+          <CommunityNewPostForm onSubmit={handleNewPost} loading={submitting} />
+        </CommunityModal>
+      )}
     </>
   );
 }

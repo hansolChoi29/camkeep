@@ -39,6 +39,8 @@ camkeep
 │  │  │  ├─ auth
 │  │  │  │  └─ [mode]
 │  │  │  │     └─ route.ts
+│  │  │  ├─ comments
+│  │  │  │  └─ route.ts
 │  │  │  ├─ community
 │  │  │  │  └─ route.ts
 │  │  │  ├─ go-camping
@@ -93,6 +95,9 @@ camkeep
 │  │  ├─ auth
 │  │  │  ├─ auth-form.tsx
 │  │  │  └─ useAuthForm.tsx
+│  │  ├─ community
+│  │  │  ├─ community-newpost-modal.tsx
+│  │  │  └─ CommunityList.tsx
 │  │  ├─ equipment-list
 │  │  │  ├─ equipment-data.ts
 │  │  │  ├─ equipment-list.tsx

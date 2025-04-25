@@ -1,26 +1,48 @@
 import { NextResponse } from "next/server";
-import { supabaseAdmin } from "@/lib/supabaseAdmin";
+import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
+import { cookies } from "next/headers";
 
-//게시글 목록을 조회해 돌려주는 역할
+// 게시글 목록 조회: 변경 없음
 export async function GET() {
-  const { data, error } = await supabaseAdmin
+  const supabase = createRouteHandlerClient({ cookies });
+  const { data, error } = await supabase
     .from("community_posts")
     .select("id, title, content, created_at, user_id")
     .order("created_at", { ascending: false });
+
   if (error) {
     console.error("GET /api/community error:", error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
+
   return NextResponse.json(data, { status: 200 });
 }
 
-//새로운 게시글을 삽입(insert)하는 역할
+// 새 게시글 삽입: 클라이언트에서 user_id를 받지 않고, 세션 기반으로 처리
 export async function POST(request: Request) {
-  try {
-    const { title, content, user_id } = await request.json();
+  // 1) 세션을 포함한 Supabase 클라이언트 생성
+  const supabase = createRouteHandlerClient({ cookies });
 
-    // 삽입 후 삽입된 행을 리턴받으려면 .select().single()이 필수
-    const { data, error } = await supabaseAdmin
+  // 2) 로그인 세션 확인
+  const {
+    data: { session },
+    error: sessionError,
+  } = await supabase.auth.getSession();
+
+  if (sessionError || !session) {
+    return NextResponse.json(
+      { error: "로그인이 필요합니다." },
+      { status: 401 }
+    );
+  }
+  const user_id = session.user.id;
+
+  // 3) 요청 바디에서 제목과 내용만 파싱
+  const { title, content } = await request.json();
+
+  try {
+    // 4) insert 시 user_id는 세션 값 사용
+    const { data, error } = await supabase
       .from("community_posts")
       .insert({ title, content, user_id })
       .select()
