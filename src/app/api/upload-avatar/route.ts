@@ -38,7 +38,7 @@ export async function POST(req: Request) {
   // 3) users 테이블에 바로 업데이트 (서비스 롤 키이므로 RLS 무시)
   const { error: dbErr, data: user } = await supabaseAdmin
     .from("users")
-    .update({ photo: publicUrl })
+    .update({ profile: publicUrl })
     .eq("id", userId)
     .single();
   if (dbErr) {

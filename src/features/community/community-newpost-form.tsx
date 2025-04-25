@@ -14,7 +14,9 @@ export default function CommunityNewPostForm({ onSubmit, loading }: Props) {
   const [content, setContent] = useState("");
   const [files, setFiles] = useState<FileList | null>(null);
   const [toast, setToast] = useState<string | null>(null);
+
   const user = useUser();
+
   const supabase = createClientComponentClient();
 
   const uploadPhotos = async (): Promise<string[]> => {
@@ -48,19 +50,43 @@ export default function CommunityNewPostForm({ onSubmit, loading }: Props) {
 
   const handle = async (e: React.FormEvent) => {
     e.preventDefault();
+
     if (!user) {
       setToast("로그인이 필요합니다.");
+
       return;
     }
+
     if (!title.trim() || !content.trim()) {
       setToast("제목과 내용을 입력하세요.");
+
       return;
     }
+
     try {
       const photoUrls = await uploadPhotos();
+
+      if (photoUrls.length > 0) {
+        const { error: updateError } = await supabase
+
+          .from("community_posts")
+          .update({ photo: photoUrls[0] })
+          .eq("id", user.id);
+
+        if (updateError) {
+          console.error("게시글 사진 업로드 실패:", updateError);
+
+          setToast("게시글 사진 업로드 실패");
+
+          return;
+        }
+      }
+      console.log("업로드된 사진 URL들:", photoUrls);
+
       onSubmit(title.trim(), content.trim(), photoUrls);
     } catch (e: any) {
       console.error(e);
+
       setToast("사진 업로드에 실패했습니다.");
     }
   };

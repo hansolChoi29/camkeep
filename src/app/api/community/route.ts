@@ -1,23 +1,23 @@
+// src/app/api/community/route.ts
 import { NextResponse } from "next/server";
 import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 
-// 게시글 목록 조회: 변경 없음
 export async function GET() {
   const supabase = createRouteHandlerClient({ cookies });
   const { data, error } = await supabase
     .from("community_posts")
     .select(
       `
-        id,
-        title,
-        content,
-        created_at,
-        user:users (
-          nickname,
-          photo
-        )
-      `
+      id,
+      title,
+      content,
+      created_at,
+      user:users (
+        nickname,
+        profile
+      )
+    `
     )
     .order("created_at", { ascending: false });
 
@@ -25,11 +25,9 @@ export async function GET() {
     console.error("GET /api/community error:", error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
-
   return NextResponse.json(data, { status: 200 });
 }
 
-// 새 게시글 삽입: 클라이언트에서 user_id를 받지 않고, 세션 기반으로 처리
 export async function POST(request: Request) {
   const supabase = createRouteHandlerClient({ cookies });
   const {
@@ -42,18 +40,28 @@ export async function POST(request: Request) {
       { status: 401 }
     );
   }
-
   const { title, content, photos } = await request.json();
   const user_id = session.user.id;
 
   const { data, error } = await supabase
     .from("community_posts")
-    .insert({ title, content, photos, user_id })
-    .select()
+    .insert({ title, content })
+    .select(
+      `
+      id,
+      title,
+      content,
+      created_at,
+      user:users (
+        nickname,
+        profile
+      )
+    `
+    )
     .single();
 
   if (error) {
-    console.error(error);
+    console.error("POST /api/community error:", error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
   return NextResponse.json(data, { status: 201 });
