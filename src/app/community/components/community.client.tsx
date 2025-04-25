@@ -22,7 +22,7 @@ export default function CommunityClient() {
   useEffect(() => {
     fetch("/api/community")
       .then(async (res) => {
-        if (!res.ok) throw new Error(`GET /api/community ${res.status}`);
+        if (!res.ok) throw new Error(`GET 에러 ${res.status}`);
         return res.json();
       })
       .then(setPosts)
@@ -32,7 +32,6 @@ export default function CommunityClient() {
       });
   }, []);
 
-  
   // 새글 작성
   const createPost = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -45,30 +44,42 @@ export default function CommunityClient() {
     const res = await fetch("/api/community", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        title,
-        content,
-        user_id: user.id,
-      }),
+      body: JSON.stringify({ title, content, user_id: user.id }),
     });
-    setLoading(false);
+
     const raw = await res.text();
+
     if (!res.ok) {
+      // raw가 JSON 형태면 파싱, 아니면 그대로 메시지로
       let errMsg: string;
       try {
-        const errJson = JSON.parse(raw);
-        errMsg = errJson.error || raw;
+        const parsed = JSON.parse(raw);
+        errMsg = parsed.error || JSON.stringify(parsed);
       } catch {
-        errMsg = await res.text();
+        errMsg = raw;
       }
-      console.error("POST /api/community failed:", errMsg);
+      console.log("💡 status:", res.status);
+      console.error("POST 에러:", errMsg);
+      console.log("💡 raw response:", raw);
       setToastMsg("게시글 등록에 실패했습니다.");
+
+      setLoading(false);
+
+      return;
+    }
+
+    // 성공 케이스도 같은 raw를 파싱
+    let newPost: Post;
+
+    try {
+      newPost = JSON.parse(raw);
+    } catch (e) {
+      console.error("POST 응답 JSON 파싱 실패:", e);
+      setToastMsg("응답을 처리하지 못했습니다.");
       setLoading(false);
       return;
     }
 
-    // 정상적인 JSON 바디만 파싱
-    const newPost: Post = await res.json();
     setPosts([newPost, ...posts]);
     setTitle("");
     setContent("");
@@ -77,7 +88,7 @@ export default function CommunityClient() {
   };
 
   return (
-    <div>
+    <div className="flex main mt-32 flex-col ">
       <form onSubmit={createPost} className="space-y-2">
         <input
           value={title}
