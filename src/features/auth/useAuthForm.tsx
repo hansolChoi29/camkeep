@@ -1,10 +1,12 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { supabase } from "@/lib/supabaseClient";
+// import { supabase } from "@/lib/supabaseClient";
 import { useAuthStore } from "@/store/useAuthStore";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 export function useAuthForm(mode: "login" | "register") {
+  const supabase = createClientComponentClient();
   const router = useRouter();
   const setSession = useAuthStore((s) => s.setSession);
 
@@ -22,31 +24,41 @@ export function useAuthForm(mode: "login" | "register") {
     setError(null);
 
     if (mode === "register" && password !== confirmPassword) {
-      setLoading(false);
       setError("비밀번호가 일치하지 않습니다.");
+      setLoading(false);
       return;
     }
 
-    const res = await fetch(`/api/auth/${mode}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password, nickname, phone }),
-    });
+    if (mode === "login") {
+      const { data, error: authError } = await supabase.auth.signInWithPassword(
+        {
+          email,
+          password,
+        }
+      );
+      if (authError) {
+        setError(authError.message);
+      } else {
+        setSession(data.session);
+        router.push("/mypage");
+      }
+    } else {
+      const res = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password, nickname, phone }),
+      });
+      const json = await res.json();
+
+      if (!res.ok) {
+        setError(json.error || "회원가입에 실패했습니다.");
+      } else {
+        router.push("/auth/login");
+      }
+    }
 
     setLoading(false);
-    if (!res.ok) {
-      const data = await res.json();
-      setError(data.error ?? "알 수 없는 오류");
-      return;
-    }
-
-    // 쿠키에 세션이 저장되었으므로 서버에서 다시 불러와 스토어에 싱크
-    const { data } = await supabase.auth.getSession();
-    setSession(data.session);
-
-    router.push("/mypage");
   };
-
   return {
     form: { email, password, confirmPassword, nickname, phone },
     setters: {
