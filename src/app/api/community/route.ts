@@ -5,7 +5,19 @@ export async function GET() {
   const supabase = serverSupabase();
   const { data, error } = await supabase
     .from("community_posts")
-    .select("*")
+    .select(
+      `
+      id,
+      title,
+      content,
+      created_at,
+      photos,
+      user:users (
+        nickname,
+        profile    
+      )
+    `
+    )
     .order("created_at", { ascending: false });
 
   if (error) {
