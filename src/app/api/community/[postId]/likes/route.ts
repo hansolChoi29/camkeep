@@ -1,7 +1,6 @@
-
 import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
 import { serverSupabase } from "@/lib/supabase/server";
+import { browserSupabase } from "@/lib/supabase/client";
 
 export async function GET(
   _req: Request,
@@ -37,7 +36,7 @@ export async function POST(
   _req: Request,
   { params }: { params: { postId: string } }
 ) {
-  const supabase = createRouteHandlerClient({ cookies });
+  const supabase = browserSupabase();
   const {
     data: { session },
   } = await supabase.auth.getSession();
