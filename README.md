@@ -27,22 +27,50 @@
 
 ---
 
-
 ```
 camkeep
+├─ .eslintrc.json
+├─ components.json
+├─ middleware.ts
+├─ next-auth.d.ts
+├─ next.config.mjs
+├─ package-lock.json
+├─ package.json
+├─ postcss.config.mjs
 ├─ public
 │  ├─ favicon.png
 │  └─ images
+│     ├─ camkeep.png
+│     ├─ header-newbie.png
+│     ├─ menu-chair.png
+│     ├─ menu-checklist.png
+│     ├─ menu-community.png
+│     ├─ menu-person.png
+│     ├─ menu-tent.png
+│     ├─ newpost.png
+│     ├─ shop-chair.png
+│     ├─ shop-cockle.png
+│     ├─ shop-cooker.png
+│     ├─ shop-lantern.png
+│     ├─ shop-mat.png
+│     ├─ shop-table.png
+│     ├─ shop-tarp.png
+│     ├─ shop-tent.png
+│     ├─ sleeping-bag.png
+│     └─ update.png
+├─ README.md
 ├─ src
 │  ├─ app
 │  │  ├─ api
-│  │  │  ├─ auth
-│  │  │  │  └─ [mode]
-│  │  │  │     └─ route.ts
 │  │  │  ├─ comments
 │  │  │  │  └─ route.ts
 │  │  │  ├─ community
-│  │  │  │  └─ route.ts
+│  │  │  │  ├─ route.ts
+│  │  │  │  └─ [postId]
+│  │  │  │     ├─ comments
+│  │  │  │     │  └─ route.ts
+│  │  │  │     └─ likes
+│  │  │  │        └─ route.ts
 │  │  │  ├─ go-camping
 │  │  │  │  └─ route.ts
 │  │  │  ├─ shop
@@ -53,6 +81,7 @@ camkeep
 │  │  │  ├─ components
 │  │  │  │  └─ auth.client.tsx
 │  │  │  └─ [mode]
+│  │  │     ├─ actions.ts
 │  │  │     ├─ layout.tsx
 │  │  │     └─ page.tsx
 │  │  ├─ camping
@@ -88,16 +117,18 @@ camkeep
 │  │  │  └─ client-layout.tsx
 │  │  ├─ SimpleToast.tsx
 │  │  └─ ui
+│  │     ├─ accordion.tsx
 │  │     ├─ button.tsx
 │  │     ├─ carousel.tsx
 │  │     └─ input.tsx
 │  ├─ features
 │  │  ├─ auth
-│  │  │  ├─ auth-form.tsx
-│  │  │  └─ useAuthForm.tsx
+│  │  │  └─ auth-form-ui.tsx
 │  │  ├─ community
-│  │  │  ├─ community-newpost-modal.tsx
-│  │  │  └─ CommunityList.tsx
+│  │  │  ├─ community-list.tsx
+│  │  │  ├─ community-modal.tsx
+│  │  │  ├─ community-newpost-form.tsx
+│  │  │  └─ like-button.tsx
 │  │  ├─ equipment-list
 │  │  │  ├─ equipment-data.ts
 │  │  │  ├─ equipment-list.tsx
@@ -141,6 +172,9 @@ camkeep
 │  │  ├─ supabase
 │  │  │  └─ supabase-type.ts
 │  │  └─ user.ts
+│  ├─ utils
+│  │  └─ supabase
+│  │     └─ supabase-server.ts
 │  └─ widgets
 │     ├─ Footer.tsx
 │     └─ Header.tsx

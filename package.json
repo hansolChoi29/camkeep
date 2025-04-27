@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "genTypes": "npx supabase login && npx supabase gen types typescript --project-id dsggwbvtcrwuopwelpxy --schema public > src/types/supabase/supabase-type.ts"
+   "genTypes": "npx supabase login && npx supabase gen types typescript --project-id sjnpgqafckrncydthmis --schema public > src/types/supabase/supabase-type.ts"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
@@ -15,8 +15,8 @@
     "@heroicons/react": "^2.2.0",
     "@radix-ui/react-accordion": "^1.2.8",
     "@radix-ui/react-slot": "^1.2.0",
-    "@supabase/auth-helpers-nextjs": "^0.10.0",
     "@supabase/auth-helpers-react": "^0.5.0",
+    "@supabase/ssr": "^0.6.1",
     "@supabase/supabase-js": "^2.49.4",
     "@tanstack/react-query": "^5.74.4",
     "axios": "^1.8.4",

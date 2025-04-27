@@ -1,17 +1,43 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { createMiddlewareClient } from "@supabase/auth-helpers-nextjs";
+
+import { createServerClient } from "@supabase/ssr";
+import type { CookieMethodsServer, CookieOptions } from "@supabase/ssr";
+import type { Database } from "@/types/supabase/supabase-type";
 
 export async function middleware(req: NextRequest) {
   const res = NextResponse.next();
-  // 쿠키 컨텍스트와 함께 Supabase 클라이언트 생성
-  const supabase = createMiddlewareClient({ req, res });
+
+  // ① Import and annotate cookieStore with the exact CookieMethodsServer type
+  const cookieStore: CookieMethodsServer = {
+    // getAll must return { name, value }[]
+    getAll: () =>
+      req.cookies.getAll().map(({ name, value }) => ({ name, value })),
+
+    // setAll must accept { name, value, options: CookieOptions }[]
+    setAll: (
+      toSet: {
+        name: string;
+        value: string;
+        options: CookieOptions;
+      }[]
+    ) => {
+      toSet.forEach(({ name, value, options }) => {
+        res.cookies.set(name, value, options);
+      });
+    },
+  };
+
+  const supabase = createServerClient<Database>(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!,
+    { cookies: cookieStore }
+  );
 
   const {
     data: { session },
   } = await supabase.auth.getSession();
 
-  // /mypage 이하 경로에 대해서만, 세션이 없으면 로그인 페이지로 리다이렉트
   if (req.nextUrl.pathname.startsWith("/mypage") && !session) {
     const redirectUrl = req.nextUrl.clone();
     redirectUrl.pathname = "/auth/login";
