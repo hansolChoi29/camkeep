@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { useUser } from "@supabase/auth-helpers-react";
 import CommunityModal from "@/features/community/community-modal";
 import CommunityNewPostForm from "@/features/community/community-newpost-form";
 import {
@@ -12,6 +11,7 @@ import {
 } from "@/components/ui/accordion";
 import LikeButton from "@/features/community/like-button";
 import CommentsList from "@/features/community/community-list";
+// import { useAuthStore } from "@/store/useAuthStore";
 
 interface Post {
   id: string;
@@ -23,7 +23,7 @@ interface Post {
 }
 
 export default function CommunityClient() {
-  const user = useUser();
+  // const user = useAuthStore((state) => state.user);
   const [posts, setPosts] = useState<Post[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
@@ -179,7 +179,7 @@ export default function CommunityClient() {
                 {/* 좋아요 + 댓글 */}
                 <div className="flex items-center justify-between">
                   <LikeButton postId={p.id} />
-                  <CommentsList postId={p.id} currentUser={user} />
+                  <CommentsList postId={p.id} />
                 </div>
               </AccordionContent>
             </AccordionItem>

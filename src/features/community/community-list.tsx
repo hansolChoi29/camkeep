@@ -1,6 +1,7 @@
 "use client";
+
+import { useAuthStore } from "@/store/useAuthStore";
 import React, { useState, useEffect } from "react";
-import { useUser } from "@supabase/auth-helpers-react";
 
 interface Comment {
   id: string;
@@ -9,13 +10,10 @@ interface Comment {
   user: { nickname: string; photo: string | null };
 }
 
-export default function CommentsList({
-  postId,
-  currentUser,
-}: {
-  postId: string;
-  currentUser: ReturnType<typeof useUser>;
-}) {
+export default function CommentsList({ postId }: { postId: string }) {
+  // ① Prop에서 빼고, 내부에서 꺼내기
+  const currentUser = useAuthStore((s) => s.user);
+
   const [comments, setComments] = useState<Comment[]>([]);
   const [newComment, setNewComment] = useState("");
 
@@ -29,7 +27,10 @@ export default function CommentsList({
   }, [postId]);
 
   const submit = async () => {
-    if (!currentUser) return alert("로그인 필요");
+    if (!currentUser) {
+      alert("로그인 필요");
+      return;
+    }
     await fetch(`/api/community/${postId}/comments`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },

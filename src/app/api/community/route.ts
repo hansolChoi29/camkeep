@@ -1,24 +1,11 @@
-// src/app/api/community/route.ts
 import { NextResponse } from "next/server";
-import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
+import { serverSupabase } from "@/lib/supabase/server";
 
 export async function GET() {
-  const supabase = createRouteHandlerClient({ cookies });
+  const supabase = serverSupabase();
   const { data, error } = await supabase
     .from("community_posts")
-    .select(
-      `
-      id,
-      title,
-      content,
-      created_at,
-      user:users (
-        nickname,
-        profile
-      )
-    `
-    )
+    .select("*")
     .order("created_at", { ascending: false });
 
   if (error) {
@@ -29,7 +16,9 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
-  const supabase = createRouteHandlerClient({ cookies });
+  const supabase = serverSupabase();
+
+  // 2) 세션 확인
   const {
     data: { session },
   } = await supabase.auth.getSession();
@@ -40,12 +29,14 @@ export async function POST(request: Request) {
       { status: 401 }
     );
   }
-  const { title, content, photos } = await request.json();
+
+  // 3) 요청 바디 읽기
+  const { title, content } = await request.json();
   const user_id = session.user.id;
 
   const { data, error } = await supabase
     .from("community_posts")
-    .insert({ title, content })
+    .insert({ title, content, user_id })
     .select(
       `
       id,
@@ -64,5 +55,6 @@ export async function POST(request: Request) {
     console.error("POST /api/community error:", error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
+
   return NextResponse.json(data, { status: 201 });
 }

@@ -2,8 +2,7 @@ import "./globals.css";
 import { Metadata } from "next";
 import { Luckiest_Guy } from "next/font/google";
 import ClientLayout from "@/app/components/ClientLayout";
-import { cookies } from "next/headers";
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import { serverSupabase } from "@/lib/supabase/server";
 import { Providers } from "./components/Providers";
 // import Footer from "@/components/Footer";
 
@@ -27,14 +26,14 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const supabaseServer = createServerComponentClient({ cookies });
+  const supabase = serverSupabase();
   const {
     data: { session: initialSession },
-  } = await supabaseServer.auth.getSession();
+  } = await supabase.auth.getSession();
 
   return (
     <html lang="ko" className={luckiest.variable}>
-      <body className="min-h-screen flex flex-col px-0 lg:px-44">
+      <body className="min-h-screen flex flex-col px-0 ">
         {/* QueryClientProvider 는 클라이언트 전용 컴포넌트라서, App Router의 RootLayout(서버 컴포넌트)에 바로 감싸 두면 에러 남. */}
         <Providers initialSession={initialSession}>
           <ClientLayout>{children}</ClientLayout>

@@ -1,11 +1,18 @@
 import { notFound } from "next/navigation";
+import { loginAction, registerAction } from "./actions";
 import AuthClient from "../components/auth.client";
 
-interface Props {
+export default function AuthPage({
+  params: { mode },
+}: {
   params: { mode: string };
-}
-
-export default function AuthPage({ params: { mode } }: Props) {
+}) {
   if (mode !== "login" && mode !== "register") return notFound();
-  return <AuthClient mode={mode} />;
+  const action = mode === "login" ? loginAction : registerAction;
+
+  return (
+    <form action={action} method="post" className="…">
+      <AuthClient mode={mode} />
+    </form>
+  );
 }

@@ -1,9 +1,9 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { useUser } from "@supabase/auth-helpers-react";
+import { useAuthStore } from "@/store/useAuthStore";
 
 export default function LikeButton({ postId }: { postId: string }) {
-  const user = useUser();
+  const user = useAuthStore((state) => state.user);
   const [count, setCount] = useState(0);
   const [liked, setLiked] = useState(false);
 

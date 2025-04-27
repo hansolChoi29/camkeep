@@ -1,9 +1,9 @@
 "use client";
 import React, { useState } from "react";
-import { useUser } from "@supabase/auth-helpers-react";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { v4 as uuidv4 } from "uuid";
 import { SimpleToast } from "@/components/SimpleToast";
+import { browserSupabase } from "@/lib/supabase/client";
+import { useAuthStore } from "@/store/useAuthStore";
 interface Props {
   onSubmit: (title: string, content: string, photos: string[]) => void;
   loading: boolean;
@@ -15,9 +15,8 @@ export default function CommunityNewPostForm({ onSubmit, loading }: Props) {
   const [files, setFiles] = useState<FileList | null>(null);
   const [toast, setToast] = useState<string | null>(null);
 
-  const user = useUser();
-
-  const supabase = createClientComponentClient();
+  const user = useAuthStore((state) => state.user);
+  const supabase = browserSupabase();
 
   const uploadPhotos = async (): Promise<string[]> => {
     if (!files || files.length === 0) return [];
@@ -70,7 +69,7 @@ export default function CommunityNewPostForm({ onSubmit, loading }: Props) {
         const { error: updateError } = await supabase
 
           .from("community_posts")
-          .update({ photo: photoUrls[0] })
+          .update({ photos: photoUrls[0] })
           .eq("id", user.id);
 
         if (updateError) {
@@ -84,7 +83,7 @@ export default function CommunityNewPostForm({ onSubmit, loading }: Props) {
       console.log("업로드된 사진 URL들:", photoUrls);
 
       onSubmit(title.trim(), content.trim(), photoUrls);
-    } catch (e: any) {
+    } catch (e) {
       console.error(e);
 
       setToast("사진 업로드에 실패했습니다.");
