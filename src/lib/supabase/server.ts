@@ -15,7 +15,9 @@ export function serverSupabase() {
     setAll: (
       toSet: { name: string; value: string; options?: CookieOptionsWithName }[]
     ) => {
-      /* no-op */
+      toSet.forEach(({ name, value, options }) => {
+        cookieStore.set(name, value, options);
+      });
     },
   };
 
