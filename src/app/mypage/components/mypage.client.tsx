@@ -10,6 +10,7 @@ import MypageComment from "@/features/mypage/mypage-comment";
 import MypageCoupon from "@/features/mypage/mypage-coupon";
 import { SimpleToast } from "@/components/SimpleToast";
 import { browserSupabase } from "@/lib/supabase/client";
+import { logout } from "@/app/auth/[mode]/actions";
 
 interface MypageClientProps {
   email: string;
@@ -46,17 +47,9 @@ export default function MypageClient({
   const supabase = browserSupabase();
   // 로그아웃
   const handleLogout = async () => {
-    const res = await fetch("/api/auth/logout", { method: "POST" });
-    if (res.ok) {
-      clearSession();
-      setToastMsg("성공적으로 로그아웃되었습니다.");
-      setTimeout(() => {
-        router.push("/auth/login");
-      }, 1500);
-    } else {
-      const { error } = await res.json();
-      console.error("Logout error:", error);
-    }
+    await logout();
+    clearSession();
+    location.replace("/auth/login");
   };
 
   // 닉네임 저장

@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
 import { serverSupabase } from "@/lib/supabase/server";
 
 export async function GET(
@@ -29,7 +28,8 @@ export async function POST(
   request: Request,
   { params }: { params: { postId: string } }
 ) {
-  const supabase = createRouteHandlerClient({ cookies });
+  // 서버로 바꿔놓음
+  const supabase = serverSupabase();
   const {
     data: { session },
   } = await supabase.auth.getSession();
