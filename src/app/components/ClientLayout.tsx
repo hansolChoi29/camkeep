@@ -2,13 +2,13 @@
 
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { supabase } from "@/lib/supabaseClient";
 import SplashScreen from "./SplashScreen";
 import Header from "@/widgets/Header";
 import GNB from "@/features/GNB/GNB";
 import { useAuthStore } from "@/store/useAuthStore";
 import CommunityModal from "@/features/community/community-modal";
 import CommunityNewPostForm from "@/features/community/community-newpost-form";
+import { browserSupabase } from "@/lib/supabase/client";
 
 export default function ClientLayout({
   children,
@@ -20,7 +20,7 @@ export default function ClientLayout({
   const [submitting, setSubmitting] = useState(false);
   const setSession = useAuthStore((s) => s.setSession);
   const pathname = usePathname();
-
+  const supabase = browserSupabase();
   // Splash & Auth 복원
   useEffect(() => {
     const t = setTimeout(() => setLoading(false), 1500);

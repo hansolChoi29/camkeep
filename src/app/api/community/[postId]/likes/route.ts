@@ -1,13 +1,14 @@
-// src/app/api/community/[postId]/likes/route.ts
+
 import { NextResponse } from "next/server";
-import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
+import { serverSupabase } from "@/lib/supabase/server";
 
 export async function GET(
   _req: Request,
   { params }: { params: { postId: string } }
 ) {
-  const supabase = createRouteHandlerClient({ cookies });
+  const supabase = serverSupabase();
+
   // 좋아요 총 개수 조회
   const { count } = await supabase
     .from("post_likes")

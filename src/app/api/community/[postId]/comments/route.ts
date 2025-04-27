@@ -1,12 +1,12 @@
 import { NextResponse } from "next/server";
-import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
+import { serverSupabase } from "@/lib/supabase/server";
 
 export async function GET(
   _req: Request,
   { params }: { params: { postId: string } }
 ) {
-  const supabase = createRouteHandlerClient({ cookies });
+  const supabase = serverSupabase();
   const { data, error } = await supabase
     .from("community_comments")
     .select(
