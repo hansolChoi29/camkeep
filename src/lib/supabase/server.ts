@@ -1,4 +1,4 @@
-import { createServerClient } from "@supabase/ssr";
+import { createServerClient, CookieOptionsWithName } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import type { Database } from "@/types/supabase/supabase-type";
 
@@ -11,7 +11,10 @@ export function serverSupabase() {
       cookieStore.getAll().map(({ name, value }) => ({ name, value })),
 
     // 쓰기는 하지 않는다
-    setAll: (_toSet: { name: string; value: string; options?: any }[]) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    setAll: (
+      toSet: { name: string; value: string; options?: CookieOptionsWithName }[]
+    ) => {
       /* no-op */
     },
   };

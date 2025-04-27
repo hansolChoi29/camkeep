@@ -20,7 +20,7 @@ export default function AuthFormUI({ mode }: AuthFormProps) {
     <>
       {" "}
       <input type="hidden" name="callbackUrl" value={callbackUrl} />
-      <div className="w-full max-w-md p-6 mx-auto main">
+      <div className="">
         <div className="logo flex flex-col items-center text-5xl text-[#FFFAEC]">
           <button
             type="button"
