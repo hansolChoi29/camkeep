@@ -27,38 +27,14 @@
 
 ---
 
+
+
+
 ```
 camkeep
-├─ .eslintrc.json
-├─ components.json
-├─ middleware.ts
-├─ next-auth.d.ts
-├─ next.config.mjs
-├─ package-lock.json
-├─ package.json
-├─ postcss.config.mjs
 ├─ public
 │  ├─ favicon.png
 │  └─ images
-│     ├─ camkeep.png
-│     ├─ header-newbie.png
-│     ├─ menu-chair.png
-│     ├─ menu-checklist.png
-│     ├─ menu-community.png
-│     ├─ menu-person.png
-│     ├─ menu-tent.png
-│     ├─ newpost.png
-│     ├─ shop-chair.png
-│     ├─ shop-cockle.png
-│     ├─ shop-cooker.png
-│     ├─ shop-lantern.png
-│     ├─ shop-mat.png
-│     ├─ shop-table.png
-│     ├─ shop-tarp.png
-│     ├─ shop-tent.png
-│     ├─ sleeping-bag.png
-│     └─ update.png
-├─ README.md
 ├─ src
 │  ├─ app
 │  │  ├─ api
@@ -159,6 +135,10 @@ camkeep
 │  │  ├─ auth
 │  │  │  └─ session.ts
 │  │  ├─ camping.ts
+│  │  ├─ supabase
+│  │  │  ├─ client.ts
+│  │  │  ├─ index.ts
+│  │  │  └─ server.ts
 │  │  ├─ supabaseAdmin.ts
 │  │  ├─ supabaseClient.ts
 │  │  └─ utils.ts
@@ -173,8 +153,6 @@ camkeep
 │  │  │  └─ supabase-type.ts
 │  │  └─ user.ts
 │  ├─ utils
-│  │  └─ supabase
-│  │     └─ supabase-server.ts
 │  └─ widgets
 │     ├─ Footer.tsx
 │     └─ Header.tsx
