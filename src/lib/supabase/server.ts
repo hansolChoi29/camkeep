@@ -18,6 +18,7 @@ export function serverSupabase({
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     setAll: writeCookies
       ? (
+          //toSet: Supabase가 쿠키를 “써야 할 때” 넘겨주는 정보 묶음
           toSet: {
             name: string;
             value: string;
@@ -36,7 +37,7 @@ export function serverSupabase({
             options?: CookieOptionsWithName;
           }[]
         ) => {
-          // 읽기 전용 모드에서는 아무 것도 안 함 (no-op)
+          void _toSet; // 사용한 것으로 간주 → ESLint 경고 사라짐
         },
   };
 
