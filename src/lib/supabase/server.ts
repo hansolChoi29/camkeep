@@ -2,7 +2,11 @@ import { createServerClient, CookieOptionsWithName } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import type { Database } from "@/types/supabase/supabase-type";
 
-export function serverSupabase() {
+export function serverSupabase({
+  writeCookies = false,
+}: {
+  writeCookies?: boolean;
+} = {}) {
   const cookieStore = cookies();
 
   const cookieMethods = {
@@ -12,13 +16,28 @@ export function serverSupabase() {
 
     // 쓰기는 하지 않는다
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    setAll: (
-      toSet: { name: string; value: string; options?: CookieOptionsWithName }[]
-    ) => {
-      toSet.forEach(({ name, value, options }) => {
-        cookieStore.set(name, value, options);
-      });
-    },
+    setAll: writeCookies
+      ? (
+          toSet: {
+            name: string;
+            value: string;
+            options?: CookieOptionsWithName;
+          }[]
+        ) => {
+          // writeCookies=true 일 때만 실제로 쿠키를 씁니다
+          toSet.forEach(({ name, value, options }) =>
+            cookieStore.set(name, value, options)
+          );
+        }
+      : (
+          _toSet: {
+            name: string;
+            value: string;
+            options?: CookieOptionsWithName;
+          }[]
+        ) => {
+          // 읽기 전용 모드에서는 아무 것도 안 함 (no-op)
+        },
   };
 
   return createServerClient<Database>(
