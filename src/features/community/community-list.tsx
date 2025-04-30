@@ -54,8 +54,8 @@ export default function CommentsList({ postId }: { postId: string }) {
       {error && <div className="text-red-500">{error}</div>}
       <div className="space-y-1">
         {comments.map((c) => (
-          <div key={c.id} className="flex items-center border-b p-2 space-x-4">
-            <div className="flex items-center justify-center flex-shrink-0 space-y-1">
+          <div key={c.id} className="flex items-center border-b p-2 ">
+            <div className="flex items-center justify-center flex-shrink-0 ">
               {c.user.profile && (
                 <Image
                   src={c.user.profile}
@@ -72,7 +72,7 @@ export default function CommentsList({ postId }: { postId: string }) {
               <p className="text-sm">{c.content}</p>
             </div>
             <div className="w-full flex justify-end">
-              <time className="text-xs text-gray-400 flex">
+              <time className="text-xs text-gray-400 flex ">
                 {new Date(c.created_at).toLocaleString()}
               </time>
             </div>

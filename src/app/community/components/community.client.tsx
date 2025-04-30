@@ -94,7 +94,7 @@ export default function CommunityClient() {
         const photos = normalizePhotos(p.photos);
         return (
           <Card key={p.id} className="rounded-lg overflow-hidden shadow-md">
-            <CardHeader className="flex flex-col px-4 py-2">
+            <CardHeader className="flex flex-row items-center px-2 py-1 ">
               {p.user?.profile && (
                 <Image
                   src={p.user.profile}
@@ -104,7 +104,7 @@ export default function CommunityClient() {
                   className="rounded-full object-cover"
                 />
               )}
-              <div className="ml-3 flex-1">
+              <div className=" flex justify-center items-center">
                 <p className="font-medium">{p.user?.nickname}</p>
               </div>
             </CardHeader>
@@ -121,12 +121,12 @@ export default function CommunityClient() {
               </div>
             )}
             <div className="flex justify-end">
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-gray-500 mr-2">
                 {new Date(p.created_at).toLocaleString()}
               </p>
             </div>
             <CardContent className="px-4 py-2">
-              <p className="whitespace-pre-wrap break-words">
+              <p className="">
                 {p.content.length > 100
                   ? `${p.content.slice(0, 100)}...`
                   : p.content}
@@ -137,7 +137,7 @@ export default function CommunityClient() {
               <LikeButton postId={p.id} />
               <button
                 onClick={() => toggleComments(p.id)}
-                className="text-sm text-blue-600 hover:underline"
+                className="text-sm text-[#578E7E] hover:underline"
               >
                 {openComments[p.id] ? "댓글 숨기기" : "댓글 보기"}
               </button>
