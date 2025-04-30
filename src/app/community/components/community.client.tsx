@@ -158,13 +158,14 @@ export default function CommunityClient() {
                 {photosArr.length > 0 && (
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mb-4">
                     {photosArr.map((url) => (
-                      <div key={url} className="relative w-full h-32">
+                      <div key={url} className="w-full">
                         <Image
                           src={url}
                           alt="post photo"
-                          fill
-                          style={{ objectFit: "cover" }}
-                          className="rounded"
+                          width={800}
+                          height={600}
+                          style={{ objectFit: "contain" }}
+                          className="w-full h-auto rounded"
                         />
                       </div>
                     ))}

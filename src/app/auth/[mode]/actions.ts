@@ -15,8 +15,8 @@ export async function loginAction(formData: FormData) {
     callbackUrl,
   });
   if (!callbackUrl) throw new Error("callbackUrl is missing!");
-  // ← await 추가
-  const supabase = await serverSupabase();
+  // ✅ 로그인 시에만 writeCookies: true
+  const supabase = serverSupabase({ writeCookies: true });
 
   const { error } = await supabase.auth.signInWithPassword({ email, password });
   if (error) throw new Error(error.message);
@@ -24,7 +24,7 @@ export async function loginAction(formData: FormData) {
   redirect(callbackUrl);
 }
 
-// ─── 회원가입 액션 ────────────────────────────────────────
+// ─── 회원가입 액션 ────dkEK────────────────────────────────────
 export async function registerAction(formData: FormData) {
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
@@ -64,19 +64,16 @@ export async function registerAction(formData: FormData) {
 // ─── 로그아웃 액션 ────────────────────────────────────────
 export async function logout() {
   // 1) Supabase 세션 갱신(=signOut) 호출
-  const supabase = await serverSupabase();
+  const supabase = serverSupabase({ writeCookies: true });
   const { error } = await supabase.auth.signOut();
-  if (error) {
-    console.error("Logout error:", error);
-    throw new Error("로그아웃 실패");
-  }
+  if (error) throw new Error("로그아웃 실패: " + error.message);
 
   // 2) sb- 로 시작하는 모든 Supabase 쿠키를 만료시킵니다.
   const cookieStore = cookies();
-  cookieStore.getAll().forEach(({ name }) => {
+  for (const { name } of cookieStore.getAll()) {
     if (name.startsWith("sb-")) {
-      // Max-Age=0 으로 쿠키 만료
       cookieStore.set(name, "", { maxAge: 0, path: "/" });
     }
-  });
+  }
+  redirect("/auth/login");
 }
