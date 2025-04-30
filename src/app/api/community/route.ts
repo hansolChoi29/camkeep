@@ -43,12 +43,12 @@ export async function POST(request: Request) {
   }
 
   // 3) 요청 바디 읽기
-  const { title, content } = await request.json();
+  const { title, content, photos } = await request.json();
   const user_id = session.user.id;
 
   const { data, error } = await supabase
     .from("community_posts")
-    .insert({ title, content, user_id })
+    .insert({ title, content, user_id, photos })
     .select(
       `
       id,
