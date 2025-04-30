@@ -1,50 +1,85 @@
 "use client";
-
-import { useAuthStore } from "@/store/useAuthStore";
+import { SimpleToast } from "@/components/SimpleToast";
+import { timeAgo } from "@/lib/utils";
+import Image from "next/image";
 import React, { useState, useEffect } from "react";
 
 interface Comment {
   id: string;
   content: string;
   created_at: string;
-  user: { nickname: string; photo: string | null };
+  user: { nickname: string; profile: string | null };
 }
 
 export default function CommentsList({ postId }: { postId: string }) {
-  // ① Prop에서 빼고, 내부에서 꺼내기
-  const currentUser = useAuthStore((s) => s.user);
-
   const [comments, setComments] = useState<Comment[]>([]);
   const [newComment, setNewComment] = useState("");
-
+  const [error, setError] = useState<string | null>(null);
+  const [toast, setToast] = useState<string | null>(null);
+  // 1) 댓글 불러오기
   const fetchComments = () =>
     fetch(`/api/community/${postId}/comments`)
-      .then((r) => r.json())
-      .then(setComments);
+      .then(async (res) => {
+        if (!res.ok) throw new Error((await res.json()).error || "조회 실패");
+        return res.json() as Promise<Comment[]>;
+      })
+      .then(setComments)
+      .catch((err) => setError(err.message));
 
   useEffect(() => {
     fetchComments();
   }, [postId]);
 
+  // 2) 댓글 작성
   const submit = async () => {
-    if (!currentUser) {
-      alert("로그인 필요");
+    if (!newComment.trim()) {
+      setError("댓글 내용을 입력해주세요.");
       return;
     }
-    await fetch(`/api/community/${postId}/comments`, {
+    const res = await fetch(`/api/community/${postId}/comments`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ content: newComment }),
+      body: JSON.stringify({ content: newComment.trim() }),
     });
-    setNewComment("");
-    fetchComments();
+    if (!res.ok) {
+      setError((await res.json()).error || "댓글 작성 실패");
+    } else {
+      setNewComment("");
+      fetchComments();
+      setToast("성공적으로 등록되었습니다.");
+    }
   };
 
   return (
-    <div className="space-y-2 flex items-center">
-      <span className="text-sm text-gray-500 mr-2">
-        댓글 {comments.length}개
-      </span>
+    <div className="space-y-2 w-full">
+      {error && <div className="text-red-500">{error}</div>}
+      <div className="space-y-1">
+        {comments.map((c) => (
+          <div key={c.id} className="flex items-center border-b p-2 ">
+            <div className="flex items-center justify-center flex-shrink-0 ">
+              {c.user.profile && (
+                <Image
+                  src={c.user.profile}
+                  alt={c.user.nickname}
+                  width={32}
+                  height={32}
+                  className="rounded-full object-cover border"
+                />
+              )}
+
+              <p className="text-sm font-medium ml-1">{c.user.nickname} : </p>
+            </div>
+            <div className="w-full flex items-center ">
+              <p className="text-sm">{c.content}</p>
+            </div>
+            <div className="w-full flex justify-end">
+              <time className="text-xs text-gray-400 flex ">
+                {timeAgo(c.created_at)}
+              </time>
+            </div>
+          </div>
+        ))}
+      </div>
       <div className="flex space-x-2">
         <input
           className="flex-1 border px-2 py-1 rounded"
@@ -59,6 +94,13 @@ export default function CommentsList({ postId }: { postId: string }) {
           등록
         </button>
       </div>
+      {toast && (
+        <SimpleToast
+          message={toast}
+          duration={2000}
+          onClose={() => setToast(null)}
+        />
+      )}
     </div>
   );
 }
