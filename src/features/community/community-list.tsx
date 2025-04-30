@@ -54,21 +54,21 @@ export default function CommentsList({ postId }: { postId: string }) {
       {error && <div className="text-red-500">{error}</div>}
       <div className="space-y-1">
         {comments.map((c) => (
-          <div key={c.id} className="flex items-start  border-b p-1">
-            <div className="flex flex-col items-center gap-1">
+          <div key={c.id} className="flex items-center border-b p-2 space-x-4">
+            <div className="flex items-center justify-center flex-shrink-0 space-y-1">
               {c.user.profile && (
                 <Image
                   src={c.user.profile}
                   alt={c.user.nickname}
-                  className="w-8 h-8  rounded-full object-cover border"
-                  width={600}
-                  height={600}
+                  width={32}
+                  height={32}
+                  className="rounded-full object-cover border"
                 />
               )}
 
-              <p className="text-sm font-medium">{c.user.nickname}</p>
+              <p className="text-sm font-medium ml-1">{c.user.nickname} : </p>
             </div>
-            <div className="w-full flex items-center justify-center">
+            <div className="w-full flex items-center ">
               <p className="text-sm">{c.content}</p>
             </div>
             <div className="w-full flex justify-end">
