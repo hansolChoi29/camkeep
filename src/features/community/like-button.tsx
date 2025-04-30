@@ -1,50 +1,46 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import { useAuthStore } from "@/store/useAuthStore";
+
+import { useState, useEffect } from "react";
+import { Heart } from "lucide-react";
 
 export default function LikeButton({ postId }: { postId: string }) {
-  const user = useAuthStore((state) => state.user);
   const [count, setCount] = useState(0);
   const [liked, setLiked] = useState(false);
 
-  const fetchLikes = () =>
-    fetch(`/api/community/${postId}/likes`)
-      .then((r) => r.json())
-      .then((data) => {
-        setCount(data.count);
-        setLiked(data.liked);
-      });
-
+  // 초기 좋아요 개수 가져오기
   useEffect(() => {
-    fetchLikes();
+    fetch(`/api/community/${postId}/likes`)
+      .then((res) => res.json())
+      .then(({ count }) => setCount(count))
+      .catch(console.error);
   }, [postId]);
 
-  const toggle = async () => {
-    if (!user) return alert("로그인 필요");
-    await fetch(`/api/community/${postId}/likes`, { method: "POST" });
-    fetchLikes();
+  // 좋아요 토글
+  const toggleLike = async () => {
+    const res = await fetch(`/api/community/${postId}/likes`, {
+      method: "POST",
+    });
+    if (res.ok) {
+      setLiked((prev) => !prev);
+      setCount((prev) => prev + (liked ? -1 : +1));
+    } else {
+      console.error("좋아요 실패:", await res.json());
+    }
   };
 
   return (
     <button
-      onClick={toggle}
-      className={`flex items-center space-x-1 ${
-        liked ? "text-red-500" : "text-gray-500"
-      }`}
+      onClick={toggleLike}
+      className="flex items-center space-x-1 text-sm"
     >
-      <svg
-        className="w-5 h-5"
-        fill={liked ? "currentColor" : "none"}
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-      >
-        <path
-          strokeWidth="2"
-          d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 
-             116.364 6.364L12 21l-7.682-7.682a4.5 4.5 0 010-6.364z"
-        />
-      </svg>
-      <span className="text-sm">{count}</span>
+      {/* 하트 색 변경 */}
+      {liked ? (
+        <Heart fill="currentColor" stroke="none" className="text-red-500" />
+      ) : (
+        <Heart />
+      )}
+      {/* 숫자 표시 */}
+      <span>{count}</span>
     </button>
   );
 }
