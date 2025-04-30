@@ -4,14 +4,13 @@ import Image from "next/image";
 import CommunityModal from "@/features/community/community-modal";
 import CommunityNewPostForm from "@/features/community/community-newpost-form";
 import {
-  Accordion,
-  AccordionItem,
-  AccordionTrigger,
-  AccordionContent,
-} from "@/components/ui/accordion";
+  Card,
+  CardHeader,
+  CardContent,
+  CardFooter,
+} from "@/components/ui/card";
 import LikeButton from "@/features/community/like-button";
 import CommentsList from "@/features/community/community-list";
-// import { useAuthStore } from "@/store/useAuthStore";
 
 interface Post {
   id: string;
@@ -23,34 +22,22 @@ interface Post {
 }
 
 export default function CommunityClient() {
-  // const user = useAuthStore((state) => state.user);
   const [posts, setPosts] = useState<Post[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [loadingPost, setLoadingPost] = useState(false);
+  const [openComments, setOpenComments] = useState<Record<string, boolean>>({});
 
-  // 게시글 불러오기
   useEffect(() => {
     fetch("/api/community")
       .then(async (res) => {
-        if (!res.ok) {
-          const err = await res.json();
-          throw new Error(err.error || "게시글 조회 실패");
-        }
-        const data = await res.json();
-        if (!Array.isArray(data)) {
-          throw new Error("올바르지 않은 응답 형식");
-        }
-        return data as Post[];
+        if (!res.ok) throw new Error((await res.json()).error || "조회 실패");
+        return res.json() as Promise<Post[]>;
       })
       .then(setPosts)
-      .catch((err) => {
-        console.error(err);
-        setError(err.message);
-      });
+      .catch((err) => setError(err.message));
   }, []);
 
-  // normalize photos 컬럼이 문자열로도 올 수 있어서 배열로 통일
   const normalizePhotos = (photos?: string[] | string | null): string[] => {
     if (Array.isArray(photos)) return photos;
     if (typeof photos === "string") {
@@ -63,7 +50,6 @@ export default function CommunityClient() {
     return [];
   };
 
-  // 새 글 작성 핸들러
   const handleNewPost = async (
     title: string,
     content: string,
@@ -78,117 +64,93 @@ export default function CommunityClient() {
     if (res.ok) {
       setModalOpen(false);
       // 재조회
-      fetch("/api/community")
-        .then(async (r) => {
-          if (!r.ok) throw new Error("게시글 재조회 실패");
-          const d = await r.json();
-          return Array.isArray(d) ? d : [];
-        })
-        .then(setPosts)
-        .catch(console.error);
+      const refreshed = await fetch("/api/community").then((r) => r.json());
+      setPosts(refreshed);
     } else {
       const err = await res.json();
-      console.error(err.error);
       setError(err.error);
     }
     setLoadingPost(false);
   };
 
-  return (
-    <div className="w-full max-w-screen-xl mx-auto px-4 sm:px-32 mt-20 sm:mt-44 mb-44">
-      {error && <div className="text-red-500 mb-4 text-center">{error}</div>}
+  const toggleComments = (postId: string) =>
+    setOpenComments((prev) => ({ ...prev, [postId]: !prev[postId] }));
 
-      {/* PC에서만 보이는 '새 글 작성' 버튼 */}
+  return (
+    <div className="max-w-xl mx-auto mt-20 space-y-6 mb-20">
+      {error && <div className="text-red-500">{error}</div>}
       <button
         onClick={() => setModalOpen(true)}
-        className="hidden lg:inline-flex items-center justify-center mb-6
-                   border-2 border-[#578E7E] rounded-full p-2
-                   hover:bg-[#eefaf6] transition"
+        className="hidden lg:inline-flex fixed bottom-8 right-8 bg-[#578E7E] text-white p-4 rounded-full shadow-lg hover:bg-[#3d665e] transition"
+        aria-label="새 글 작성"
       >
-        <Image
-          src="/images/newpost.png"
-          alt="새 글 작성"
-          width={24}
-          height={24}
-        />
+        +
       </button>
-
-      {/* 모달 */}
       <CommunityModal open={modalOpen} onClose={() => setModalOpen(false)}>
         <CommunityNewPostForm onSubmit={handleNewPost} loading={loadingPost} />
       </CommunityModal>
 
-      {/* 게시글 리스트 (Accordion) */}
-      <Accordion type="single" collapsible className="space-y-6 w-full">
-        {posts.map((p) => {
-          const photosArr = normalizePhotos(p.photos);
+      {posts.map((p) => {
+        const photos = normalizePhotos(p.photos);
+        return (
+          <Card key={p.id} className="rounded-lg overflow-hidden shadow-md">
+            <CardHeader className="flex flex-col px-4 py-2">
+              {p.user?.profile && (
+                <Image
+                  src={p.user.profile}
+                  alt={p.user.nickname}
+                  width={32}
+                  height={32}
+                  className="rounded-full object-cover"
+                />
+              )}
+              <div className="ml-3 flex-1">
+                <p className="font-medium">{p.user?.nickname}</p>
+              </div>
+            </CardHeader>
 
-          return (
-            <AccordionItem key={p.id} value={p.id} className="w-full">
-              <AccordionTrigger className="w-full bg-white shadow-lg rounded-lg flex items-center justify-between px-6 py-4">
-                {/* Avatar + Nickname */}
-                <div className="flex items-center space-x-3">
-                  {p.user?.profile && (
-                    <Image
-                      src={p.user.profile}
-                      alt={p.user.nickname}
-                      width={40}
-                      height={40}
-                      className="object-cover rounded-full"
-                    />
-                  )}
-                </div>
-                <span className="text-sm font-medium text-gray-700">
-                  {p.user?.nickname}
-                </span>
+            {photos[0] && (
+              <div className="relative w-full h-64">
+                <Image
+                  src={photos[0]}
+                  alt="post photo"
+                  fill
+                  style={{ objectFit: "contain" }}
+                  className="rounded"
+                />
+              </div>
+            )}
+            <div className="flex justify-end">
+              <p className="text-xs text-gray-500">
+                {new Date(p.created_at).toLocaleString()}
+              </p>
+            </div>
+            <CardContent className="px-4 py-2">
+              <p className="whitespace-pre-wrap break-words">
+                {p.content.length > 100
+                  ? `${p.content.slice(0, 100)}...`
+                  : p.content}
+              </p>
+            </CardContent>
 
-                {/* Title */}
-                <span className="text-lg font-semibold text-[#578E7E]">
-                  {p.title}
-                </span>
+            <CardFooter className="px-4 py-2 flex items-center justify-between">
+              <LikeButton postId={p.id} />
+              <button
+                onClick={() => toggleComments(p.id)}
+                className="text-sm text-blue-600 hover:underline"
+              >
+                {openComments[p.id] ? "댓글 숨기기" : "댓글 보기"}
+              </button>
+            </CardFooter>
 
-                {/* Date */}
-                <span className="text-sm text-gray-400">
-                  {new Date(p.created_at).toLocaleDateString()}
-                </span>
-              </AccordionTrigger>
-
-              <AccordionContent className="w-full bg-white shadow-inner rounded-b-lg border-t px-6 py-4">
-                {/* 사진 갤러리 */}
-                {photosArr.length > 0 && (
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mb-4">
-                    {photosArr.map((url) => (
-                      <div key={url} className="w-full">
-                        <Image
-                          src={url}
-                          alt="post photo"
-                          width={800}
-                          height={600}
-                          style={{ objectFit: "contain" }}
-                          className="w-full h-auto rounded"
-                        />
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                {/* Content */}
-                <div className="text-gray-800 whitespace-pre-wrap break-words mb-4">
-                  {p.content}
-                  <div className="flex justify-end ">
-                    <LikeButton postId={p.id} />
-                  </div>
-                </div>
-                <hr />
-
-                <div className="flex items-center justify-between mt-2">
-                  <CommentsList postId={p.id} />
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-          );
-        })}
-      </Accordion>
+            {openComments[p.id] && (
+              <div className="px-4 pb-4">
+                <CommentsList postId={p.id} />
+              </div>
+            )}
+          </Card>
+        );
+      })}
     </div>
   );
 }
