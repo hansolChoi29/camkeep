@@ -153,18 +153,19 @@ export default function CommunityClient() {
                 </span>
               </AccordionTrigger>
 
-              <AccordionContent className="w-full shadow-inner rounded-b-lg border-t px-6 py-4">
+              <AccordionContent className="w-full bg-white shadow-inner rounded-b-lg border-t px-6 py-4">
                 {/* 사진 갤러리 */}
                 {photosArr.length > 0 && (
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mb-4">
                     {photosArr.map((url) => (
-                      <div key={url} className="relative w-full h-24 ">
+                      <div key={url} className="w-full">
                         <Image
                           src={url}
                           alt="post photo"
-                          fill
-                          style={{ objectFit: "cover" }}
-                          className="rounded"
+                          width={800}
+                          height={600}
+                          style={{ objectFit: "contain" }}
+                          className="w-full h-auto rounded"
                         />
                       </div>
                     ))}
