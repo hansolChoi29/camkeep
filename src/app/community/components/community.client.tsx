@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/card";
 import LikeButton from "@/features/community/like-button";
 import CommentsList from "@/features/community/community-list";
+import { timeAgo } from "@/lib/utils";
 
 interface Post {
   id: string;
@@ -32,6 +33,7 @@ export default function CommunityClient() {
     fetch("/api/community")
       .then(async (res) => {
         if (!res.ok) throw new Error((await res.json()).error || "조회 실패");
+
         return res.json() as Promise<Post[]>;
       })
       .then(setPosts)
@@ -40,6 +42,7 @@ export default function CommunityClient() {
 
   const normalizePhotos = (photos?: string[] | string | null): string[] => {
     if (Array.isArray(photos)) return photos;
+
     if (typeof photos === "string") {
       try {
         return JSON.parse(photos);
@@ -56,11 +59,13 @@ export default function CommunityClient() {
     photos: string[]
   ) => {
     setLoadingPost(true);
+
     const res = await fetch("/api/community", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ title, content, photos }),
     });
+
     if (res.ok) {
       setModalOpen(false);
       // 재조회
@@ -122,7 +127,7 @@ export default function CommunityClient() {
             )}
             <div className="flex justify-end">
               <p className="text-xs text-gray-500 mr-2">
-                {new Date(p.created_at).toLocaleString()}
+                {timeAgo(p.created_at)}
               </p>
             </div>
             <CardContent className="px-4 py-2">

@@ -1,5 +1,6 @@
 "use client";
 import { SimpleToast } from "@/components/SimpleToast";
+import { timeAgo } from "@/lib/utils";
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
 
@@ -73,7 +74,7 @@ export default function CommentsList({ postId }: { postId: string }) {
             </div>
             <div className="w-full flex justify-end">
               <time className="text-xs text-gray-400 flex ">
-                {new Date(c.created_at).toLocaleString()}
+                {timeAgo(c.created_at)}
               </time>
             </div>
           </div>
