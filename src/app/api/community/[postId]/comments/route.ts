@@ -13,15 +13,16 @@ export async function GET(
       id,
       content,
       created_at,
-      user:users ( nickname, photo )
+      user:users(nickname,profile)
     `
     )
     .eq("post_id", params.postId)
     .order("created_at", { ascending: true });
-
-  if (error)
+  if (error) {
+    console.error("GET /api/community/[postId]/comments error:", error);
     return NextResponse.json({ error: error.message }, { status: 500 });
-  return NextResponse.json(data);
+  }
+  return NextResponse.json(data, { status: 200 });
 }
 
 export async function POST(
@@ -43,10 +44,20 @@ export async function POST(
   const { data, error } = await supabase
     .from("community_comments")
     .insert({ post_id: params.postId, user_id: session.user.id, content })
-    .select()
+    .select(
+      `
+      id,
+      content,
+      created_at,
+      user:users(nickname,profile)
+    `
+    )
     .single();
 
-  if (error)
+  if (error) {
+    console.error("POST /api/community/[postId]/comments error:", error);
     return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+
   return NextResponse.json(data, { status: 201 });
 }
