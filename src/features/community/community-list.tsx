@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import React, { useState, useEffect } from "react";
 
 interface Comment {
@@ -53,12 +54,12 @@ export default function CommentsList({ postId }: { postId: string }) {
         {comments.map((c) => (
           <div key={c.id} className="flex items-start space-x-2">
             {c.user.profile && (
-              <img
+              <Image
                 src={c.user.profile}
                 alt={c.user.nickname}
                 className="w-6 h-6 rounded-full object-cover border"
                 width={600}
-                height={200}
+                height={600}
               />
             )}
             <div>

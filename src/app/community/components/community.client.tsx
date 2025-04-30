@@ -175,11 +175,13 @@ export default function CommunityClient() {
                 {/* Content */}
                 <div className="text-gray-800 whitespace-pre-wrap break-words mb-4">
                   {p.content}
+                  <div className="flex justify-end ">
+                    <LikeButton postId={p.id} />
+                  </div>
                 </div>
-
+                <hr />
                 {/* 좋아요 + 댓글 */}
-                <div className="flex items-center justify-between">
-                  <LikeButton postId={p.id} />
+                <div className="flex items-center justify-between mt-2">
                   <CommentsList postId={p.id} />
                 </div>
               </AccordionContent>
