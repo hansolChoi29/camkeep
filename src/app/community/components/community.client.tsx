@@ -180,7 +180,7 @@ export default function CommunityClient() {
                   </div>
                 </div>
                 <hr />
-                {/* 좋아요 + 댓글 */}
+
                 <div className="flex items-center justify-between mt-2">
                   <CommentsList postId={p.id} />
                 </div>

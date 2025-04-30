@@ -1,4 +1,5 @@
 "use client";
+import { SimpleToast } from "@/components/SimpleToast";
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
 
@@ -13,7 +14,7 @@ export default function CommentsList({ postId }: { postId: string }) {
   const [comments, setComments] = useState<Comment[]>([]);
   const [newComment, setNewComment] = useState("");
   const [error, setError] = useState<string | null>(null);
-
+  const [toast, setToast] = useState<string | null>(null);
   // 1) 댓글 불러오기
   const fetchComments = () =>
     fetch(`/api/community/${postId}/comments`)
@@ -44,6 +45,7 @@ export default function CommentsList({ postId }: { postId: string }) {
     } else {
       setNewComment("");
       fetchComments();
+      setToast("성공적으로 등록되었습니다.");
     }
   };
 
@@ -52,20 +54,25 @@ export default function CommentsList({ postId }: { postId: string }) {
       {error && <div className="text-red-500">{error}</div>}
       <div className="space-y-1">
         {comments.map((c) => (
-          <div key={c.id} className="flex items-start space-x-2">
-            {c.user.profile && (
-              <Image
-                src={c.user.profile}
-                alt={c.user.nickname}
-                className="w-6 h-6 rounded-full object-cover border"
-                width={600}
-                height={600}
-              />
-            )}
-            <div>
+          <div key={c.id} className="flex items-start  border-b p-1">
+            <div className="flex flex-col items-center gap-1">
+              {c.user.profile && (
+                <Image
+                  src={c.user.profile}
+                  alt={c.user.nickname}
+                  className="w-8 h-8  rounded-full object-cover border"
+                  width={600}
+                  height={600}
+                />
+              )}
+
               <p className="text-sm font-medium">{c.user.nickname}</p>
+            </div>
+            <div className="w-full flex items-center justify-center">
               <p className="text-sm">{c.content}</p>
-              <time className="text-xs text-gray-400">
+            </div>
+            <div className="w-full flex justify-end">
+              <time className="text-xs text-gray-400 flex">
                 {new Date(c.created_at).toLocaleString()}
               </time>
             </div>
@@ -86,6 +93,13 @@ export default function CommentsList({ postId }: { postId: string }) {
           등록
         </button>
       </div>
+      {toast && (
+        <SimpleToast
+          message={toast}
+          duration={2000}
+          onClose={() => setToast(null)}
+        />
+      )}
     </div>
   );
 }
