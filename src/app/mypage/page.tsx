@@ -25,6 +25,16 @@ export default async function MyPage() {
   if (error || !profile) {
     redirect(`/auth/login?callbackUrl=/mypage`);
   }
+
+  const { data: myPosts, error: postsError } = await supabase
+    .from("community_posts")
+    .select("id, title, created_at")
+    .eq("user_id", session.user.id)
+    .order("created_at", { ascending: false });
+  if (postsError) {
+    console.error("내 커뮤니티 조회 실패", postsError);
+  }
+
   const nickname = profile.nickname;
   const phone = profile.phone;
   const points = profile.points ?? 0;
@@ -38,6 +48,7 @@ export default async function MyPage() {
       phone={phone}
       points={points}
       photo={photo}
+      initialPosts={myPosts ?? []}
     />
   );
 }
