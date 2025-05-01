@@ -12,6 +12,11 @@ import { SimpleToast } from "@/components/SimpleToast";
 import { browserSupabase } from "@/lib/supabase/client";
 import { logout } from "@/app/auth/[mode]/actions";
 
+interface PostSummary {
+  id: string;
+  title: string;
+  created_at: string;
+}
 interface MypageClientProps {
   email: string;
   userId: string;
@@ -19,6 +24,7 @@ interface MypageClientProps {
   phone: string;
   points: number;
   photo: string | null;
+  initialPosts: PostSummary[];
 }
 
 export default function MypageClient({
