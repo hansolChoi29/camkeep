@@ -22,7 +22,7 @@ export const gnbItems: GNBItemData[] = [
   {
     id: "checklist",
     label: "체크리스트",
-    href: "/checklist",
+    href: "/check-list",
     img: "/images/menu-checklist.png",
   },
   {
