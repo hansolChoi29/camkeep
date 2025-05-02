@@ -1,8 +1,10 @@
 "use client";
 
-import { PromoBanner } from "@/types/promotion";
 import { useRef } from "react";
 import Autoplay from "embla-carousel-autoplay";
+import Image from "next/image";
+
+import { PromoBanner } from "@/types/promotion";
 import { promoBanners } from "./promotion-data";
 import {
   Carousel,
@@ -11,36 +13,39 @@ import {
 } from "@/components/ui/carousel";
 
 export default function HomePromotion() {
-  const items: PromoBanner[] = promoBanners;
-  const carouselRef = useRef<HTMLDivElement>(null);
+  const itemsWithPhoto: PromoBanner[] = promoBanners.filter(
+    (b) => typeof b.photo === "string"
+  );
 
+  const carouselRef = useRef<HTMLDivElement>(null);
   const plugins = [Autoplay({ delay: 3000, stopOnInteraction: false })];
 
   return (
-    <>
-      <section className="mt-20 overflow-hidden">
-        <Carousel
-          opts={{ loop: true }}
-          plugins={plugins}
-          className="w-full touch-pan-x"
-          ref={carouselRef}
-        >
-          <CarouselContent className="flex space-x-0 snap-x snap-mandatory">
-            {items.map((banner) => (
-              <CarouselItem
-                key={banner.id}
-                className="
-                w-full flex-shrink-0
-                flex items-center justify-center
-                bg-[#FFAB5B] p-4 text-white text-center
-              "
-              >
-                {banner.text}
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-        </Carousel>
-      </section>
-    </>
+    <section className="mt-20 overflow-hidden mx-0 sm:mx-44">
+      <Carousel
+        opts={{ loop: true }}
+        plugins={plugins}
+        className="w-full touch-pan-x"
+        ref={carouselRef}
+      >
+        <CarouselContent className="flex space-x-0 snap-x snap-mandatory">
+          {itemsWithPhoto.map((banner) => (
+            <CarouselItem
+              key={banner.id}
+              className="relative w-full flex-shrink-0 h-[600px] flex items-center justify-center"
+            >
+              <div className="relative w-full h-full">
+                <Image
+                  src={banner.photo!}
+                  alt={banner.id}
+                  fill
+                  style={{ objectFit: "contain" }}
+                />
+              </div>
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+      </Carousel>
+    </section>
   );
 }

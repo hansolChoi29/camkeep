@@ -10,13 +10,19 @@ import {
 export default function HomeCampingMonth() {
   return (
     <>
-      <section>
-        <h1>이달의 캠핑장</h1>
-        <Carousel className="bg-[#DCE4C9] h-[133px]">
+      <section className="mt-4">
+        <Carousel className="bg-[#578E7E] text-white p-2 ">
           <CarouselContent>
-            <CarouselItem>.1..</CarouselItem>
-            <CarouselItem>.2..</CarouselItem>
-            <CarouselItem>.3..</CarouselItem>
+            <CarouselItem>
+              .1..이달의 캠핑장이달의 캠핑장이달의 캠핑장이달의 캠핑장
+            </CarouselItem>
+            <CarouselItem>
+              .2..이달의 캠핑장이달의 캠핑장이달의 캠핑장이달의 캠핑장
+            </CarouselItem>
+            <CarouselItem>
+              .3..이달의 캠핑장이달의 캠핑장이달의 캠핑장이달의 캠핑장이달의
+              캠핑장이달의 캠핑장이달의 캠핑장이달의 캠핑장
+            </CarouselItem>
           </CarouselContent>
           <CarouselPrevious />
           {/* <CarouselNext /> */}

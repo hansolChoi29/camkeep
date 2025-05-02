@@ -6,8 +6,8 @@ import HomePromotion from "@/features/home/home-promotion";
 export default function HomeClient() {
   return (
     <>
-      <HomePromotion />
       <HomeCampingMonth />
+      <HomePromotion />
     </>
   );
 }
