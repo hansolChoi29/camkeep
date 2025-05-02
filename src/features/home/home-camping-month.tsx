@@ -5,12 +5,18 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
 
 export default function HomeCampingMonth() {
+  const plugins = [Autoplay({ delay: 5000, stopOnInteraction: false })];
+
   return (
     <section className="mt-16">
       <div className="flex justify-center items-center">
-        <Carousel className="bg-[#578E7E]  w-full text-white p-2 text-sm sm:text-base ">
+        <Carousel
+          plugins={plugins}
+          className="bg-[#578E7E]  w-full text-white p-2 text-sm sm:text-base "
+        >
           <CarouselContent className="flex ">
             <CarouselItem className="flex-shrink-0 w-full text-center">
               이 사이트는 개발자가 되고싶은 사람이 만든 개인 프로젝트입니다.
