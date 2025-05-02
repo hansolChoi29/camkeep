@@ -32,7 +32,7 @@ export default function HomePromotion() {
           {itemsWithPhoto.map((banner) => (
             <CarouselItem
               key={banner.id}
-              className="relative w-full flex-shrink-0 h-[600px] flex items-center justify-center"
+              className="relative w-full flex-shrink-0 sm:h-[500px] h-[400px] flex items-center justify-center"
             >
               <div className="relative w-full h-full">
                 <Image
