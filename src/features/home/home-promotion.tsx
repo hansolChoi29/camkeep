@@ -21,7 +21,7 @@ export default function HomePromotion() {
   const plugins = [Autoplay({ delay: 3000, stopOnInteraction: false })];
 
   return (
-    <section className="mt-20 overflow-hidden mx-0 sm:mx-44">
+    <section className=" overflow-hidden mx-0 sm:mx-44">
       <Carousel
         opts={{ loop: true }}
         plugins={plugins}

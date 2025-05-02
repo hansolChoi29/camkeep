@@ -4,30 +4,26 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselPrevious,
 } from "@/components/ui/carousel";
 
 export default function HomeCampingMonth() {
   return (
-    <>
-      <section className="mt-4">
-        <Carousel className="bg-[#578E7E] text-white p-2 ">
-          <CarouselContent>
-            <CarouselItem>
-              .1..이달의 캠핑장이달의 캠핑장이달의 캠핑장이달의 캠핑장
+    <section className="mt-16">
+      <div className="flex justify-center items-center">
+        <Carousel className="bg-[#578E7E]  w-full text-white p-2 text-sm sm:text-base ">
+          <CarouselContent className="flex ">
+            <CarouselItem className="flex-shrink-0 w-full text-center">
+              이 사이트는 개발자가 되고싶은 사람이 만든 개인 프로젝트입니다.
             </CarouselItem>
-            <CarouselItem>
-              .2..이달의 캠핑장이달의 캠핑장이달의 캠핑장이달의 캠핑장
+            <CarouselItem className="flex-shrink-0 w-full text-center">
+              F12를 둘러 반응형을 체험해 보세요.
             </CarouselItem>
-            <CarouselItem>
-              .3..이달의 캠핑장이달의 캠핑장이달의 캠핑장이달의 캠핑장이달의
-              캠핑장이달의 캠핑장이달의 캠핑장이달의 캠핑장
+            <CarouselItem className="flex-shrink-0 w-full text-center">
+              현재 판매 중인 장비와 캠핑장을 열람 할 수 있습니다.
             </CarouselItem>
           </CarouselContent>
-          <CarouselPrevious />
-          {/* <CarouselNext /> */}
         </Carousel>
-      </section>
-    </>
+      </div>
+    </section>
   );
 }
