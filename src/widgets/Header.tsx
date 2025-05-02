@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { gnbItems } from "@/features/GNB/gnbData";
+import HomeSearchInput from "@/features/home/homr-search-input";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -34,7 +35,7 @@ export default function Header() {
       </nav>
 
       <div className="flex-1" />
-
+      <HomeSearchInput />
       <div className="flex items-center space-x-4">
         <Link href="/newbie-guide" className="transform hover:scale-110">
           <Image
