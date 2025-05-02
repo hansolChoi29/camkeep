@@ -18,7 +18,7 @@ export default function HomePromotion() {
   );
 
   const carouselRef = useRef<HTMLDivElement>(null);
-  const plugins = [Autoplay({ delay: 3000, stopOnInteraction: false })];
+  const plugins = [Autoplay({ delay: 8000, stopOnInteraction: false })];
 
   return (
     <section className=" overflow-hidden mx-0 sm:mx-44">

@@ -22,6 +22,16 @@ export default function HomeCampingMonth() {
               이 사이트는 개발자가 되고싶은 사람이 만든 개인 프로젝트입니다.
             </CarouselItem>
             <CarouselItem className="flex-shrink-0 w-full text-center">
+              <a
+                href="https://github.com/hansolChoi29/camkeep"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white hover:underline"
+              >
+                개발자의 깃허브 바로가기
+              </a>
+            </CarouselItem>
+            <CarouselItem className="flex-shrink-0 w-full text-center">
               F12를 둘러 반응형을 체험해 보세요.
             </CarouselItem>
             <CarouselItem className="flex-shrink-0 w-full text-center">
