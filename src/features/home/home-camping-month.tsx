@@ -4,24 +4,42 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselPrevious,
 } from "@/components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
 
 export default function HomeCampingMonth() {
+  const plugins = [Autoplay({ delay: 5000, stopOnInteraction: false })];
+
   return (
-    <>
-      <section>
-        <h1>이달의 캠핑장</h1>
-        <Carousel className="bg-[#DCE4C9] h-[133px]">
-          <CarouselContent>
-            <CarouselItem>.1..</CarouselItem>
-            <CarouselItem>.2..</CarouselItem>
-            <CarouselItem>.3..</CarouselItem>
+    <section className="mt-16">
+      <div className="flex justify-center items-center">
+        <Carousel
+          plugins={plugins}
+          className="bg-[#578E7E]  w-full text-white p-2 text-sm sm:text-base "
+        >
+          <CarouselContent className="flex ">
+            <CarouselItem className="flex-shrink-0 w-full text-center">
+              이 사이트는 개발자가 되고싶은 사람이 만든 개인 프로젝트입니다.
+            </CarouselItem>
+            <CarouselItem className="flex-shrink-0 w-full text-center">
+              <a
+                href="https://github.com/hansolChoi29/camkeep"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white hover:underline"
+              >
+                개발자의 깃허브 바로가기
+              </a>
+            </CarouselItem>
+            <CarouselItem className="flex-shrink-0 w-full text-center">
+              F12를 둘러 반응형을 체험해 보세요.
+            </CarouselItem>
+            <CarouselItem className="flex-shrink-0 w-full text-center">
+              현재 판매 중인 장비와 캠핑장을 열람 할 수 있습니다.
+            </CarouselItem>
           </CarouselContent>
-          <CarouselPrevious />
-          {/* <CarouselNext /> */}
         </Carousel>
-      </section>
-    </>
+      </div>
+    </section>
   );
 }

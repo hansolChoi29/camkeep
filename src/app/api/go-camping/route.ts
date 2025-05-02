@@ -2,8 +2,9 @@ import { fetchCampingList } from "@/lib/camping";
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
-  const url = new URL(request.url);
-  const pageNo = Number(url.searchParams.get("pageNo")) || 1;
+  const { searchParams } = new URL(request.url);
+  const region = searchParams.get("region") ?? "";
+  const pageNo = Number(searchParams.get("pageNo")) || 1;
   try {
     const items = await fetchCampingList(pageNo, 20);
     return NextResponse.json(items);

@@ -6,6 +6,13 @@ export interface CampingItem {
   addr1: string;
   firstImageUrl?: string;
 }
+
+export interface Camp {
+  id: string;
+  name: string;
+  address: string;
+  img?: string;
+}
 export async function fetchCampingList(
   pageNo: number = 1,
   numOfRows: number = 20
