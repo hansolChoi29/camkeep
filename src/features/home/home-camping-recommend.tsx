@@ -24,16 +24,20 @@ export default function HomeCampingRecommend() {
   const plugins = [Autoplay({ delay: 5000, stopOnInteraction: false })];
 
   return (
-    <section className="mt-10 w-full">
+    <section className="mt-10 mb-10">
       <h2 className="text-2xl font-semibold mb-4">회원님을 위한 캠핑장 추천</h2>
-      <Carousel plugins={plugins} opts={{ loop: true }} className="touch-pan-x">
-        <CarouselContent className="flex space-x-4">
+      <Carousel
+        plugins={plugins}
+        opts={{ loop: true, align: "start", dragFree: true, skipSnaps: true }}
+        className="touch-pan-x "
+      >
+        <CarouselContent className="flex space-x-4 w-[500px] ">
           {items.map((item) => (
             <CarouselItem
               key={item.contentId}
-              className="flex-shrink-0 w-[280px]"
+              className="flex-shrink-0 w-[280px] "
             >
-              <Card className="h-full">
+              <Card className="h-[360px]">
                 <CardHeader>
                   <CardTitle className="truncate">{item.facltNm}</CardTitle>
                 </CardHeader>
@@ -41,7 +45,7 @@ export default function HomeCampingRecommend() {
                   <Image
                     src={item.firstImageUrl ?? "/images/default-camp.png"}
                     alt={item.facltNm}
-                    width={280}
+                    width={300}
                     height={160}
                     className="rounded-md object-cover"
                   />
