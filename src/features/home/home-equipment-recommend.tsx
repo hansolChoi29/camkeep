@@ -1,4 +1,5 @@
 "use client";
+import { useEffect, useState } from "react";
 import { NaverItem } from "@/app/equipment-list/components/equipmentList.client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -8,7 +9,6 @@ import {
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import Image from "next/image";
-import { useEffect, useState } from "react";
 
 export default function HomeEquipmentRecommend() {
   const [items, setItems] = useState<NaverItem[]>([]);
@@ -27,10 +27,14 @@ export default function HomeEquipmentRecommend() {
       <h2 className="text-2xl font-semibold mb-4">
         회원님을 위한 캠핑장비 추천
       </h2>
-      <Carousel plugins={plugins} opts={{ loop: true }} className="touch-pan-x">
-        <CarouselContent className="flex space-x-4 w-[500px] ">
+      <Carousel
+        plugins={plugins}
+        opts={{ loop: true, align: "start", dragFree: true, skipSnaps: true }}
+        className="touch-pan-x"
+      >
+        <CarouselContent className="flex space-x-4 w-[240px]">
           {items.map((item, i) => (
-            <CarouselItem key={i} className="flex-shrink-0 w-[240px]">
+            <CarouselItem key={i} className="flex-shrink-0 ">
               <Card className="h-[360px]">
                 <CardHeader>
                   <CardTitle
@@ -44,7 +48,7 @@ export default function HomeEquipmentRecommend() {
                     alt={item.title.replace(/<[^>]*>/g, "")}
                     width={200}
                     height={200}
-                    className="object-contain mx-auto"
+                    className="rounded-md object-cover"
                   />
                   <p className="mt-2 text-sm text-gray-600">{item.lprice}원</p>
                   <a

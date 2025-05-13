@@ -1,4 +1,5 @@
 "use client";
+import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Carousel,
@@ -9,7 +10,6 @@ import { CampingItem } from "@/lib/camping";
 import Autoplay from "embla-carousel-autoplay";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 
 export default function HomeCampingRecommend() {
   const [items, setItems] = useState<CampingItem[]>([]);
@@ -31,12 +31,9 @@ export default function HomeCampingRecommend() {
         opts={{ loop: true, align: "start", dragFree: true, skipSnaps: true }}
         className="touch-pan-x "
       >
-        <CarouselContent className="flex space-x-4 w-[500px] ">
+        <CarouselContent className="flex space-x-4 w-[240px]">
           {items.map((item) => (
-            <CarouselItem
-              key={item.contentId}
-              className="flex-shrink-0 w-[280px] "
-            >
+            <CarouselItem key={item.contentId} className="flex-shrink-0 ">
               <Card className="h-[360px]">
                 <CardHeader>
                   <CardTitle className="truncate">{item.facltNm}</CardTitle>
