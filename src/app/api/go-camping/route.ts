@@ -4,6 +4,9 @@ import { NextResponse } from "next/server";
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const region = searchParams.get("region") ?? "";
+
+  console.log("region", region);
+
   const pageNo = Number(searchParams.get("pageNo")) || 1;
   try {
     const items = await fetchCampingList(pageNo, 20);

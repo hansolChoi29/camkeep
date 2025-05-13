@@ -64,7 +64,7 @@ export default function ClientLayout({
   return (
     <>
       <Header />
-      <div>{children}</div>
+      <main className="flex-1 container mx-auto px-4 sm:px-6 lg:px-8">{children}</main>
       <GNB onCommunityClick={() => setModalOpen(true)} />
       {modalOpen && (
         <CommunityModal open={modalOpen} onClose={() => setModalOpen(false)}>

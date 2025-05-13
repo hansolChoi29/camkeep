@@ -21,7 +21,7 @@ export default function HomePromotion() {
   const plugins = [Autoplay({ delay: 8000, stopOnInteraction: false })];
 
   return (
-    <section className=" overflow-hidden mx-0 sm:mx-44">
+    <section className=" overflow-hidden mx-0 sm:mx-44 ">
       <Carousel
         opts={{ loop: true }}
         plugins={plugins}
@@ -32,7 +32,7 @@ export default function HomePromotion() {
           {itemsWithPhoto.map((banner) => (
             <CarouselItem
               key={banner.id}
-              className="relative w-full flex-shrink-0 sm:h-[500px] h-[400px] flex items-center justify-center"
+              className="relative w-full flex-shrink-0 sm:h-[500px] h-[300px] flex items-center justify-center"
             >
               <div className="relative w-full h-full">
                 <Image
