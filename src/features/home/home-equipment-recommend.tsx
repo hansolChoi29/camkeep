@@ -23,8 +23,8 @@ export default function HomeEquipmentRecommend() {
   const plugins = [Autoplay({ delay: 6000, stopOnInteraction: false })];
 
   return (
-    <section className="mt-10 px-4 mb-10">
-      <h2 className="text-2xl font-semibold mb-4">
+    <section className="mt-10 px-4 mb-10 font-roboto">
+      <h2 className="text-2xl font-semibold mb-4 ">
         회원님을 위한 캠핑장비 추천
       </h2>
       <Carousel

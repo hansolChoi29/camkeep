@@ -24,7 +24,7 @@ export default function HomeCampingRecommend() {
   const plugins = [Autoplay({ delay: 5000, stopOnInteraction: false })];
 
   return (
-    <section className="mt-10 mb-10">
+    <section className="mt-10 mb-10 font-roboto">
       <h2 className="text-2xl font-semibold mb-4">회원님을 위한 캠핑장 추천</h2>
       <Carousel
         plugins={plugins}
