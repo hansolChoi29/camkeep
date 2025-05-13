@@ -44,18 +44,20 @@ export default function HomeCampingRecommend() {
                       className="object-cover"
                     />
                   </div>
-                  <CardTitle className="truncate text-base">
-                    {item.facltNm}
-                  </CardTitle>
-                  <p className="mt-2 text-sm text-gray-600 truncate">
-                    {item.addr1}
-                  </p>
-                  <Link
-                    href={`/camping/${item.contentId}`}
-                    className="mt-2 inline-block text-blue-600 hover:underline"
-                  >
-                    자세히 보기
-                  </Link>
+                  <div className="p-4 flex-1 flex flex-col">
+                    <CardTitle className="truncate text-base">
+                      {item.facltNm}
+                    </CardTitle>
+                    <p className="mt-2 text-sm text-gray-600 truncate">
+                      {item.addr1}
+                    </p>
+                    <Link
+                      href={`/camping/${item.contentId}`}
+                      className="mt-2 text-sm w-full flex justify-end  text-[#578E7E] hover:underline"
+                    >
+                      자세히 보기
+                    </Link>
+                  </div>
                 </CardContent>
               </Card>
             </CarouselItem>

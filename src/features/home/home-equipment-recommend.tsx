@@ -50,14 +50,14 @@ export default function HomeEquipmentRecommend() {
                     <CardTitle className="truncate text-base">
                       {item.title.replace(/<[^>]*>/g, "")}
                     </CardTitle>
-                    <p className="mt-2 text-sm text-gray-600">
+                    <p className="mt-2 w-full flex justify-end text-sm text-gray-600">
                       {item.lprice}원
                     </p>
                     <a
                       href={item.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="mt-auto text-blue-600 hover:underline"
+                      className="mt-2 w-full flex justify-end text-sm text-[#578E7E] hover:underline"
                     >
                       쇼핑하러 가기
                     </a>
