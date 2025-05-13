@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import {
   Carousel,
   CarouselContent,
@@ -24,7 +24,7 @@ export default function HomeCampingRecommend() {
   const plugins = [Autoplay({ delay: 5000, stopOnInteraction: false })];
 
   return (
-    <section className="mt-10 mb-10 font-roboto">
+    <section className="mt-10 sm:mb-10 mb-20 font-roboto">
       <h2 className="text-2xl font-semibold mb-4">회원님을 위한 캠핑장 추천</h2>
       <Carousel
         plugins={plugins}
@@ -33,19 +33,20 @@ export default function HomeCampingRecommend() {
       >
         <CarouselContent className="flex space-x-4 w-[240px]">
           {items.map((item) => (
-            <CarouselItem key={item.contentId} className="flex-shrink-0 ">
-              <Card className="h-[360px]">
-                <CardHeader>
-                  <CardTitle className="truncate">{item.facltNm}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <Image
-                    src={item.firstImageUrl ?? "/images/default-camp.png"}
-                    alt={item.facltNm}
-                    width={300}
-                    height={160}
-                    className="rounded-md object-cover"
-                  />
+            <CarouselItem key={item.contentId} className="flex-shrink-0  mx-0">
+              <Card className="overflow-hidden p-0 ">
+                <CardContent className="p-0 flex flex-col">
+                  <div className="relative h-[200px] flex-shrink-0">
+                    <Image
+                      src={item.firstImageUrl ?? "/images/default-camp.png"}
+                      alt={item.facltNm}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                  <CardTitle className="truncate text-base">
+                    {item.facltNm}
+                  </CardTitle>
                   <p className="mt-2 text-sm text-gray-600 truncate">
                     {item.addr1}
                   </p>
