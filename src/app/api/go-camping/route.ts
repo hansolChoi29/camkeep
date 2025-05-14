@@ -1,3 +1,18 @@
+// import { fetchCampingList } from "@/lib/camping";
+// import { NextResponse } from "next/server";
+
+// export async function GET(request: Request) {
+//   const pageNo = Number(new URL(request.url).searchParams.get("pageNo")) || 1;
+//   try {
+//     const items = await fetchCampingList(pageNo, 20);
+//     console.log("🟢 /api/go-camping items.length =", items.length);
+//     return NextResponse.json(items, { status: 200 });
+//   } catch (err) {
+//     console.error("🛑 /api/go-camping 실패:", err);
+//     return NextResponse.json([], { status: 200 });
+//   }
+// }
+// //
 import { fetchCampingList } from "@/lib/camping";
 import { NextResponse } from "next/server";
 

@@ -63,7 +63,15 @@ camkeep
 │  │  ├─ camping
 │  │  │  ├─ components
 │  │  │  │  └─ camping.client.tsx
-│  │  │  └─ page.tsx
+│  │  │  ├─ page.tsx
+│  │  │  └─ [id]
+│  │  │     ├─ components
+│  │  │     │  └─ camping-detail.client.tsx
+│  │  │     └─ page.tsx
+│  │  ├─ check-list
+│  │  │  ├─ page.tsx
+│  │  │  └─ _components
+│  │  │     └─ check-list.client.tsx
 │  │  ├─ community
 │  │  │  ├─ components
 │  │  │  │  └─ community.client.tsx
@@ -87,7 +95,9 @@ camkeep
 │  │  │  ├─ components
 │  │  │  │  └─ newbie-guide.client.tsx
 │  │  │  └─ page.tsx
-│  │  └─ page.tsx
+│  │  ├─ page.tsx
+│  │  └─ search
+│  │     └─ page.tsx
 │  ├─ components
 │  │  ├─ components
 │  │  │  └─ client-layout.tsx
@@ -95,11 +105,14 @@ camkeep
 │  │  └─ ui
 │  │     ├─ accordion.tsx
 │  │     ├─ button.tsx
+│  │     ├─ card.tsx
 │  │     ├─ carousel.tsx
 │  │     └─ input.tsx
 │  ├─ features
 │  │  ├─ auth
 │  │  │  └─ auth-form-ui.tsx
+│  │  ├─ camping
+│  │  │  └─ camping-list.tsx
 │  │  ├─ community
 │  │  │  ├─ community-list.tsx
 │  │  │  ├─ community-modal.tsx
@@ -120,6 +133,8 @@ camkeep
 │  │  │  └─ index.ts
 │  │  ├─ home
 │  │  │  ├─ home-camping-month.tsx
+│  │  │  ├─ home-camping-recommend.tsx
+│  │  │  ├─ home-equipment-recommend.tsx
 │  │  │  ├─ home-promotion.tsx
 │  │  │  └─ promotion-data.ts
 │  │  ├─ mypage
@@ -152,7 +167,6 @@ camkeep
 │  │  ├─ supabase
 │  │  │  └─ supabase-type.ts
 │  │  └─ user.ts
-│  ├─ utils
 │  └─ widgets
 │     ├─ Footer.tsx
 │     └─ Header.tsx

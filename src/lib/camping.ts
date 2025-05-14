@@ -5,6 +5,8 @@ export interface CampingItem {
   facltNm: string;
   addr1: string;
   firstImageUrl?: string;
+  tel?: string;
+  operPdCl?: string;
 }
 
 export interface Camp {
@@ -17,32 +19,31 @@ export async function fetchCampingList(
   pageNo: number = 1,
   numOfRows: number = 20
 ): Promise<CampingItem[]> {
-  const { data } = await axios.get(
-    "https://apis.data.go.kr/B551011/GoCamping/basedList",
-    {
-      params: {
-        serviceKey: process.env.NEXT_PUBLIC_VISIT_KOREA_KEY!,
-        MobileOS: "ETC",
-        MobileApp: "Camkeep",
-        _type: "json",
-        pageNo,
-        numOfRows,
-      },
-    }
-  );
+  try {
+    const { data } = await axios.get(
+      "https://apis.data.go.kr/B551011/GoCamping/basedList",
+      {
+        params: {
+          serviceKey: process.env.NEXT_PUBLIC_VISIT_KOREA_KEY!,
+          MobileOS: "ETC",
+          MobileApp: "Camkeep",
+          _type: "json",
+          pageNo,
+          numOfRows,
+        },
+      }
+    );
 
-  const header = data.response?.header;
-  if (header?.resultCode !== "0000") {
-    console.warn("⚠️ GoCamping header:", header);
-    throw new Error(header?.resultMsg || "API error");
+    const raw = data?.response?.body?.items?.item;
+    if (!raw) return [];
+    return Array.isArray(raw) ? raw : [raw];
+  } catch (e) {
+    console.error("🛑 fetchCampingList 에러:", e);
+    return [];
   }
-
-  const raw = data.response.body.items?.item;
-  return Array.isArray(raw) ? raw : raw ? [raw] : [];
 }
 
-/**
- * 전체 캠핑장 목록 한 번에 가져오기 (페이징 자동)
+/* 전체 캠핑장 목록 한 번에 가져오기 (페이징 자동)
  */
 export async function fetchAllCampingList(): Promise<CampingItem[]> {
   const pageSize = 1000;
@@ -58,4 +59,12 @@ export async function fetchAllCampingList(): Promise<CampingItem[]> {
   }
 
   return allItems;
+}
+
+export async function fetchCampingById(
+  id: number
+): Promise<CampingItem | null> {
+  const items = await fetchAllCampingList();
+  const found = items.find((item) => item.contentId === id);
+  return found ?? null;
 }

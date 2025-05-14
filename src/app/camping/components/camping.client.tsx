@@ -20,16 +20,16 @@ export default function CampingClient() {
   const [searchTerm, setSearchTerm] = useState("");
 
   // 1) 전체 데이터 로드
+
   useEffect(() => {
-    fetchAllCampingList()
-      .then((items) => {
-        setList(items);
-        setIsPending(false);
+    fetch("/api/go-camping?pageNo=1")
+      .then((res) => res.json())
+      .then((data: CampingItem[]) => setList(data))
+      .catch((e) => {
+        console.error("🛑 /api/go-camping fetch 실패", e);
+        setError("캠핑장 데이터를 불러올 수 없습니다");
       })
-      .catch((err: unknown) => {
-        setError(err instanceof Error ? err.message : String(err));
-        setIsPending(false);
-      });
+      .finally(() => setIsPending(false));
   }, []);
 
   // 2) 주소(addr1)에 searchTerm 포함된 항목만 필터링
@@ -106,7 +106,7 @@ export default function CampingClient() {
               <CardFooter className="px-4 py-2">
                 <Link
                   href={`/camping/${camp.contentId}`}
-                  className="text-sm text-[#578E7E] hover:underline"
+                  className="text-sm text-[#578E7E] "
                 >
                   자세히 보기 →
                 </Link>
