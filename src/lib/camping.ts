@@ -65,7 +65,6 @@ export async function fetchAllCampingList(): Promise<CampingItem[]> {
 
   while (true) {
     const items = await fetchCampingList(pageNo, pageSize);
-    console.log("items", items);
     if (items.length === 0) break;
     allItems.push(...items);
     if (items.length < pageSize) break;
