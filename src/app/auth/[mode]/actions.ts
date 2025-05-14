@@ -9,11 +9,7 @@ export async function loginAction(formData: FormData) {
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
   const callbackUrl = (formData.get("callbackUrl") as string) || "/";
-  console.log("🔥[loginAction] formData:", {
-    email,
-    password,
-    callbackUrl,
-  });
+
   if (!callbackUrl) throw new Error("callbackUrl is missing!");
   // ✅ 로그인 시에만 writeCookies: true
   const supabase = serverSupabase({ writeCookies: true });
