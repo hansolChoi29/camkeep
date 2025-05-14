@@ -29,12 +29,22 @@
 
 #### 중간배포일: 5/2 (금)
 
-----
+---
+
 ```
 camkeep
+├─ .eslintrc.json
+├─ components.json ##  shadcn/ui 같은 UI 컴포넌트 생성 도구가 프로젝트 설정을 읽어들이기 위해 사용하는 구성 파일
+├─ middleware.ts
+├─ next-auth.d.ts
+├─ next.config.mjs
+├─ package-lock.json
+├─ package.json
+├─ postcss.config.mjs
 ├─ public
 │  ├─ favicon.png
 │  └─ images
+│ 
 ├─ src
 │  ├─ app
 │  │  ├─ api
@@ -63,7 +73,15 @@ camkeep
 │  │  ├─ camping
 │  │  │  ├─ components
 │  │  │  │  └─ camping.client.tsx
-│  │  │  └─ page.tsx
+│  │  │  ├─ page.tsx
+│  │  │  └─ [id]
+│  │  │     ├─ components
+│  │  │     │  └─ camping.client.tsx
+│  │  │     └─ page.tsx
+│  │  ├─ check-list
+│  │  │  ├─ page.tsx
+│  │  │  └─ _components
+│  │  │     └─ check-list.client.tsx
 │  │  ├─ community
 │  │  │  ├─ components
 │  │  │  │  └─ community.client.tsx
@@ -87,7 +105,9 @@ camkeep
 │  │  │  ├─ components
 │  │  │  │  └─ newbie-guide.client.tsx
 │  │  │  └─ page.tsx
-│  │  └─ page.tsx
+│  │  ├─ page.tsx
+│  │  └─ search
+│  │     └─ page.tsx
 │  ├─ components
 │  │  ├─ components
 │  │  │  └─ client-layout.tsx
@@ -95,11 +115,14 @@ camkeep
 │  │  └─ ui
 │  │     ├─ accordion.tsx
 │  │     ├─ button.tsx
+│  │     ├─ card.tsx
 │  │     ├─ carousel.tsx
 │  │     └─ input.tsx
 │  ├─ features
 │  │  ├─ auth
 │  │  │  └─ auth-form-ui.tsx
+│  │  ├─ camping
+│  │  │  └─ camping-list.tsx
 │  │  ├─ community
 │  │  │  ├─ community-list.tsx
 │  │  │  ├─ community-modal.tsx
@@ -120,9 +143,12 @@ camkeep
 │  │  │  └─ index.ts
 │  │  ├─ home
 │  │  │  ├─ home-camping-month.tsx
+│  │  │  ├─ home-camping-recommend.tsx
+│  │  │  ├─ home-equipment-recommend.tsx
 │  │  │  ├─ home-promotion.tsx
 │  │  │  └─ promotion-data.ts
 │  │  ├─ mypage
+│  │  │  ├─ coupon-mock.ts
 │  │  │  ├─ mypage-cart.tsx
 │  │  │  ├─ mypage-comment.tsx
 │  │  │  ├─ mypage-commu.tsx
@@ -152,7 +178,6 @@ camkeep
 │  │  ├─ supabase
 │  │  │  └─ supabase-type.ts
 │  │  └─ user.ts
-│  ├─ utils
 │  └─ widgets
 │     ├─ Footer.tsx
 │     └─ Header.tsx
