@@ -3,6 +3,9 @@ export interface Post {
   title: string;
   content: string;
   created_at: string;
-  photos?: string[];
-  user?: { nickname: string; profile: string | null };
+  photos: string | null;
+  user: {
+    nickname: string;
+    profile: string | null;
+  } | null;
 }
