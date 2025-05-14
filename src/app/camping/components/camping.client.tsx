@@ -22,14 +22,15 @@ export default function CampingClient() {
   // 1) 전체 데이터 로드
 
   useEffect(() => {
-    fetch("/api/go-camping?pageNo=1")
-      .then((res) => res.json())
-      .then((data: CampingItem[]) => setList(data))
-      .catch((e) => {
-        console.error("🛑 /api/go-camping fetch 실패", e);
-        setError("캠핑장 데이터를 불러올 수 없습니다");
+    fetchAllCampingList()
+      .then((items) => {
+        setList(items);
+        setIsPending(false);
       })
-      .finally(() => setIsPending(false));
+      .catch((err: unknown) => {
+        setError(err instanceof Error ? err.message : String(err));
+        setIsPending(false);
+      });
   }, []);
 
   // 2) 주소(addr1)에 searchTerm 포함된 항목만 필터링

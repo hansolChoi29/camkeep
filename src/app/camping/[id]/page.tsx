@@ -9,9 +9,9 @@ interface CampingDetailPageProps {
 export default async function CampingDetailPage({
   params: { id },
 }: CampingDetailPageProps) {
-  const camp = await fetchCampingById(Number(id));
+  const camp = await fetchCampingById(id);
+  // 데이터는 잘 들어오는데 왜 항상 null로 인식할까?=> 404This page could not be found.=>fetchCampingById(id)가 null을 리턴
   if (!camp) return notFound();
-  // 클라이언트 컴포넌트에 camp props 전달
-  // return <CampingDetailClient />;
+
   return <CampingDetailClient camp={camp} />;
 }

@@ -35,11 +35,9 @@ export default function CampingDetailClient({
           <CardHeader>
             <CardTitle className="text-2xl font-bold">{camp.facltNm}</CardTitle>
           </CardHeader>
-          <p className="mt-4 text-gray-700">주소: {camp.addr1}</p>
-          <p className="mt-2 text-gray-600">전화: {camp.tel ?? "정보 없음"}</p>
-          <p className="mt-2 text-gray-600">
-            운영시간: {camp.operPdCl ?? "정보 없음"}
-          </p>
+          <p className="mt-4 ">주소: {camp.addr1}</p>
+          <p className="mt-2 ">전화: {camp.tel ?? "정보 없음"}</p>
+          <p className="mt-2 ">운영시간: {camp.operPdCl ?? "정보 없음"}</p>
         </CardContent>
         <CardFooter className="p-6 flex justify-end">
           <Link
