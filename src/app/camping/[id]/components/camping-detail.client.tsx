@@ -37,7 +37,37 @@ export default function CampingDetailClient({
           </CardHeader>
           <p className="mt-4 ">주소: {camp.addr1}</p>
           <p className="mt-2 ">전화: {camp.tel ?? "정보 없음"}</p>
-          <p className="mt-2 ">운영시간: {camp.operPdCl ?? "정보 없음"}</p>
+          <p className="mt-2 ">예약 방식: {camp.resveCl ?? "정보 없음"}</p>
+          <p className="mt-2 ">부대 시설: {camp.sbrsCl ?? "정보 없음"}</p>
+          <p className="mt-2 ">취사장 형태: {camp.brazierCl ?? "정보 없음"}</p>
+          <p className="mt-2 ">운영 요일: {camp.operDeCl ?? "정보 없음"}</p>
+          <div className="border rounded">
+            <p className="mt-2 ">
+              일반 야영장 수: {camp.gnrlSiteCo ?? "정보 없음"}
+            </p>
+            <p className="mt-2 ">
+              자동차 야영장 수: {camp.autoSiteCo ?? "정보 없음"}
+            </p>
+            <p className="mt-2 ">
+              카라반 사이트 수: {camp.caravSiteCo ?? "정보 없음"}
+            </p>
+            <p className="mt-2 ">
+              글램핑 사이트 수: {camp.glampSiteCo ?? "정보 없음"}
+            </p>
+            <p className="mt-2 ">반려동물: {camp.animalCmgCl ?? "정보 없음"}</p>
+          </div>
+          <Link
+            href={camp.homepage!}
+            className="hover:underline text-[#578E7E]"
+          >
+            홈페이지로 이동
+          </Link>
+          <Link
+            href={camp.resveUrl!}
+            className="hover:underline text-[#578E7E]"
+          >
+            예약사이트로 이동
+          </Link>
         </CardContent>
         <CardFooter className="p-6 flex justify-end">
           <Link

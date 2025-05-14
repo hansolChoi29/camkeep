@@ -7,6 +7,17 @@ export interface CampingItem {
   firstImageUrl?: string;
   tel?: string;
   operPdCl?: string;
+  resveCl?: string;
+  sbrsCl?: string;
+  brazierCl?: string;
+  operDeCl?: string;
+  gnrlSiteCo?: string;
+  autoSiteCo?: string;
+  caravSiteCo?: string;
+  glampSiteCo?: string;
+  animalCmgCl?: string;
+  homepage?: string;
+  resveUrl?: string;
 }
 
 export interface Camp {
