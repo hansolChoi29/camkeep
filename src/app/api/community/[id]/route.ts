@@ -1,12 +1,10 @@
-import CommunityDetailClient from "./components/community-detail.client";
+import { NextResponse } from "next/server";
 import { serverSupabase } from "@/lib/supabase/server";
-import { notFound } from "next/navigation";
 
-interface Props {
-  params: { id: string };
-}
-
-export default async function CommunityDetail({ params: { id } }: Props) {
+export async function GET(
+  _req: Request,
+  { params }: { params: { id: string } }
+) {
   const supabase = serverSupabase();
   const { data: post, error } = await supabase
     .from("community_posts")
@@ -23,11 +21,11 @@ export default async function CommunityDetail({ params: { id } }: Props) {
       )
     `
     )
-    .eq("id", id)
+    .eq("id", params.id)
     .single();
 
   if (error || !post) {
-    return notFound(); 
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
-  return <CommunityDetailClient post={post} />;
+  return NextResponse.json(post, { status: 200 });
 }
