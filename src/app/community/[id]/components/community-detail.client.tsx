@@ -14,8 +14,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
-
-
 interface CommunityDetailClientProps {
   post: Post;
 }
@@ -87,7 +85,7 @@ export default function CommunityDetailClient({
       <div>
         <Link
           href="/mypage"
-          className="border p-1 bg-[#578E7E] rounded text-white"
+          className="inline-block border p-1 bg-[#578E7E] rounded text-white transform transition-transform duration-200 ease-in-out hover:scale-110"
         >
           뒤로가기
         </Link>
