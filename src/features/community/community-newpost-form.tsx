@@ -80,7 +80,6 @@ export default function CommunityNewPostForm({ onSubmit, loading }: Props) {
           return;
         }
       }
-      console.log("업로드된 사진 URL들:", photoUrls);
 
       onSubmit(title.trim(), content.trim(), photoUrls);
     } catch (e) {

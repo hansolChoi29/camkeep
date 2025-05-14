@@ -78,7 +78,6 @@ export default function MypageClient({
     }
   };
 
-  console.log("userId", userId);
   // 파일 선택 → Storage 업로드 → publicUrl → 서버 API 호출
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -94,11 +93,7 @@ export default function MypageClient({
         method: "POST",
         body: formData,
       });
-      console.log("🛠 POST status:", res.status);
-
       const json = await res.json();
-
-      console.log("🛠 응답 JSON:", json);
 
       if (!res.ok) throw new Error(json.error);
 

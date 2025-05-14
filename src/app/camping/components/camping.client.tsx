@@ -20,6 +20,7 @@ export default function CampingClient() {
   const [searchTerm, setSearchTerm] = useState("");
 
   // 1) 전체 데이터 로드
+
   useEffect(() => {
     fetchAllCampingList()
       .then((items) => {
@@ -106,7 +107,7 @@ export default function CampingClient() {
               <CardFooter className="px-4 py-2">
                 <Link
                   href={`/camping/${camp.contentId}`}
-                  className="text-sm text-[#578E7E] hover:underline"
+                  className="text-sm text-[#578E7E] "
                 >
                   자세히 보기 →
                 </Link>
