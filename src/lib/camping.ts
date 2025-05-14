@@ -18,6 +18,7 @@ export interface CampingItem {
   animalCmgCl?: string;
   homepage?: string;
   resveUrl?: string;
+  hasGlamping?: string;
 }
 
 export interface Camp {
