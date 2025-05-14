@@ -26,7 +26,7 @@ interface MypageClientProps {
   photo: string | null;
   initialPosts: PostSummary[];
 }
-
+// 커밋주석
 export default function MypageClient({
   email,
   userId,
@@ -93,6 +93,7 @@ export default function MypageClient({
         method: "POST",
         body: formData,
       });
+
       const json = await res.json();
 
       if (!res.ok) throw new Error(json.error);
@@ -132,12 +133,12 @@ export default function MypageClient({
 
         <hr className="w-full border-t-1 border-[#578E7E] my-4" />
         <div>
-          <h1>장바구니</h1>
+          <h1>장바구니dkdk</h1>
           <MypageCart />
         </div>
 
         <div>
-          <h1>내가 작성한 커뮤</h1>
+          <h1>내가 작성한 커뮤dpdpd엥ㅇ?????</h1>
           <MypageCommu />
         </div>
 

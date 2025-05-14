@@ -57,7 +57,7 @@ export default function CommunityNewPostForm({ onSubmit, loading }: Props) {
     }
 
     if (!title.trim() || !content.trim()) {
-      setToast("제목과 내용을 입력하세요.");
+      setToast("제목과 내용을 입력해 주세요.");
 
       return;
     }

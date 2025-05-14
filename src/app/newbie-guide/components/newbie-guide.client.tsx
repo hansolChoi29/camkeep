@@ -14,13 +14,13 @@ export default function NewbieGuidClient() {
   return (
     <section>
       <article>
-        <div className="flex justify-center my-12">
-          <h1 className="text-[#724E2B] font-extrabold text-2xl">
+        <div className="flex justify-center my-12 ">
+          <h1 className="text-[#578E7E] font-extrabold text-2xl main">
             초보자 가이드
           </h1>
         </div>
 
-        <div className="bg-[#B9B28A]  rounded-t-sm flex flex-col  items-center justify-center w-auto h-32">
+        <div className="bg-[#578E7E]  rounded-t-sm flex flex-col  items-center justify-center w-auto h-32 main ">
           <hr />
           <NewbieGuideNav
             selected={selected}
@@ -30,11 +30,11 @@ export default function NewbieGuidClient() {
         </div>
       </article>
 
-      <article className="bg-white p-6 rounded shadow">
-        <h2 className="text-2xl font-semibold mb-4 text-[#504B38]">
+      <article className="bg-white p-6 rounded shadow main">
+        <h2 className="text-2xl font-semibold mb-4 text-[#578E7E]">
           {current?.label}
         </h2>
-        <p className="whitespace-pre-wrap text-gray-800 leading-relaxed">
+        <p className="whitespace-pre-wrap sm:text-2xl text-gray-800 leading-relaxed">
           {current?.text}
         </p>
       </article>

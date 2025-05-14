@@ -1,8 +1,8 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { serverSupabase } from "@/lib/supabase/server";
 import { cookies } from "next/headers";
+import { serverSupabase } from "@/lib/supabase/server";
 
 // ─── 로그인 액션 ─────────────────────────────────────────
 export async function loginAction(formData: FormData) {

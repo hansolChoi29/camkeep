@@ -1,6 +1,6 @@
 import { fetchCampingById } from "@/lib/camping";
-import CampingDetailClient from "./components/camping-detail.client";
 import { notFound } from "next/navigation";
+import CampingDetailClient from "./components/camping.client";
 
 interface CampingDetailPageProps {
   params: { id: string };
