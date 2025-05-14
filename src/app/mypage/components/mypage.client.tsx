@@ -6,7 +6,6 @@ import { useAuthStore } from "@/store/useAuthStore";
 import MypageProfile from "@/features/mypage/mypage-profile";
 import MypageCart from "@/features/mypage/mypage-cart";
 import MypageCommu from "@/features/mypage/mypage-commu";
-import MypageComment from "@/features/mypage/mypage-comment";
 import MypageCoupon from "@/features/mypage/mypage-coupon";
 import { SimpleToast } from "@/components/SimpleToast";
 import { browserSupabase } from "@/lib/supabase/client";
@@ -34,6 +33,7 @@ export default function MypageClient({
   phone,
   points,
   photo: initialPhoto,
+  initialPosts,
 }: MypageClientProps) {
   const router = useRouter();
   const params = useSearchParams();
@@ -113,7 +113,7 @@ export default function MypageClient({
 
   return (
     <>
-      <section className="flex main flex-col items-center justify-center w-full max-w-md p-6 min-h-screen mx-auto">
+      <section className="flex main text-xl flex-col items-center justify-center w-full max-w-md p-6 min-h-screen mx-auto">
         <MypageProfile
           photoUrl={photoUrl}
           handleFileChange={handleFileChange}
@@ -132,24 +132,22 @@ export default function MypageClient({
         />
 
         <hr className="w-full border-t-1 border-[#578E7E] my-4" />
-        <div>
-          <h1>장바구니dkdk</h1>
-          <MypageCart />
-        </div>
 
         <div>
-          <h1>내가 작성한 커뮤dpdpd엥ㅇ?????</h1>
-          <MypageCommu />
-        </div>
+          <div>
+            <h1>장바구니</h1>
+            <MypageCart />
+          </div>
 
-        <div>
-          <h1>내가 작성한 뎃글</h1>
-          <MypageComment />
-        </div>
+          <div>
+            <h1>내가 작성한 커뮤</h1>
+            <MypageCommu initialPosts={initialPosts} />
+          </div>
 
-        <div>
-          <h1>내 쿠폰</h1>
-          <MypageCoupon />
+          <div>
+            <h1>내 쿠폰</h1>
+            <MypageCoupon />
+          </div>
         </div>
 
         <div className="w-auto gap-2 mt-6 flex flex-col justify-between">
