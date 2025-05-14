@@ -9,17 +9,12 @@ import {
 import CommentsList from "@/features/community/community-list";
 import LikeButton from "@/features/community/like-button";
 import { timeAgo } from "@/lib/utils";
+import { Post } from "@/types/community";
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 
-interface Post {
-  id: string;
-  title: string;
-  content: string;
-  created_at: string;
-  photos?: string[];
-  user?: { nickname: string; profile: string | null };
-}
+
 
 interface CommunityDetailClientProps {
   post: Post;
@@ -58,7 +53,7 @@ export default function CommunityDetailClient({
         </CardHeader>
 
         {photos.length > 0 && (
-          <div className="relative w-full h-80">
+          <div className=" w-full h-80">
             <Image
               src={photos[0]}
               alt={post.title}
@@ -70,7 +65,7 @@ export default function CommunityDetailClient({
 
         <CardContent className="px-4 py-6">
           <h2 className="text-xl font-semibold mb-2">{post.title}</h2>
-          <p className="text-gray-700 whitespace-pre-wrap">{post.content}</p>
+          <p className=" whitespace-pre-wrap">{post.content}</p>
         </CardContent>
 
         <CardFooter className="px-4 py-2 flex justify-between items-center border-t">
@@ -89,6 +84,14 @@ export default function CommunityDetailClient({
           </div>
         )}
       </Card>
+      <div>
+        <Link
+          href="/mypage"
+          className="border p-1 bg-[#578E7E] rounded text-white"
+        >
+          뒤로가기
+        </Link>
+      </div>
     </main>
   );
 }
