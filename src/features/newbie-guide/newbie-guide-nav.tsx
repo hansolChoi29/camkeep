@@ -16,7 +16,7 @@ export default function NewbieGuideNav({
   setSearch,
 }: NewbieGuideNavProps) {
   return (
-    <nav className="flex flex-wrap">
+    <nav className="flex flex-wrap px-4">
       {CATEGORIES.map(({ label }) => (
         <motion.button
           key={label}
@@ -26,11 +26,11 @@ export default function NewbieGuideNav({
           }}
           className={`
             flex-shrink-0 px-2 py-1 m-1 rounded-full whitespace-nowrap
-            border
+            border sm:text-xl text-sm
           `}
           animate={{
-            backgroundColor: selected === label ? "#504B38" : "transparent",
-            color: selected === label ? "#ffffff" : "#ffffff",
+            backgroundColor: selected === label ? "#ffffff" : "transparent",
+            color: selected === label ? "#578E7E" : "#ffffff",
             borderColor: selected === label ? "transparent" : "#CCCCCC",
           }}
           whileHover={{ scale: 1.05 }}

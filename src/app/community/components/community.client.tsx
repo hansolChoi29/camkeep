@@ -89,7 +89,7 @@ export default function CommunityClient() {
         className="hidden lg:inline-flex fixed bottom-8 right-8 bg-[#578E7E] text-white p-4 rounded-full shadow-lg hover:bg-[#3d665e] transition"
         aria-label="새 글 작성"
       >
-        +
+        게시하기
       </button>
       <CommunityModal open={modalOpen} onClose={() => setModalOpen(false)}>
         <CommunityNewPostForm onSubmit={handleNewPost} loading={loadingPost} />
@@ -99,21 +99,27 @@ export default function CommunityClient() {
         const photos = normalizePhotos(p.photos);
         return (
           <Card key={p.id} className="rounded-lg overflow-hidden shadow-md">
-            <CardHeader className="flex flex-row items-center px-2 py-1 ">
-              {p.user?.profile && (
-                <Image
-                  src={p.user.profile}
-                  alt={p.user.nickname}
-                  width={32}
-                  height={32}
-                  className="rounded-full object-cover"
-                />
-              )}
-              <div className=" flex justify-center items-center">
-                <p className="font-medium">{p.user?.nickname}</p>
+            <div className="flex">
+              <div className="w-full">
+                <CardHeader className="flex flex-row items-center px-2 py-1 ">
+                  {p.user?.profile && (
+                    <Image
+                      src={p.user.profile}
+                      alt={p.user.nickname}
+                      width={32}
+                      height={32}
+                      className="rounded-full object-cover"
+                    />
+                  )}
+                  <div className=" flex justify-center items-center">
+                    <p className="font-medium">{p.user?.nickname}</p>
+                  </div>
+                </CardHeader>
               </div>
-            </CardHeader>
+              <div className="w-full flex justify-end p-2">{p.title}</div>
+            </div>
 
+            <hr />
             {photos[0] && (
               <div className="relative w-full h-64">
                 <Image
@@ -137,7 +143,7 @@ export default function CommunityClient() {
                   : p.content}
               </p>
             </CardContent>
-
+            <hr />
             <CardFooter className="px-4 py-2 flex items-center justify-between">
               <LikeButton postId={p.id} />
               <button

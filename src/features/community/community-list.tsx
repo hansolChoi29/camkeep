@@ -33,7 +33,7 @@ export default function CommentsList({ postId }: { postId: string }) {
   // 2) 댓글 작성
   const submit = async () => {
     if (!newComment.trim()) {
-      setError("댓글 내용을 입력해주세요.");
+      setError("댓글 내용을 입력해 주세요.");
       return;
     }
     const res = await fetch(`/api/community/${postId}/comments`, {
