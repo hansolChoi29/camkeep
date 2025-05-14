@@ -90,3 +90,11 @@ export async function fetchCampingById(
   const found = list.find((item) => item.contentId.toString() === id);
   return found ?? null;
 }
+export async function getPostById(id: string) {
+  const base = process.env.NEXT_PUBLIC_BASE_URL!;
+  const res = await fetch(`${base}/api/community/${id}`, {
+    cache: "no-store",
+  });
+  if (!res.ok) throw new Error("포스트를 불러오는데 실패했습니다.");
+  return res.json();
+}
