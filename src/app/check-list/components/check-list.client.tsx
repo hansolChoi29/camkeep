@@ -19,7 +19,8 @@ export default function CheckListClient() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [items, setItems] = useState<Item[]>([]);
-
+  // 카테고리별 아이템 맵
+  const [itemsByCat, setItemsByCat] = useState<Record<string, Item[]>>({});
   // 새 추가용
   const [newCat, setNewCat] = useState("");
   const [newTitle, setNewTitle] = useState("");
@@ -46,14 +47,19 @@ export default function CheckListClient() {
 
   // 아이템 로드
   useEffect(() => {
-    if (!selectedId) {
-      setItems([]);
-      return;
-    }
-    fetch(`/api/check-list?categoryId=${selectedId}`)
-      .then((r) => r.json())
-      .then((js) => setItems(js.data));
-  }, [selectedId]);
+    if (categories.length === 0) return;
+    (async () => {
+      const map: Record<string, Item[]> = {};
+      await Promise.all(
+        categories.map(async (c) => {
+          const res = await fetch(`/api/check-list?categoryId=${c.id}`);
+          const { data } = await res.json();
+          map[c.id] = data;
+        })
+      );
+      setItemsByCat(map);
+    })();
+  }, [categories]);
 
   // 카테고리 추가
   const addCategory = async () => {
@@ -194,10 +200,27 @@ export default function CheckListClient() {
   };
 
   return (
-    <section className="p-4">
-      {/* 주의: 캡처 대상 전체 래퍼 */}
-      <div ref={containerRef}>
-        <div className="mb-4 flex gap-2">
+    <section className="m-4">
+      <h2 className="text-3xl mt-10 main">나만의 체크리스트</h2>
+      <div className="flex justify-end ">
+        <motion.button
+          onClick={downloadAsImage}
+          whileHover={{ scale: 1.05 }}
+          transition={{ type: "spring", stiffness: 300, damping: 20 }}
+        >
+          <Image
+            src="/images/check-download.svg"
+            alt="다운로드"
+            width={30}
+            height={30}
+          />
+        </motion.button>
+      </div>
+
+      {/* 전체 캡처 영역 */}
+      <div ref={containerRef} className="mt-6 space-y-8 border p-4">
+        {/* 새 카테고리 추가 UI */}
+        <div className="flex gap-2">
           <input
             className="border p-1 flex-1"
             placeholder="새 카테고리"
@@ -206,161 +229,176 @@ export default function CheckListClient() {
           />
           <button
             onClick={addCategory}
-            className="bg-[#578E7E] rounded text-white px-3 text-sm"
+            className="bg-[#578E7E] text-white px-3 rounded"
           >
             추가
           </button>
         </div>
-        <div className="flex justify-end">
-          <motion.button
-            onClick={downloadAsImage}
-            className="overflow-hidden leading-none focus:outline-none my-2 "
-            style={{
-              transformOrigin: "center center",
-              backfaceVisibility: "hidden",
-              WebkitBackfaceVisibility: "hidden",
-              willChange: "transform",
-            }}
-            whileHover={{ scale: 1.05 }}
-            transition={{ type: "spring", stiffness: 300, damping: 20 }}
-          >
-            <Image
-              src="/images/check-download.svg"
-              alt="다운로드"
-              width={30}
-              height={30}
-              className="block"
-            />
-          </motion.button>
-        </div>
-        <div className="flex gap-4">
-          {/* -- 카테고리 리스트 -- */}
-          <ul className="w-1/3 border p-2 space-y-2">
-            {categories.map((c) => (
-              <li key={c.id} className="flex items-center justify-between">
-                {editCatId === c.id ? (
-                  <>
-                    <input
-                      className="border p-1 flex-1"
-                      value={editCatTitle}
-                      onChange={(e) => setEditCatTitle(e.target.value)}
+
+        {/* 모든 카테고리 + 아이템 렌더링 */}
+        {categories.map((cat) => (
+          <div key={cat.id} className="border p-4 rounded">
+            {/* 카테고리 헤더 */}
+            <div className="flex items-center justify-between mb-3">
+              {editCatId === cat.id ? (
+                <>
+                  <input
+                    className="border p-1 flex-1"
+                    value={editCatTitle}
+                    onChange={(e) => setEditCatTitle(e.target.value)}
+                  />
+                  <button onClick={() => saveCategory(cat.id)}>
+                    <Image
+                      src="/images/check.svg"
+                      alt="check"
+                      width={25}
+                      height={25}
                     />
-                    <button onClick={() => saveCategory(c.id)}>저장</button>
-                    <button onClick={() => setEditCatId(null)}>취소</button>
-                  </>
-                ) : (
-                  <>
-                    <span
-                      className={`cursor-pointer ${
-                        c.id === selectedId ? "text-red-500" : ""
-                      }`}
-                      onClick={() => setSelectedId(c.id)}
+                  </button>
+                  <button onClick={() => setEditCatId(null)}>
+                    <Image
+                      src="/images/delete.svg"
+                      alt="delete"
+                      width={16}
+                      height={16}
+                    />
+                  </button>
+                </>
+              ) : (
+                <>
+                  <h3 className="text-xl font-semibold">{cat.title}</h3>
+                  <div className="flex gap-1">
+                    <button
+                      onClick={() => {
+                        setEditCatId(cat.id);
+                        setEditCatTitle(cat.title);
+                      }}
                     >
-                      {c.title}
-                    </span>
-                    <div className="flex gap-1">
-                      <button
-                        onClick={() => {
-                          setEditCatId(c.id);
-                          setEditCatTitle(c.title);
-                        }}
-                      >
-                        수정
-                      </button>
-                      <button onClick={() => deleteCategory(c.id)}>삭제</button>
-                    </div>
-                  </>
-                )}
-              </li>
-            ))}
-          </ul>
-
-          {selectedId && (
-            <div className="w-2/3">
-              {/* 아이템 추가 */}
-              <div className="mb-4 flex gap-2">
-                <input
-                  className="border p-1 flex-1"
-                  placeholder="새 아이템"
-                  value={newTitle}
-                  onChange={(e) => setNewTitle(e.target.value)}
-                />
-                <input
-                  className="border p-1 flex-1"
-                  placeholder="설명 (선택)"
-                  value={newDesc}
-                  onChange={(e) => setNewDesc(e.target.value)}
-                />
-                <button
-                  onClick={addItem}
-                  className="bg-[#578E7E] text-sm rounded text-white px-3"
-                >
-                  추가
-                </button>
-              </div>
-
-              <ul className="space-y-2">
-                {items.map((i) => (
-                  <li key={i.id} className="flex items-start gap-2">
-                    <input
-                      type="checkbox"
-                      checked={i.is_checked}
-                      onChange={() => toggleItem(i.id, i.is_checked)}
-                    />
-                    {editItemId === i.id ? (
-                      <div className="flex-1 space-y-1">
-                        <input
-                          className="border p-1 w-full"
-                          value={editItemTitle}
-                          onChange={(e) => setEditItemTitle(e.target.value)}
-                        />
-                        <input
-                          className="border p-1 w-full"
-                          value={editItemDesc || ""}
-                          onChange={(e) => setEditItemDesc(e.target.value)}
-                        />
-                        <button onClick={() => saveItem(i.id)}>저장</button>
-                        <button onClick={() => setEditItemId(null)}>
-                          취소
-                        </button>
-                      </div>
-                    ) : (
-                      <div className="flex-1">
-                        <div className="flex justify-between">
-                          <p className={i.is_checked ? "line-through" : ""}>
-                            {i.title}
-                          </p>
-                          <div className="flex gap-1">
-                            <button
-                              onClick={() => {
-                                setEditItemId(i.id);
-                                setEditItemTitle(i.title);
-                                setEditItemDesc(i.description || "");
-                              }}
-                            >
-                              수정
-                            </button>
-                            <button onClick={() => deleteItem(i.id)}>
-                              삭제
-                            </button>
-                          </div>
-                        </div>
-                        {i.description && (
-                          <small className="text-gray-500">
-                            {i.description}
-                          </small>
-                        )}
-                      </div>
-                    )}
-                  </li>
-                ))}
-              </ul>
+                      <Image
+                        src="/images/update.png"
+                        alt="update"
+                        width={16}
+                        height={16}
+                      />
+                    </button>
+                    <button onClick={() => deleteCategory(cat.id)}>
+                      <Image
+                        src="/images/delete.svg"
+                        alt="delete"
+                        width={16}
+                        height={16}
+                      />
+                    </button>
+                  </div>
+                </>
+              )}
             </div>
-          )}
-        </div>
-      </div>
 
-      {/* 주의: 이미지 저장 버튼 (캡처 대상 밖) */}
+            {/* 새 아이템 추가 */}
+            <div className="flex gap-2 mb-4">
+              <input
+                className="border p-1 flex-1"
+                placeholder="새 아이템"
+                value={newTitle}
+                onChange={(e) => setNewTitle(e.target.value)}
+              />
+              <input
+                className="border p-1 flex-1"
+                placeholder="설명 (선택)"
+                value={newDesc}
+                onChange={(e) => setNewDesc(e.target.value)}
+              />
+              <button
+                onClick={addItem}
+                className="bg-[#578E7E] text-white px-3 rounded"
+              >
+                추가
+              </button>
+            </div>
+
+            {/* 아이템 리스트 */}
+            <ul className="space-y-2">
+              {(itemsByCat[cat.id] || []).map((item) => (
+                <li key={item.id} className="flex items-start gap-2">
+                  <input
+                    type="checkbox"
+                    checked={item.is_checked}
+                    onChange={() => toggleItem(item.id, item.is_checked)}
+                  />
+
+                  {editItemId === item.id ? (
+                    <div className="flex-1 space-y-1">
+                      <input
+                        className="border p-1 w-full"
+                        value={editItemTitle}
+                        onChange={(e) => setEditItemTitle(e.target.value)}
+                      />
+                      <input
+                        className="border p-1 w-full"
+                        value={editItemDesc}
+                        onChange={(e) => setEditItemDesc(e.target.value)}
+                      />
+                      <button onClick={() => saveItem(item.id)}>
+                        <Image
+                          src="/images/check.svg"
+                          alt="check"
+                          width={25}
+                          height={25}
+                        />
+                      </button>
+                      <button onClick={() => setEditItemId(null)}>
+                        <Image
+                          src="/images/delete.svg"
+                          alt="delete"
+                          width={16}
+                          height={16}
+                        />
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="flex-1">
+                      <div className="flex justify-between">
+                        <p className={item.is_checked ? "line-through" : ""}>
+                          {item.title}
+                        </p>
+                        <div className="flex gap-1">
+                          <button
+                            onClick={() => {
+                              setEditItemId(item.id);
+                              setEditItemTitle(item.title);
+                              setEditItemDesc(item.description || "");
+                            }}
+                          >
+                            <Image
+                              src="/images/update.png"
+                              alt="update"
+                              width={16}
+                              height={16}
+                            />
+                          </button>
+                          <button onClick={() => deleteItem(item.id)}>
+                            <Image
+                              src="/images/delete.svg"
+                              alt="delete"
+                              width={16}
+                              height={16}
+                            />
+                          </button>
+                        </div>
+                      </div>
+                      {item.description && (
+                        <small className="text-gray-500">
+                          {item.description}
+                        </small>
+                      )}
+                    </div>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
 
       {toast && (
         <SimpleToast
