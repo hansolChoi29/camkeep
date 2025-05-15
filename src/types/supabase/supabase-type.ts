@@ -42,7 +42,7 @@ export type Database = {
         Row: {
           category_id: string | null
           created_at: string
-          description: string | null
+          description: string
           id: string
           is_checked: boolean
           title: string
@@ -50,7 +50,7 @@ export type Database = {
         Insert: {
           category_id?: string | null
           created_at?: string
-          description?: string | null
+          description: string
           id?: string
           is_checked: boolean
           title: string
@@ -58,7 +58,7 @@ export type Database = {
         Update: {
           category_id?: string | null
           created_at?: string
-          description?: string | null
+          description?: string
           id?: string
           is_checked?: boolean
           title?: string
