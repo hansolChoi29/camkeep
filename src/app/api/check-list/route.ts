@@ -20,8 +20,8 @@ async function withAuth(req: NextRequest) {
   }
 
   return { supabase, user, unauthorized: null };
+  console.log("req", req);
 }
-
 //GET 사용자 인증 확인 후, 전체 카테고리 또는 특정 카테고리의 아이템 목록 반환
 export async function GET(req: NextRequest) {
   const { supabase, user, unauthorized } = await withAuth(req);
@@ -111,7 +111,7 @@ export async function POST(req: NextRequest) {
 
 //PATCH type에 따라 카테고리 또는 아이템 수정
 export async function PATCH(req: NextRequest) {
-  const { supabase, user, unauthorized } = await withAuth(req);
+  const { supabase, unauthorized } = await withAuth(req);
   if (unauthorized) return unauthorized;
 
   const { type, id, fields } = await req.json();
@@ -150,7 +150,7 @@ export async function PATCH(req: NextRequest) {
 
 //DELETE type에 따라 카테고리 또는 아이템 삭제
 export async function DELETE(req: NextRequest) {
-  const { supabase, user, unauthorized } = await withAuth(req);
+  const { supabase, unauthorized } = await withAuth(req);
   if (unauthorized) return unauthorized;
 
   const { type, id } = await req.json();
