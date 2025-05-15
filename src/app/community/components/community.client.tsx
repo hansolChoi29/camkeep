@@ -108,30 +108,30 @@ export default function CommunityClient({
             <div className="flex ">
               <div className="w-full">
                 <div>
-                  <CardHeader className="flex flex-row items-center px-2 py-1 ">
+                  <CardHeader className="flex flex-row items-center h-full px-2 py-1 ">
                     {p.user?.profile && (
                       <Image
                         src={p.user.profile}
                         alt={p.user.nickname}
                         width={20}
                         height={20}
-                        className="rounded-full object-cover"
+                        className="rounded-full object-cover border"
                       />
                     )}
 
                     <div>
-                      <p className="font-medium p-1 text-sm">
+                      <p className="font-medium p-1 text-sm ml-1">
                         {p.user?.nickname}
                       </p>
                     </div>
                   </CardHeader>
                 </div>
-                <div className="flex items-center justify-center w-full">
-                  {p.title}
+                <div className="flex items-center  py-2">
+                  <p className="justify-start ">{p.title}</p>
+                  <p className="text-xs ml-2 text-[#A7A6A6]">
+                    {timeAgo(p.created_at)}
+                  </p>
                 </div>
-              </div>
-              <div className="flex items-center justify-end w-full">
-                <p className="text-xs  mr-2">{timeAgo(p.created_at)}</p>
               </div>
             </div>
 
