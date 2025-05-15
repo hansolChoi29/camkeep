@@ -1,4 +1,5 @@
 "use client";
+import { SimpleToast } from "@/components/SimpleToast";
 import { useEffect, useState } from "react";
 
 export interface Category {
@@ -28,6 +29,9 @@ export default function CheckListClient() {
   const [editItemId, setEditItemId] = useState<string | null>(null);
   const [editItemTitle, setEditItemTitle] = useState("");
   const [editItemDesc, setEditItemDesc] = useState("");
+  // 알림
+  const [error, setError] = useState<string | null>(null);
+  const [toast, setToast] = useState<string | null>(null);
 
   // 1) 카테고리 로드
   useEffect(() => {
@@ -58,6 +62,7 @@ export default function CheckListClient() {
     setNewCat("");
     const { data } = await (await fetch("/api/check-list")).json();
     setCategories(data);
+    setToast("추가 완료!");
   };
 
   // 4) 카테고리 삭제
@@ -70,6 +75,7 @@ export default function CheckListClient() {
     if (selectedId === id) setSelectedId(null);
     const { data } = await (await fetch("/api/check-list")).json();
     setCategories(data);
+    setToast("삭제 완료!");
   };
 
   // 카테고리 수정
@@ -87,6 +93,7 @@ export default function CheckListClient() {
     setEditCatId(null);
     const { data } = await (await fetch("/api/check-list")).json();
     setCategories(data);
+    setToast("수정 완료!");
   };
 
   // 5) 아이템 추가
@@ -110,6 +117,7 @@ export default function CheckListClient() {
       await fetch(`/api/check-list?categoryId=${selectedId}`)
     ).json();
     setItems(data);
+    setToast("추가 완료!");
   };
 
   // 6) 아이템 삭제
@@ -123,6 +131,7 @@ export default function CheckListClient() {
       await fetch(`/api/check-list?categoryId=${selectedId}`)
     ).json();
     setItems(data);
+    setToast("삭제완료!");
   };
 
   // 아이템 수정
@@ -144,6 +153,7 @@ export default function CheckListClient() {
       await fetch(`/api/check-list?categoryId=${selectedId}`)
     ).json();
     setItems(data);
+    setToast("수정완료!");
   };
 
   // 7) 체크박스 토글
@@ -291,6 +301,13 @@ export default function CheckListClient() {
           </div>
         )}
       </div>
+      {toast && (
+        <SimpleToast
+          message={toast}
+          duration={2000}
+          onClose={() => setToast(null)}
+        />
+      )}
     </section>
   );
 }
