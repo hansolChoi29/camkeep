@@ -42,7 +42,7 @@ export default function MypageProfile(props: MypageProfileProps) {
     points,
   } = props;
   return (
-    <div className="flex items-start w-full">
+    <article className="flex items-start w-full">
       <div className="relative flex-shrink-0">
         {photoUrl ? (
           <Image
@@ -136,6 +136,6 @@ export default function MypageProfile(props: MypageProfileProps) {
           </button>
         </div>
       </div>
-    </div>
+    </article>
   );
 }

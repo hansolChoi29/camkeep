@@ -85,7 +85,7 @@ export default function CommunityClient({
   };
 
   return (
-    <div className="max-w-xl mx-auto mt-20 space-y-6 mb-20 gowun">
+    <div className="w-full mt-20 space-y-6 mb-20">
       {error && <div className="text-red-500">{error}</div>}
       <button
         onClick={() => setModalOpen(true)}

@@ -112,55 +112,45 @@ export default function MypageClient({
   };
 
   return (
-    <>
-      <section className="w-full p-6 min-h-screen mx-auto">
-        <div className="flex flex-col items-stretch justify-center gowun">
-          <MypageProfile
-            photoUrl={photoUrl}
-            handleFileChange={handleFileChange}
-            uploading={uploading}
-            editing={editing}
-            initialNickname={nickname}
-            newNickname={newNickname}
-            setNewNickname={setNewNickname}
-            saveNickname={saveNickname}
-            cancelEditing={() => setEditing((v) => !v)}
-            saving={saving}
-            email={email}
-            phone={phone}
-            points={points}
-            handleLogout={handleLogout}
-          />
+    <section>
+      <div className="flex flex-col items-stretch justify-center gowun w-full max-w-4xl p-8 min-h-screen mx-auto">
+        <MypageProfile
+          photoUrl={photoUrl}
+          handleFileChange={handleFileChange}
+          uploading={uploading}
+          editing={editing}
+          initialNickname={nickname}
+          newNickname={newNickname}
+          setNewNickname={setNewNickname}
+          saveNickname={saveNickname}
+          cancelEditing={() => setEditing((v) => !v)}
+          saving={saving}
+          email={email}
+          phone={phone}
+          points={points}
+          handleLogout={handleLogout}
+        />
 
-          <hr className="w-full border-t-1 border-[#578E7E] my-4" />
+        <hr className="w-full border-t-1 border-[#578E7E] my-4" />
 
-          <div>
-            <div>
-              <h1>장바구니</h1>
-              <MypageCart />
-            </div>
-            <div className="w-full">
-              <MypageCommu initialPosts={initialPosts} />
-            </div>
+        <div>
+          <MypageCart />
+          <MypageCommu initialPosts={initialPosts} />
 
-            <div>
-              <h1>내 쿠폰</h1>
-              <MypageCoupon />
-            </div>
-          </div>
+          <MypageCoupon />
         </div>
+      </div>
 
-        <div className="mt-6 flex flex-col gap-2 items-end logo">
-          <button
-            onClick={() => router.push(callback)}
-            className="bg-[#578E7E] text-white  px-4 py-2 border rounded transform transition-transform duration-200 ease-in-out hover:scale-110"
-          >
-            뒤로가기
-          </button>
+      <article className="mt-6 flex flex-col gap-2 items-end logo">
+        <button
+          onClick={() => router.push(callback)}
+          className="bg-[#578E7E] text-white  px-4 py-2 border rounded transform transition-transform duration-200 ease-in-out hover:scale-110"
+        >
+          뒤로가기
+        </button>
 
-          <button className="px-4 py-2  rounded">회원탈퇴</button>
-        </div>
-      </section>
+        <button className="px-4 py-2  rounded">회원탈퇴</button>
+      </article>
 
       {toastMsg && (
         <SimpleToast
@@ -169,6 +159,6 @@ export default function MypageClient({
           onClose={() => setToastMsg(null)}
         />
       )}
-    </>
+    </section>
   );
 }
