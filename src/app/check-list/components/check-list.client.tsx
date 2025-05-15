@@ -78,11 +78,40 @@ export default function CheckListClient() {
 
   // 카테고리 삭제
   const deleteCategory = async (id: string) => {
+    const items = itemsByCat[id] || [];
+
+    // 삭제 허용 조건: 빈 카테고리이거나, 모든 아이템이 체크된 상태
+    const canDelete = items.length === 0 || items.every((it) => it.is_checked);
+    if (!canDelete) {
+      setToast(
+        "완료되지 않은 항목이 남아 있습니다. 모든 항목을 완료하거나 비운 뒤에 삭제하세요."
+      );
+      return;
+    }
+
+    // 1) 카테고리 안에 아이템이 있으면, 모두 삭제
+    if (items.length > 0) {
+      await Promise.all(
+        items.map((it) =>
+          fetch("/api/check-list", {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ type: "item", id: it.id }),
+          })
+        )
+      );
+      // 로컬 상태도 비워두기
+      setItemsByCat((prev) => ({ ...prev, [id]: [] }));
+    }
+
+    // 2) 이제 카테고리 삭제
     await fetch("/api/check-list", {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ type: "category", id }),
     });
+
+    // 3) 카테고리 목록 갱신 하.. 드디어 됐다.
     const { data } = await (await fetch("/api/check-list")).json();
     setCategories(data);
     setToast("카테고리 삭제 완료!");
@@ -424,7 +453,7 @@ export default function CheckListClient() {
       {toast && (
         <SimpleToast
           message={toast}
-          duration={2000}
+          duration={5000}
           onClose={() => setToast(null)}
         />
       )}
