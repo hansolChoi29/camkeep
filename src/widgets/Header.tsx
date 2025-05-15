@@ -16,11 +16,7 @@ export default function Header() {
       <header className="fixed w-full top-0 h-16 bg-white shadow-md z-50 flex items-center px-4">
         <Link
           href="/"
-          className={`text-3xl font-bold transition-transform hover:scale-110 ${
-            pathname === "/"
-              ? "text-red-500"
-              : "text-[#578E7E] hover:text-red-500"
-          }`}
+          className="text-3xl font-bold text-[#578E7E] transition-transform hover:scale-110 hover:text-red-500"
         >
           CAMKEEP
         </Link>
