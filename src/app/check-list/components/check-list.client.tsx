@@ -164,7 +164,7 @@ export default function CheckListClient() {
       await fetch(`/api/check-list?categoryId=${categoryId}`)
     ).json();
     setItemsByCat((prev) => ({ ...prev, [categoryId]: data }));
-    setToast("아이템 추가 완료!");
+    setToast("체크리스트 추가!");
   };
 
   // 아이템 삭제
@@ -178,7 +178,7 @@ export default function CheckListClient() {
       await fetch(`/api/check-list?categoryId=${categoryId}`)
     ).json();
     setItemsByCat((prev) => ({ ...prev, [categoryId]: data }));
-    setToast("아이템 삭제 완료!");
+    setToast("체크리스트 삭제!");
   };
 
   // 아이템 수정 저장
@@ -200,7 +200,7 @@ export default function CheckListClient() {
       await fetch(`/api/check-list?categoryId=${categoryId}`)
     ).json();
     setItemsByCat((prev) => ({ ...prev, [categoryId]: data }));
-    setToast("아이템 수정 완료!");
+    setToast("체크리스트 수정!");
   };
 
   // 체크박스 토글
