@@ -32,7 +32,7 @@ export default function CommunityDetailClient({
   return (
     <main className="max-w-2xl mx-auto my-12 space-y-6">
       <Card className="shadow-lg rounded-lg overflow-hidden">
-        <CardHeader className="flex items-center px-4 py-2">
+        <CardHeader className="items-start px-4 py-2 flex flex-row">
           {post.user?.profile && (
             <Image
               src={post.user.profile}
