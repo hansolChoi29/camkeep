@@ -135,18 +135,10 @@ export default function MypageClient({
           <hr className="w-full border-t-1 border-[#578E7E] my-4" />
 
           <div>
-            <div>
-              <h1>장바구니</h1>
-              <MypageCart />
-            </div>
-            <div className="w-full">
-              <MypageCommu initialPosts={initialPosts} />
-            </div>
+            <MypageCart />
+            <MypageCommu initialPosts={initialPosts} />
 
-            <div>
-              <h1>내 쿠폰</h1>
-              <MypageCoupon />
-            </div>
+            <MypageCoupon />
           </div>
         </div>
 
