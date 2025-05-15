@@ -61,7 +61,7 @@ export default function HomeEquipmentRecommend() {
   }
 
   return (
-    <section className="space-y-16 ">
+    <section className="space-y-16 mb-44">
       {CATEGORIES.map(({ label: cat }) => (
         <article key={cat} className="mt-10 sm:mb-10 mb-20 gowun ">
           <h2 className="text-base sm:text-xl font-semibold mb-4">
@@ -122,7 +122,7 @@ export default function HomeEquipmentRecommend() {
               </Carousel>
             </article>
           ) : (
-            <p className="px-2 text-gray-500">등록된 상품이 없습니다.</p>
+            <p className="px-2 text-gray-500">새로고침 해주세요.</p>
           )}
         </article>
       ))}
