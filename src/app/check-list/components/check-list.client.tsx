@@ -5,6 +5,7 @@ import html2canvas from "html2canvas";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Input } from "@/components/ui/input";
+import ImageDownloadModal from "@/features/check-list/image-download-modal";
 
 export interface Category {
   id: string;
@@ -18,6 +19,7 @@ export interface Item {
 }
 
 export default function CheckListClient() {
+  const [downloadModalOpen, setDownloadModalOpen] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
   // 카테고리별 아이템 맵
   const [itemsByCat, setItemsByCat] = useState<Record<string, Item[]>>({});
@@ -238,18 +240,26 @@ export default function CheckListClient() {
     <section className="m-4">
       <h2 className="text-3xl mt-10 main">나만의 체크리스트</h2>
       <div className="flex justify-end">
+        {/* 트리거 버튼: onClick으로 모달 open state를 true로 */}
         <motion.button
-          onClick={downloadAsImage}
+          onClick={() => setDownloadModalOpen(true)}
           whileHover={{ scale: 1.05 }}
           transition={{ type: "spring", stiffness: 300, damping: 20 }}
         >
           <Image
             src="/images/check-download.svg"
-            alt="다운로드"
-            width={30}
-            height={30}
+            alt="download"
+            width={20}
+            height={20}
           />
         </motion.button>
+
+        {/* 모달 컴포넌트 */}
+        <ImageDownloadModal
+          open={downloadModalOpen}
+          onClose={() => setDownloadModalOpen(false)}
+          onConfirm={downloadAsImage}
+        />
       </div>
 
       {/* 전체 캡처 영역 */}
