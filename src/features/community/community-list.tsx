@@ -10,8 +10,15 @@ interface Comment {
   created_at: string;
   user: { nickname: string; profile: string | null };
 }
+interface CommentsListProps {
+  postId: string;
+  onCommentAdded?: () => void;
+}
 
-export default function CommentsList({ postId }: { postId: string }) {
+export default function CommentsList({
+  postId,
+  onCommentAdded,
+}: CommentsListProps) {
   const [comments, setComments] = useState<Comment[]>([]);
   const [newComment, setNewComment] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -47,6 +54,7 @@ export default function CommentsList({ postId }: { postId: string }) {
       setNewComment("");
       fetchComments();
       setToast("성공적으로 등록되었습니다.");
+      onCommentAdded?.();
     }
   };
 

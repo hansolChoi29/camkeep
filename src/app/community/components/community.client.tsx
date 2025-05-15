@@ -76,6 +76,14 @@ export default function CommunityClient({
   const toggleComments = (postId: string) =>
     setOpenComments((prev) => ({ ...prev, [postId]: !prev[postId] }));
 
+  // 댓글이 새로 달렸을 때 count를 +1 해 주는 함수
+  const handleCommentAdded = (postId: string) => {
+    setCommentCounts((prev) => ({
+      ...prev,
+      [postId]: (prev[postId] ?? 0) + 1,
+    }));
+  };
+
   return (
     <div className="max-w-xl mx-auto mt-20 space-y-6 mb-20 ">
       {error && <div className="text-red-500">{error}</div>}
@@ -158,7 +166,10 @@ export default function CommunityClient({
 
             {openComments[p.id] && (
               <div className="px-4 pb-4">
-                <CommentsList postId={p.id} />
+                <CommentsList
+                  postId={p.id}
+                  onCommentAdded={() => handleCommentAdded(p.id)}
+                />
               </div>
             )}
           </Card>
