@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import html2canvas from "html2canvas";
 import Image from "next/image";
 import { motion } from "framer-motion";
+
 export interface Category {
   id: string;
   title: string;
@@ -17,25 +18,22 @@ export interface Item {
 
 export default function CheckListClient() {
   const [categories, setCategories] = useState<Category[]>([]);
-  const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [items, setItems] = useState<Item[]>([]);
   // 카테고리별 아이템 맵
   const [itemsByCat, setItemsByCat] = useState<Record<string, Item[]>>({});
-  // 새 추가용
+  // 새 카테고리 입력
   const [newCat, setNewCat] = useState("");
-  const [newTitle, setNewTitle] = useState("");
-  const [newDesc, setNewDesc] = useState("");
-
+  // 카테고리별 새 아이템 입력(title, desc)
+  const [newInputs, setNewInputs] = useState<
+    Record<string, { title: string; desc: string }>
+  >({});
   // 수정 상태
   const [editCatId, setEditCatId] = useState<string | null>(null);
   const [editCatTitle, setEditCatTitle] = useState("");
   const [editItemId, setEditItemId] = useState<string | null>(null);
   const [editItemTitle, setEditItemTitle] = useState("");
   const [editItemDesc, setEditItemDesc] = useState("");
-
   // 토스트 알림
   const [toast, setToast] = useState<string | null>(null);
-
   const containerRef = useRef<HTMLDivElement>(null);
 
   // 카테고리 로드
@@ -45,7 +43,7 @@ export default function CheckListClient() {
       .then((js) => setCategories(js.data));
   }, []);
 
-  // 아이템 로드
+  // 각 카테고리별 아이템 로드
   useEffect(() => {
     if (categories.length === 0) return;
     (async () => {
@@ -74,7 +72,7 @@ export default function CheckListClient() {
     });
     setNewCat("");
     const { data } = await (await fetch("/api/check-list")).json();
-    setCategories(data);
+    setCategories(data.slice().reverse());
     setToast("카테고리 추가 완료!");
   };
 
@@ -85,7 +83,6 @@ export default function CheckListClient() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ type: "category", id }),
     });
-    if (selectedId === id) setSelectedId(null);
     const { data } = await (await fetch("/api/check-list")).json();
     setCategories(data);
     setToast("카테고리 삭제 완료!");
@@ -109,52 +106,57 @@ export default function CheckListClient() {
     setToast("카테고리 수정 완료!");
   };
 
-  // 아이템 추가
-  const addItem = async () => {
-    if (!selectedId || !newTitle.trim()) return;
+  // 아이템 추가 (카테고리별)
+  const addItem = async (categoryId: string) => {
+    const { title = "", desc = "" } = newInputs[categoryId] || {};
+    if (!title.trim()) return;
     await fetch("/api/check-list", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         type: "item",
         payload: {
-          category_id: selectedId,
-          title: newTitle.trim(),
-          description: newDesc.trim(),
+          category_id: categoryId,
+          title: title.trim(),
+          description: desc.trim(),
         },
       }),
     });
-    setNewTitle("");
-    setNewDesc("");
+    // 입력 초기화
+    setNewInputs((prev) => ({
+      ...prev,
+      [categoryId]: { title: "", desc: "" },
+    }));
+    // 아이템 다시 로드
     const { data } = await (
-      await fetch(`/api/check-list?categoryId=${selectedId}`)
+      await fetch(`/api/check-list?categoryId=${categoryId}`)
     ).json();
-    setItems(data);
+    setItemsByCat((prev) => ({ ...prev, [categoryId]: data }));
     setToast("아이템 추가 완료!");
   };
 
   // 아이템 삭제
-  const deleteItem = async (id: string) => {
+  const deleteItem = async (categoryId: string, itemId: string) => {
     await fetch("/api/check-list", {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ type: "item", id }),
+      body: JSON.stringify({ type: "item", id: itemId }),
     });
     const { data } = await (
-      await fetch(`/api/check-list?categoryId=${selectedId}`)
+      await fetch(`/api/check-list?categoryId=${categoryId}`)
     ).json();
-    setItems(data);
+    setItemsByCat((prev) => ({ ...prev, [categoryId]: data }));
     setToast("아이템 삭제 완료!");
   };
 
-  //아이템 수정 저장
-  const saveItem = async (id: string) => {
+  // 아이템 수정 저장
+  const saveItem = async (categoryId: string, itemId: string) => {
     await fetch("/api/check-list", {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         type: "item",
-        id,
+        id: itemId,
         fields: {
           title: editItemTitle.trim(),
           description: editItemDesc.trim(),
@@ -163,29 +165,32 @@ export default function CheckListClient() {
     });
     setEditItemId(null);
     const { data } = await (
-      await fetch(`/api/check-list?categoryId=${selectedId}`)
+      await fetch(`/api/check-list?categoryId=${categoryId}`)
     ).json();
-    setItems(data);
+    setItemsByCat((prev) => ({ ...prev, [categoryId]: data }));
     setToast("아이템 수정 완료!");
   };
 
-  //체크박스 토글
-  const toggleItem = async (id: string, checked: boolean) => {
+  // 체크박스 토글
+  const toggleItem = async (categoryId: string, item: Item) => {
     await fetch("/api/check-list", {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         type: "item",
-        id,
-        fields: { is_checked: !checked },
+        id: item.id,
+        fields: { is_checked: !item.is_checked },
       }),
     });
-    setItems(
-      items.map((i) => (i.id === id ? { ...i, is_checked: !checked } : i))
-    );
+    setItemsByCat((prev) => ({
+      ...prev,
+      [categoryId]: prev[categoryId].map((i) =>
+        i.id === item.id ? { ...i, is_checked: !i.is_checked } : i
+      ),
+    }));
   };
 
-  // 이미지 저장 함수
+  // 이미지 저장
   const downloadAsImage = async () => {
     if (!containerRef.current) return;
     const canvas = await html2canvas(containerRef.current, {
@@ -202,7 +207,7 @@ export default function CheckListClient() {
   return (
     <section className="m-4">
       <h2 className="text-3xl mt-10 main">나만의 체크리스트</h2>
-      <div className="flex justify-end ">
+      <div className="flex justify-end">
         <motion.button
           onClick={downloadAsImage}
           whileHover={{ scale: 1.05 }}
@@ -236,52 +241,31 @@ export default function CheckListClient() {
         </div>
 
         {/* 모든 카테고리 + 아이템 렌더링 */}
-        {categories.map((cat) => (
-          <div key={cat.id} className="border p-4 rounded">
-            {/* 카테고리 헤더 */}
-            <div className="flex items-center justify-between mb-3">
-              {editCatId === cat.id ? (
-                <>
-                  <input
-                    className="border p-1 flex-1"
-                    value={editCatTitle}
-                    onChange={(e) => setEditCatTitle(e.target.value)}
-                  />
-                  <button onClick={() => saveCategory(cat.id)}>
-                    <Image
-                      src="/images/check.svg"
-                      alt="check"
-                      width={25}
-                      height={25}
+        {categories.map((cat) => {
+          const { title: catTitle = "", desc: catDesc = "" } =
+            newInputs[cat.id] || {};
+          const items = itemsByCat[cat.id] || [];
+
+          return (
+            <div key={cat.id} className="border p-4 rounded">
+              {/* 카테고리 헤더 */}
+              <div className="flex items-center justify-between mb-3">
+                {editCatId === cat.id ? (
+                  <>
+                    <input
+                      className="border p-1 flex-1"
+                      value={editCatTitle}
+                      onChange={(e) => setEditCatTitle(e.target.value)}
                     />
-                  </button>
-                  <button onClick={() => setEditCatId(null)}>
-                    <Image
-                      src="/images/delete.svg"
-                      alt="delete"
-                      width={16}
-                      height={16}
-                    />
-                  </button>
-                </>
-              ) : (
-                <>
-                  <h3 className="text-xl font-semibold">{cat.title}</h3>
-                  <div className="flex gap-1">
-                    <button
-                      onClick={() => {
-                        setEditCatId(cat.id);
-                        setEditCatTitle(cat.title);
-                      }}
-                    >
+                    <button onClick={() => saveCategory(cat.id)}>
                       <Image
-                        src="/images/update.png"
-                        alt="update"
-                        width={16}
-                        height={16}
+                        src="/images/check.svg"
+                        alt="check"
+                        width={25}
+                        height={25}
                       />
                     </button>
-                    <button onClick={() => deleteCategory(cat.id)}>
+                    <button onClick={() => setEditCatId(null)}>
                       <Image
                         src="/images/delete.svg"
                         alt="delete"
@@ -289,64 +273,25 @@ export default function CheckListClient() {
                         height={16}
                       />
                     </button>
-                  </div>
-                </>
-              )}
-            </div>
-
-            {/* 새 아이템 추가 */}
-            <div className="flex gap-2 mb-4">
-              <input
-                className="border p-1 flex-1"
-                placeholder="새 아이템"
-                value={newTitle}
-                onChange={(e) => setNewTitle(e.target.value)}
-              />
-              <input
-                className="border p-1 flex-1"
-                placeholder="설명 (선택)"
-                value={newDesc}
-                onChange={(e) => setNewDesc(e.target.value)}
-              />
-              <button
-                onClick={addItem}
-                className="bg-[#578E7E] text-white px-3 rounded"
-              >
-                추가
-              </button>
-            </div>
-
-            {/* 아이템 리스트 */}
-            <ul className="space-y-2">
-              {(itemsByCat[cat.id] || []).map((item) => (
-                <li key={item.id} className="flex items-start gap-2">
-                  <input
-                    type="checkbox"
-                    checked={item.is_checked}
-                    onChange={() => toggleItem(item.id, item.is_checked)}
-                  />
-
-                  {editItemId === item.id ? (
-                    <div className="flex-1 space-y-1">
-                      <input
-                        className="border p-1 w-full"
-                        value={editItemTitle}
-                        onChange={(e) => setEditItemTitle(e.target.value)}
-                      />
-                      <input
-                        className="border p-1 w-full"
-                        value={editItemDesc}
-                        onChange={(e) => setEditItemDesc(e.target.value)}
-                      />
-                      <button onClick={() => saveItem(item.id)}>
+                  </>
+                ) : (
+                  <>
+                    <h3 className="text-xl font-semibold">{cat.title}</h3>
+                    <div className="flex gap-1">
+                      <button
+                        onClick={() => {
+                          setEditCatId(cat.id);
+                          setEditCatTitle(cat.title);
+                        }}
+                      >
                         <Image
-                          src="/images/check.svg"
-                          alt="check"
-                          width={25}
-                          height={25}
+                          src="/images/update.png"
+                          alt="update"
+                          width={16}
+                          height={16}
                         />
                       </button>
-                      <button onClick={() => setEditItemId(null)}>
+                      <button onClick={() => deleteCategory(cat.id)}>
                         <Image
                           src="/images/delete.svg"
                           alt="delete"
@@ -355,49 +300,125 @@ export default function CheckListClient() {
                         />
                       </button>
                     </div>
-                  ) : (
-                    <div className="flex-1">
-                      <div className="flex justify-between">
-                        <p className={item.is_checked ? "line-through" : ""}>
-                          {item.title}
-                        </p>
-                        <div className="flex gap-1">
-                          <button
-                            onClick={() => {
-                              setEditItemId(item.id);
-                              setEditItemTitle(item.title);
-                              setEditItemDesc(item.description || "");
-                            }}
-                          >
-                            <Image
-                              src="/images/update.png"
-                              alt="update"
-                              width={16}
-                              height={16}
-                            />
-                          </button>
-                          <button onClick={() => deleteItem(item.id)}>
-                            <Image
-                              src="/images/delete.svg"
-                              alt="delete"
-                              width={16}
-                              height={16}
-                            />
-                          </button>
-                        </div>
+                  </>
+                )}
+              </div>
+
+              {/* 새 아이템 추가 */}
+              <div className="flex gap-2 mb-4">
+                <input
+                  className="border p-1 flex-1"
+                  placeholder="새 아이템"
+                  value={catTitle}
+                  onChange={(e) =>
+                    setNewInputs((prev) => ({
+                      ...prev,
+                      [cat.id]: { title: e.target.value, desc: catDesc },
+                    }))
+                  }
+                />
+                <input
+                  className="border p-1 flex-1"
+                  placeholder="설명 (선택)"
+                  value={catDesc}
+                  onChange={(e) =>
+                    setNewInputs((prev) => ({
+                      ...prev,
+                      [cat.id]: { title: catTitle, desc: e.target.value },
+                    }))
+                  }
+                />
+                <button
+                  onClick={() => addItem(cat.id)}
+                  className="bg-[#578E7E] text-white px-3 rounded"
+                >
+                  추가
+                </button>
+              </div>
+
+              {/* 아이템 리스트 */}
+              <ul className="space-y-2">
+                {items.map((item) => (
+                  <li key={item.id} className="flex items-start gap-2">
+                    <input
+                      type="checkbox"
+                      checked={item.is_checked}
+                      onChange={() => toggleItem(cat.id, item)}
+                    />
+
+                    {editItemId === item.id ? (
+                      <div className="flex-1 space-y-1">
+                        <input
+                          className="border p-1 w-full"
+                          value={editItemTitle}
+                          onChange={(e) => setEditItemTitle(e.target.value)}
+                        />
+                        <input
+                          className="border p-1 w-full"
+                          value={editItemDesc}
+                          onChange={(e) => setEditItemDesc(e.target.value)}
+                        />
+                        <button onClick={() => saveItem(cat.id, item.id)}>
+                          <Image
+                            src="/images/check.svg"
+                            alt="check"
+                            width={25}
+                            height={25}
+                          />
+                        </button>
+                        <button onClick={() => setEditItemId(null)}>
+                          <Image
+                            src="/images/delete.svg"
+                            alt="delete"
+                            width={16}
+                            height={16}
+                          />
+                        </button>
                       </div>
-                      {item.description && (
-                        <small className="text-gray-500">
-                          {item.description}
-                        </small>
-                      )}
-                    </div>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
+                    ) : (
+                      <div className="flex-1">
+                        <div className="flex justify-between">
+                          <p className={item.is_checked ? "line-through" : ""}>
+                            {item.title}
+                          </p>
+                          <div className="flex gap-1">
+                            <button
+                              onClick={() => {
+                                setEditItemId(item.id);
+                                setEditItemTitle(item.title);
+                                setEditItemDesc(item.description || "");
+                              }}
+                            >
+                              <Image
+                                src="/images/update.png"
+                                alt="update"
+                                width={16}
+                                height={16}
+                              />
+                            </button>
+                            <button onClick={() => deleteItem(cat.id, item.id)}>
+                              <Image
+                                src="/images/delete.svg"
+                                alt="delete"
+                                width={16}
+                                height={16}
+                              />
+                            </button>
+                          </div>
+                        </div>
+                        {item.description && (
+                          <small className="text-gray-500">
+                            {item.description}
+                          </small>
+                        )}
+                      </div>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          );
+        })}
       </div>
 
       {toast && (
