@@ -3,7 +3,7 @@ export interface Post {
   title: string;
   content: string;
   created_at: string;
-  photos: string | null;
+  photos?: string | null;
   user: {
     nickname: string;
     profile: string | null;

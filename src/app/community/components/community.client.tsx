@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import CommunityModal from "@/features/community/community-modal";
 import CommunityNewPostForm from "@/features/community/community-newpost-form";
@@ -12,33 +12,25 @@ import {
 import LikeButton from "@/features/community/like-button";
 import CommentsList from "@/features/community/community-list";
 import { timeAgo } from "@/lib/utils";
+import { Post } from "@/types/community";
 
-interface Post {
-  id: string;
-  title: string;
-  content: string;
-  created_at: string;
-  photos?: string[];
-  user?: { nickname: string; profile: string | null };
+interface CommunityClientProps {
+  initialPosts: Post[];
+  initialCommentCounts: Record<string, number>;
 }
 
-export default function CommunityClient() {
-  const [posts, setPosts] = useState<Post[]>([]);
+export default function CommunityClient({
+  initialPosts,
+  initialCommentCounts,
+}: CommunityClientProps) {
+  const [posts, setPosts] = useState<Post[]>(initialPosts);
+  const [commentCounts, setCommentCounts] = useState(initialCommentCounts);
   const [error, setError] = useState<string | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [loadingPost, setLoadingPost] = useState(false);
   const [openComments, setOpenComments] = useState<Record<string, boolean>>({});
 
-  useEffect(() => {
-    fetch("/api/community")
-      .then(async (res) => {
-        if (!res.ok) throw new Error((await res.json()).error || "조회 실패");
-
-        return res.json() as Promise<Post[]>;
-      })
-      .then(setPosts)
-      .catch((err) => setError(err.message));
-  }, []);
+  console.log("setCommentCounts", setCommentCounts);
 
   const normalizePhotos = (photos?: string[] | string | null): string[] => {
     if (Array.isArray(photos)) return photos;
@@ -82,7 +74,7 @@ export default function CommunityClient() {
     setOpenComments((prev) => ({ ...prev, [postId]: !prev[postId] }));
 
   return (
-    <div className="max-w-xl mx-auto mt-20 space-y-6 mb-20">
+    <div className="max-w-xl mx-auto mt-20 space-y-6 mb-20 ">
       {error && <div className="text-red-500">{error}</div>}
       <button
         onClick={() => setModalOpen(true)}
@@ -98,8 +90,11 @@ export default function CommunityClient() {
       {posts.map((p) => {
         const photos = normalizePhotos(p.photos);
         return (
-          <Card key={p.id} className="rounded-lg overflow-hidden shadow-md">
-            <div className="flex">
+          <Card
+            key={p.id}
+            className="rounded-lg overflow-hidden shadow-md px-5"
+          >
+            <div className="flex ">
               <div className="w-full">
                 <CardHeader className="flex flex-row items-center px-2 py-1 ">
                   {p.user?.profile && (
@@ -111,15 +106,22 @@ export default function CommunityClient() {
                       className="rounded-full object-cover"
                     />
                   )}
-                  <div className=" flex justify-center items-center">
-                    <p className="font-medium">{p.user?.nickname}</p>
+                  <div>
+                    <p className="font-medium p-1">{p.user?.nickname}</p>
                   </div>
                 </CardHeader>
               </div>
-              <div className="w-full flex justify-end p-2">{p.title}</div>
+              <div className="flex items-center justify-center w-full">
+                {p.title}
+              </div>
+              <div className="flex items-center justify-end w-full">
+                <p className="text-xs  mr-2">{timeAgo(p.created_at)}</p>
+              </div>
             </div>
 
-            <hr />
+            <div className="w-full ">
+              <hr />
+            </div>
             {photos[0] && (
               <div className="relative w-full h-64">
                 <Image
@@ -131,11 +133,7 @@ export default function CommunityClient() {
                 />
               </div>
             )}
-            <div className="flex justify-end">
-              <p className="text-xs text-gray-500 mr-2">
-                {timeAgo(p.created_at)}
-              </p>
-            </div>
+
             <CardContent className="px-4 py-2">
               <p className="">
                 {p.content.length > 100
@@ -143,14 +141,15 @@ export default function CommunityClient() {
                   : p.content}
               </p>
             </CardContent>
-            <hr />
             <CardFooter className="px-4 py-2 flex items-center justify-between">
               <LikeButton postId={p.id} />
               <button
                 onClick={() => toggleComments(p.id)}
                 className="text-sm text-[#578E7E] hover:underline"
               >
-                {openComments[p.id] ? "댓글 숨기기" : "댓글 보기"}
+                {openComments[p.id]
+                  ? "댓글 숨기기"
+                  : `댓글 보기 (${commentCounts[p.id] ?? 0})`}
               </button>
             </CardFooter>
 
