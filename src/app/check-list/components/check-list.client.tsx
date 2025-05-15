@@ -361,7 +361,13 @@ export default function CheckListClient() {
                   onClick={() => addItem(cat.id)}
                   className="bg-[#578E7E] text-white px-3 rounded"
                 >
-                  추가
+                  <Image
+                    src="/images/check.svg"
+                    alt="check"
+                    className="text-white"
+                    width={25}
+                    height={25}
+                  />
                 </button>
               </div>
 
@@ -369,12 +375,26 @@ export default function CheckListClient() {
               <ul className="space-y-2">
                 {items.map((item) => (
                   <li key={item.id} className="flex items-start gap-2">
-                    <input
-                      type="checkbox"
-                      checked={item.is_checked}
-                      onChange={() => toggleItem(cat.id, item)}
-                    />
-
+                    <motion.button
+                      onClick={() => toggleItem(cat.id, item)}
+                      initial={false}
+                      animate={{
+                        scale: item.is_checked ? [1, 1.3, 1] : 1,
+                      }}
+                      transition={{ duration: 0.3 }}
+                      className="w-6 h-6 flex-shrink-0"
+                    >
+                      <Image
+                        src={
+                          item.is_checked
+                            ? "/images/check.svg"
+                            : "/images/checkbox.svg"
+                        }
+                        alt={item.is_checked ? "checked" : "unchecked"}
+                        width={24}
+                        height={24}
+                      />
+                    </motion.button>
                     {editItemId === item.id ? (
                       <div className="flex-1 space-y-1">
                         <input
