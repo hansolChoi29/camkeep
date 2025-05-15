@@ -23,9 +23,9 @@ export default function MypageCommu({ initialPosts }: MypageCommuProps) {
   }
 
   return (
-    <section>
-      <Card>
-        <ul className="space-y-2">
+    <section className="w-full space-y-6 my-8">
+      <Card className="w-full">
+        <ul className="space-y-1 ">
           {initialPosts.map((post) => (
             <li
               key={post.id}
@@ -37,7 +37,7 @@ export default function MypageCommu({ initialPosts }: MypageCommuProps) {
               >
                 {post.title}
               </Link>
-              <span className="text-xs text-gray-500">
+              <span className="text-xs ml-2">
                 {new Date(post.created_at).toLocaleDateString()}
               </span>
             </li>

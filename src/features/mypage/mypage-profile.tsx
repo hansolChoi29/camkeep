@@ -121,10 +121,10 @@ export default function MypageProfile(props: MypageProfileProps) {
           )}
         </div>
 
-        <div className="flex flex-wrap items-center space-x-6">
-          <p>이메일: {email}</p>
-          <p>전화번호: {phone}</p>
-          <p>포인트: {points}</p>
+        <div className="flex flex-col justify-start ">
+          <p className="mt-2">이메일: {email}</p>
+          <p className="mt-2">전화번호: {phone}</p>
+          <p className="mt-2">포인트: {points}</p>
         </div>
 
         <div className="flex justify-end">
