@@ -28,7 +28,7 @@ export default function MypageCoupon() {
                     <span className="text-sm font-medium uppercase text-gray-600">
                       Gift Voucher
                     </span>
-                    <h2 className="text-base sm:text-4xl font-bold text-[#578E7E] mt-1">
+                    <h2 className="text-base sm:text-3xl font-bold text-[#578E7E] mt-1">
                       {c.title}
                     </h2>
                     <p className="text-xs sm:text-sm text-gray-700 mt-2">
