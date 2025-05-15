@@ -5,34 +5,45 @@ import Link from "next/link";
 import Image from "next/image";
 import { gnbItems } from "@/features/GNB/gnbData";
 import HomeCampingMonth from "@/features/home/home-camping-month";
+import { usePathname } from "next/navigation";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
 
   return (
     <>
       <header className="fixed w-full top-0 h-16 bg-white shadow-md z-50 flex items-center px-4">
         <Link
           href="/"
-          className="text-3xl font-bold text-[#578E7E] hover:text-[#3D3D3D] transition-transform hover:scale-110"
+          className={`text-3xl font-bold transition-transform hover:scale-110 ${
+            pathname === "/"
+              ? "text-red-500"
+              : "text-[#578E7E] hover:text-red-500"
+          }`}
         >
           CAMKEEP
         </Link>
 
         <nav className="hidden sm:flex flex-1 justify-center space-x-6 flex-nowrap ml-2">
-          {gnbItems.map((item) => (
-            <Link
-              key={item.id}
-              href={item.href}
-              className="
+          {gnbItems.map((item) => {
+            const isActive = pathname === item.href;
+            return (
+              <Link
+                key={item.id}
+                href={item.href}
+                className={`
         text-xl flex items-center space-x-1 font-medium 
-        text-[#578E7E] hover:text-[#3D3D3D] transition-colors
-        whitespace-nowrap  /* 글자 줄 바꿈 방지 */
-      "
-            >
-              <span>{item.label}</span>
-            </Link>
-          ))}
+        text-[#578E7E] hover:text-red-500 transition-colors
+        whitespace-nowrap  /* 글자 줄 바꿈 방지 */ ${
+          isActive ? "text-red-500" : "text-[#578E7E] hover:text-red-500"
+        }
+      `}
+              >
+                <span>{item.label}</span>
+              </Link>
+            );
+          })}
         </nav>
 
         <div className="flex-1" />
