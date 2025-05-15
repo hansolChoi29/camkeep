@@ -13,7 +13,7 @@ import { CouponMock } from "./coupon-mock";
 
 export default function MypageCoupon() {
   return (
-    <section className="w-full my-8">
+    <article className="w-full my-8 logo">
       <h1 className="text-2xl font-bold mb-4">내가 보유한 쿠폰</h1>
       <Carousel className="relative">
         <CarouselContent className="-ml-8 md:-ml-4">
@@ -70,6 +70,6 @@ export default function MypageCoupon() {
           <ArrowRight size={24} />
         </CarouselNext>
       </Carousel>
-    </section>
+    </article>
   );
 }
