@@ -1,89 +1,91 @@
-import { serverSupabase } from "@/lib/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
-
-// 공용 인증 권한 로직
+import { serverSupabase } from "@/lib/supabase/server";
+//withAuth 공통: 인증된 supabase 클라이언트 + user 객체 얻기
 async function withAuth(req: NextRequest) {
   const supabase = serverSupabase();
   const {
     data: { user },
-    error: authError,
+    error: userErr,
   } = await supabase.auth.getUser();
-  if (authError || !user) {
+
+  if (userErr || !user) {
     return {
       supabase,
       user: null,
-      errorResponse: NextResponse.json(
+      unauthorized: NextResponse.json(
         { error: "Unauthorized" },
         { status: 401 }
       ),
     };
   }
-  return { supabase, user, errorResponse: null };
+
+  return { supabase, user, unauthorized: null };
 }
 
-// 카테고리 목록 조회
+//GET 사용자 인증 확인 후, 전체 카테고리 또는 특정 카테고리의 아이템 목록 반환
 export async function GET(req: NextRequest) {
-  const { supabase, user, errorResponse } = await withAuth(req);
-  if (errorResponse) return errorResponse;
+  const { supabase, user, unauthorized } = await withAuth(req);
+  if (unauthorized) return unauthorized;
 
+  const userId = user.id;
   const categoryId = req.nextUrl.searchParams.get("categoryId");
+
   if (categoryId) {
-    // 소유 확인
-    const { data: cat } = await supabase
-      .from("checklist_categories")
-      .select("user_id")
-      .eq("id", categoryId)
-      .single();
-    if (!cat || cat.user_id !== user.id) {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-    }
-    // 아이템 조회
+    // 특정 카테고리의 아이템 조회
     const { data, error } = await supabase
       .from("checklist_items")
       .select("id, title, description, is_checked")
       .eq("category_id", categoryId)
       .order("created_at", { ascending: true });
-    if (error)
+
+    if (error) {
+      console.error("GET items error:", error);
       return NextResponse.json({ error: error.message }, { status: 500 });
+    }
     return NextResponse.json({ data });
   } else {
-    // 카테고리 조회
+    // 사용자의 카테고리 목록 조회
     const { data, error } = await supabase
       .from("checklist_categories")
       .select("id, title")
-      .eq("user_id", user.id)
+      .eq("user_id", userId)
       .order("created_at", { ascending: true });
-    if (error)
+
+    if (error) {
+      console.error("GET categories error:", error);
       return NextResponse.json({ error: error.message }, { status: 500 });
+    }
     return NextResponse.json({ data });
   }
 }
 
-// 생성
+//POST type에 따라 카테고리 또는 아이템 생성
 export async function POST(req: NextRequest) {
-  const { supabase, user, errorResponse } = await withAuth(req);
-  if (errorResponse) return errorResponse;
+  const { supabase, user, unauthorized } = await withAuth(req);
+  if (unauthorized) return unauthorized;
 
+  //요청 본문 파싱 (한 번만)
   const { type, payload } = await req.json();
+  console.log("POST body →", { type, payload });
+  //카테고리 생성
   if (type === "category") {
+    console.log("▶ insert category:", payload.title);
     const { data, error } = await supabase
       .from("checklist_categories")
       .insert({ user_id: user.id, title: payload.title })
+      .select("id, title")
       .single();
-    if (error)
+
+    console.log("insert category result →", { data, error });
+    if (error) {
+      console.error("Insert category failed:", error);
       return NextResponse.json({ error: error.message }, { status: 500 });
+    }
     return NextResponse.json({ data }, { status: 201 });
   }
+  //아이템 생성
   if (type === "item") {
-    // 부모 카테고리 소유 확인
-    const { data: cat } = await supabase
-      .from("checklist_categories")
-      .select("user_id")
-      .eq("id", payload.category_id)
-      .single();
-    if (!cat || cat.user_id !== user.id) {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-    }
+    console.log("▶ insert item into category", payload.category_id);
     const { data, error } = await supabase
       .from("checklist_items")
       .insert({
@@ -92,137 +94,95 @@ export async function POST(req: NextRequest) {
         description: payload.description ?? null,
         is_checked: false,
       })
+      .select("id, title, description, is_checked")
       .single();
-    if (error)
+
+    console.log("insert item result →", { data, error });
+    if (error) {
+      console.error("Insert item failed:", error);
       return NextResponse.json({ error: error.message }, { status: 500 });
+    }
     return NextResponse.json({ data }, { status: 201 });
   }
+
+  console.warn("POST /api/check-list invalid type:", type);
   return NextResponse.json({ error: "Invalid type" }, { status: 400 });
 }
 
-// 수정
+//PATCH type에 따라 카테고리 또는 아이템 수정
 export async function PATCH(req: NextRequest) {
-  const { supabase, user, errorResponse } = await withAuth(req);
-
-  if (errorResponse) return errorResponse;
+  const { supabase, user, unauthorized } = await withAuth(req);
+  if (unauthorized) return unauthorized;
 
   const { type, id, fields } = await req.json();
-
+  //카테고리 제목 수정
   if (type === "category") {
-    // 소유 확인
-    const { data: cat } = await supabase
-      .from("checklist_categories")
-      .select("user_id")
-      .eq("id", id)
-      .single();
-
-    if (!cat || cat.user_id !== user.id) {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-    }
-
+    console.log("▶ update category", id, "→", fields.title);
     const { error } = await supabase
       .from("checklist_categories")
       .update({ title: fields.title })
       .eq("id", id);
 
-    if (error)
+    if (error) {
+      console.error("Update category failed:", error);
       return NextResponse.json({ error: error.message }, { status: 500 });
+    }
     return NextResponse.json({ success: true });
   }
-
+  //아이템 속성 수정
   if (type === "item") {
-    // 소유 확인
-    const { data: item } = await supabase
-      .from("checklist_items")
-      .select("category_id")
-      .eq("id", id)
-      .single();
-
-    if (!item?.category_id) {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-    }
-
-    const { data: cat } = await supabase
-      .from("checklist_categories")
-      .select("user_id")
-      .eq("id", item.category_id)
-      .single();
-
-    if (!cat || cat.user_id !== user.id) {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-    }
-
+    console.log("▶ update item", id, "→", fields);
     const { error } = await supabase
       .from("checklist_items")
-      .update({
-        title: fields.title,
-        description: fields.description ?? null,
-        is_checked: fields.is_checked,
-      })
+      .update(fields)
       .eq("id", id);
 
-    if (error)
+    if (error) {
+      console.error("Update item failed:", error);
       return NextResponse.json({ error: error.message }, { status: 500 });
+    }
     return NextResponse.json({ success: true });
   }
+
+  console.warn("PATCH /api/check-list invalid type:", type);
   return NextResponse.json({ error: "Invalid type" }, { status: 400 });
 }
-// 삭제
-export async function DELETE(req: NextRequest) {
-  const { supabase, user, errorResponse } = await withAuth(req);
 
-  if (errorResponse) return errorResponse;
+//DELETE type에 따라 카테고리 또는 아이템 삭제
+export async function DELETE(req: NextRequest) {
+  const { supabase, user, unauthorized } = await withAuth(req);
+  if (unauthorized) return unauthorized;
 
   const { type, id } = await req.json();
+  // 카테고리 삭제
   if (type === "category") {
-    // 소유 확인
-    const { data: cat } = await supabase
-      .from("checklist_categories")
-      .select("user_id")
-      .eq("id", id)
-      .single();
-
-    if (!cat || cat.user_id !== user.id) {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-    }
-
+    console.log("▶ delete category", id);
     const { error } = await supabase
       .from("checklist_categories")
       .delete()
       .eq("id", id);
 
-    if (error)
+    if (error) {
+      console.error("Delete category failed:", error);
       return NextResponse.json({ error: error.message }, { status: 500 });
+    }
     return NextResponse.json({ success: true });
   }
+  //아이템 삭제
   if (type === "item") {
-    // 소유 확인
-    const { data: item } = await supabase
-      .from("checklist_items")
-      .select("category_id")
-      .eq("id", id)
-      .single();
-
-    if (!item?.category_id) {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-    }
-    const { data: cat } = await supabase
-      .from("checklist_categories")
-      .select("user_id")
-      .eq("id", item.category_id)
-      .single();
-
-    if (!cat || cat.user_id !== user.id) {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-    }
+    console.log("▶ delete item", id);
     const { error } = await supabase
       .from("checklist_items")
       .delete()
       .eq("id", id);
 
-    if (error)
+    if (error) {
+      console.error("Delete item failed:", error);
       return NextResponse.json({ error: error.message }, { status: 500 });
+    }
     return NextResponse.json({ success: true });
   }
+
+  console.warn("DELETE /api/check-list invalid type:", type);
   return NextResponse.json({ error: "Invalid type" }, { status: 400 });
 }
