@@ -1,4 +1,3 @@
-// features/check-list/image-download-modal.tsx
 "use client";
 import * as React from "react";
 import { Button } from "@/components/ui/button";

@@ -235,22 +235,32 @@ export default function CheckListClient() {
     link.download = "checklist.png";
     link.click();
   };
-
+  // TODO:  다운로드 버튼 + 모달
+  // TODO: “새 카테고리” 입력 폼
+  //TODO: 단일 아이템(체크박스+제목+수정/삭제) ...
+  // 드롭스 엄청 길 것 같네 =>Zustand
   return (
     <section className="m-4">
       <h2 className="text-3xl mt-10 main">나만의 체크리스트</h2>
-      <div className="flex justify-end">
-        {/* 트리거 버튼: onClick으로 모달 open state를 true로 */}
+      <article className="flex justify-end">
         <motion.button
+          type="button"
           onClick={() => setDownloadModalOpen(true)}
-          whileHover={{ scale: 1.05 }}
+          whileHover={{ scale: 1.1 }}
           transition={{ type: "spring", stiffness: 300, damping: 20 }}
+          style={{
+            transformOrigin: "center center",
+            willChange: "transform",
+          }}
+          className="w-10 h-10  flex items-center justify-center bg-transparent p-0 m-0
+    border-none outline-none focus:outline-none focus:ring-0 active:outline-none active:ring-0 overflow-visible"
         >
           <Image
             src="/images/check-download.svg"
             alt="download"
-            width={20}
-            height={20}
+            width={30}
+            height={30}
+            className="block"
           />
         </motion.button>
 
@@ -260,7 +270,7 @@ export default function CheckListClient() {
           onClose={() => setDownloadModalOpen(false)}
           onConfirm={downloadAsImage}
         />
-      </div>
+      </article>
 
       {/* 전체 캡처 영역 */}
       <div
