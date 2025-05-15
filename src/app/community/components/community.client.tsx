@@ -32,6 +32,7 @@ export default function CommunityClient({
 
   console.log("setCommentCounts", setCommentCounts);
 
+  // 사진 데이터(문자열 또는 배열)를 string[] 으로 정규화하는 함수
   const normalizePhotos = (photos?: string[] | string | null): string[] => {
     if (Array.isArray(photos)) return photos;
 
@@ -45,6 +46,7 @@ export default function CommunityClient({
     return [];
   };
 
+  // 새 글 작성 요청을 보내고, 성공 시 목록을 재조회하여 상태를 갱신하는 비동기 함수
   const handleNewPost = async (
     title: string,
     content: string,
@@ -60,7 +62,7 @@ export default function CommunityClient({
 
     if (res.ok) {
       setModalOpen(false);
-      // 재조회
+      // 게시 성공 후 글 목록 재조회
       const refreshed = await fetch("/api/community").then((r) => r.json());
       setPosts(refreshed);
     } else {
@@ -70,6 +72,7 @@ export default function CommunityClient({
     setLoadingPost(false);
   };
 
+  // 특정 포스트의 댓글 보기/숨기기 상태를 토글하는 함수
   const toggleComments = (postId: string) =>
     setOpenComments((prev) => ({ ...prev, [postId]: !prev[postId] }));
 
