@@ -39,7 +39,7 @@ export default function ClientLayout({
   if (loading) return <SplashScreen />;
   if (["/auth/login", "/auth/register"].includes(pathname)) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-[#FFAB5B]">
+      <main className="flex min-h-screen items-center justify-center bg-[#578E7E]">
         {children}
       </main>
     );
@@ -64,7 +64,9 @@ export default function ClientLayout({
   return (
     <>
       <Header />
-      <main className="flex-1 container mx-auto px-4 sm:px-6 lg:px-8">{children}</main>
+      <main className="flex-1 container mx-auto px-4 sm:px-6 lg:px-8">
+        {children}
+      </main>
       <GNB onCommunityClick={() => setModalOpen(true)} />
       {modalOpen && (
         <CommunityModal open={modalOpen} onClose={() => setModalOpen(false)}>

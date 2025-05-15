@@ -85,7 +85,7 @@ export default function CommunityClient({
   };
 
   return (
-    <div className="max-w-xl mx-auto mt-20 space-y-6 mb-20 ">
+    <div className="max-w-xl mx-auto mt-20 space-y-6 mb-20 gowun">
       {error && <div className="text-red-500">{error}</div>}
       <button
         onClick={() => setModalOpen(true)}
@@ -107,23 +107,28 @@ export default function CommunityClient({
           >
             <div className="flex ">
               <div className="w-full">
-                <CardHeader className="flex flex-row items-center px-2 py-1 ">
-                  {p.user?.profile && (
-                    <Image
-                      src={p.user.profile}
-                      alt={p.user.nickname}
-                      width={32}
-                      height={32}
-                      className="rounded-full object-cover"
-                    />
-                  )}
-                  <div>
-                    <p className="font-medium p-1">{p.user?.nickname}</p>
-                  </div>
-                </CardHeader>
-              </div>
-              <div className="flex items-center justify-center w-full">
-                {p.title}
+                <div>
+                  <CardHeader className="flex flex-row items-center px-2 py-1 ">
+                    {p.user?.profile && (
+                      <Image
+                        src={p.user.profile}
+                        alt={p.user.nickname}
+                        width={20}
+                        height={20}
+                        className="rounded-full object-cover"
+                      />
+                    )}
+
+                    <div>
+                      <p className="font-medium p-1 text-sm">
+                        {p.user?.nickname}
+                      </p>
+                    </div>
+                  </CardHeader>
+                </div>
+                <div className="flex items-center justify-center w-full">
+                  {p.title}
+                </div>
               </div>
               <div className="flex items-center justify-end w-full">
                 <p className="text-xs  mr-2">{timeAgo(p.created_at)}</p>
