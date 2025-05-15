@@ -61,10 +61,12 @@ export default function HomeEquipmentRecommend() {
   }
 
   return (
-    <div className="space-y-16">
+    <section className="space-y-16 ">
       {CATEGORIES.map(({ label: cat }) => (
-        <section key={cat} className="mt-10 sm:mb-10 mb-20 font-roboto">
-          <h2 className="text-2xl font-semibold mb-4">{cat} 추천</h2>
+        <article key={cat} className="mt-10 sm:mb-10 mb-20 gowun ">
+          <h2 className="text-base sm:text-xl font-semibold mb-4">
+            회원님을 위한 {cat} 추천
+          </h2>
 
           {errors[cat] ? (
             <p className="text-red-600">조회 실패: {errors[cat]}</p>
@@ -80,7 +82,7 @@ export default function HomeEquipmentRecommend() {
                 }}
                 className="touch-pan-x w-full"
               >
-                <CarouselContent className="flex space-x-4 w-full">
+                <CarouselContent className="flex space-x-4 w-[240px]">
                   {data[cat].map((item, i) => (
                     <CarouselItem
                       key={`${cat}-${i}`}
@@ -97,17 +99,17 @@ export default function HomeEquipmentRecommend() {
                             />
                           </div>
                           <div className="p-4 flex-1 flex flex-col">
-                            <CardTitle className="truncate text-base">
+                            <CardTitle className="truncate text-sm">
                               {item.title.replace(/<[^>]*>/g, "")}
                             </CardTitle>
-                            <p className="mt-2 w-full flex justify-end text-sm text-gray-600">
+                            <p className="mt-2 w-full flex justify-end text-xs text-gray-600">
                               {item.lprice.toLocaleString()}원
                             </p>
                             <a
                               href={item.link}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="mt-2 w-full flex justify-end text-sm text-[#578E7E] hover:underline"
+                              className="mt-2 w-full flex justify-end text-xs text-[#578E7E] hover:underline"
                             >
                               쇼핑하러 가기
                             </a>
@@ -122,8 +124,8 @@ export default function HomeEquipmentRecommend() {
           ) : (
             <p className="px-2 text-gray-500">등록된 상품이 없습니다.</p>
           )}
-        </section>
+        </article>
       ))}
-    </div>
+    </section>
   );
 }

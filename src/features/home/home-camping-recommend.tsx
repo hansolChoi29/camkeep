@@ -25,7 +25,9 @@ export default function HomeCampingRecommend() {
 
   return (
     <section className="mt-10 sm:mb-10 mb-20 font-roboto">
-      <h2 className="text-2xl font-semibold mb-4">회원님을 위한 캠핑장 추천</h2>
+      <h2 className="sm:text-xl text-base font-semibold mb-4">
+        회원님을 위한 캠핑장 추천
+      </h2>
       <article className="border p-5 rounded">
         <Carousel
           plugins={plugins}
@@ -49,7 +51,7 @@ export default function HomeCampingRecommend() {
                       />
                     </div>
                     <div className="p-4 flex-1 flex flex-col">
-                      <CardTitle className="truncate text-base">
+                      <CardTitle className="truncate text-sm">
                         {item.facltNm}
                       </CardTitle>
                       <p className="mt-2 text-sm text-gray-600 truncate">
