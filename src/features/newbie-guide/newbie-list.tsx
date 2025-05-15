@@ -10,11 +10,12 @@ import { CATEGORIES } from "@/features/newbie-guide/newbie-quide-data";
 import { useState } from "react";
 
 export default function NewbieList() {
-  const [openValue, setOpenValue] = useState<string[]>([]);
+  const [openValue, setOpenValue] = useState<string | undefined>(undefined);
 
   return (
     <Accordion
-      type="multiple"
+      type="single"
+      collapsible
       value={openValue}
       onValueChange={setOpenValue}
       className="space-y-4"
@@ -25,7 +26,7 @@ export default function NewbieList() {
             <span>{label}</span>
           </AccordionTrigger>
           <AccordionContent>
-            <p className="whitespace-pre-wrap sm:text-base text-gray-800 leading-relaxed">
+            <p className="whitespace-pre-wrap sm:text-base leading-relaxed">
               {text}
             </p>
           </AccordionContent>
