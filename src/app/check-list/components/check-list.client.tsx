@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import html2canvas from "html2canvas";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { Input } from "@/components/ui/input";
 
 export interface Category {
   id: string;
@@ -252,20 +253,26 @@ export default function CheckListClient() {
       </div>
 
       {/* 전체 캡처 영역 */}
-      <div ref={containerRef} className="mt-6 space-y-8 border p-4">
-        {/* 새 카테고리 추가 UI */}
-        <div className="flex gap-2">
-          <input
-            className="border p-1 flex-1"
-            placeholder="새 카테고리"
+      <div
+        ref={containerRef}
+        className="mt-6 space-y-8 border-[#578E7E] border rounded  p-4"
+      >
+        <div className="flex gap-2 w-full">
+          <Input
+            className="p-2 flex-1 text-xs sm:text-base border border-[#578E7E] rounded"
+            placeholder="새 카테고리 (대분류 예: 짐싸기)"
             value={newCat}
             onChange={(e) => setNewCat(e.target.value)}
           />
-          <button
-            onClick={addCategory}
-            className="bg-[#578E7E] text-white px-3 rounded"
-          >
-            추가
+
+          <button onClick={addCategory} className="border px-3 rounded">
+            <Image
+              src="/images/check.svg"
+              alt="check"
+              className="text-white "
+              width={25}
+              height={25}
+            />
           </button>
         </div>
 
@@ -276,13 +283,13 @@ export default function CheckListClient() {
           const items = itemsByCat[cat.id] || [];
 
           return (
-            <div key={cat.id} className="border p-4 rounded">
+            <div key={cat.id} className="border border-[#578E7E] rounded p-2">
               {/* 카테고리 헤더 */}
               <div className="flex items-center justify-between mb-3">
                 {editCatId === cat.id ? (
                   <>
-                    <input
-                      className="border p-1 flex-1"
+                    <Input
+                      className="border p-1 flex-1 rounded"
                       value={editCatTitle}
                       onChange={(e) => setEditCatTitle(e.target.value)}
                     />
@@ -292,6 +299,7 @@ export default function CheckListClient() {
                         alt="check"
                         width={25}
                         height={25}
+                        className="m-2"
                       />
                     </button>
                     <button onClick={() => setEditCatId(null)}>
@@ -300,6 +308,7 @@ export default function CheckListClient() {
                         alt="delete"
                         width={16}
                         height={16}
+                        className="m-2"
                       />
                     </button>
                   </>
@@ -335,9 +344,9 @@ export default function CheckListClient() {
 
               {/* 새 아이템 추가 */}
               <div className="flex gap-2 mb-4">
-                <input
-                  className="border p-1 flex-1"
-                  placeholder="새 아이템"
+                <Input
+                  className="border p-2 flex-1 rounded text-xs sm:text-base"
+                  placeholder="TODO (예: 의자 챙기기)"
                   value={catTitle}
                   onChange={(e) =>
                     setNewInputs((prev) => ({
@@ -346,9 +355,9 @@ export default function CheckListClient() {
                     }))
                   }
                 />
-                <input
-                  className="border p-1 flex-1"
-                  placeholder="설명 (선택)"
+                <Input
+                  className="border p-1 flex-1 rounded text-xs sm:text-base"
+                  placeholder="설명 (선택 예: 의자 닦아서 챙기기)"
                   value={catDesc}
                   onChange={(e) =>
                     setNewInputs((prev) => ({
@@ -359,7 +368,7 @@ export default function CheckListClient() {
                 />
                 <button
                   onClick={() => addItem(cat.id)}
-                  className="bg-[#578E7E] text-white px-3 rounded"
+                  className="border px-3 rounded"
                 >
                   <Image
                     src="/images/check.svg"
@@ -397,13 +406,13 @@ export default function CheckListClient() {
                     </motion.button>
                     {editItemId === item.id ? (
                       <div className="flex-1 space-y-1">
-                        <input
-                          className="border p-1 w-full"
+                        <Input
+                          className="border p-1 w-full rounded"
                           value={editItemTitle}
                           onChange={(e) => setEditItemTitle(e.target.value)}
                         />
-                        <input
-                          className="border p-1 w-full"
+                        <Input
+                          className="border p-1 w-full rounded"
                           value={editItemDesc}
                           onChange={(e) => setEditItemDesc(e.target.value)}
                         />
