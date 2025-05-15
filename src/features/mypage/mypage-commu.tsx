@@ -24,7 +24,7 @@ export default function MypageCommu({ initialPosts }: MypageCommuProps) {
 
   return (
     <section className="w-full space-y-6 my-8 gowun">
-      <h2>내가 게시한 글</h2>
+      <h2 className="text-xl font-semibold mb-4">내가 게시한 글</h2>
       <Card className="w-full">
         <ul>
           {initialPosts.map((post) => (
