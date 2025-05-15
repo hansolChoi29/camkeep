@@ -10,8 +10,15 @@ interface Comment {
   created_at: string;
   user: { nickname: string; profile: string | null };
 }
+interface CommentsListProps {
+  postId: string;
+  onCommentAdded?: () => void;
+}
 
-export default function CommentsList({ postId }: { postId: string }) {
+export default function CommentsList({
+  postId,
+  onCommentAdded,
+}: CommentsListProps) {
   const [comments, setComments] = useState<Comment[]>([]);
   const [newComment, setNewComment] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -47,6 +54,7 @@ export default function CommentsList({ postId }: { postId: string }) {
       setNewComment("");
       fetchComments();
       setToast("성공적으로 등록되었습니다.");
+      onCommentAdded?.();
     }
   };
 
@@ -55,7 +63,7 @@ export default function CommentsList({ postId }: { postId: string }) {
       {error && <div className="text-red-500">{error}</div>}
       <div className="space-y-1">
         {comments.map((c) => (
-          <div key={c.id} className="flex items-center border-b p-2 ">
+          <div key={c.id} className="flex items-center border-t p-2 ">
             <div className="flex items-center justify-center flex-shrink-0 ">
               {c.user.profile && (
                 <Image
@@ -73,9 +81,7 @@ export default function CommentsList({ postId }: { postId: string }) {
               <p className="text-sm">{c.content}</p>
             </div>
             <div className="w-full flex justify-end">
-              <time className="text-xs text-gray-400 flex ">
-                {timeAgo(c.created_at)}
-              </time>
+              <time className="text-xs  flex ">{timeAgo(c.created_at)}</time>
             </div>
           </div>
         ))}

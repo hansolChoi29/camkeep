@@ -44,7 +44,7 @@ camkeep
 ├─ public
 │  ├─ favicon.png
 │  └─ images
-│ 
+│
 ├─ src
 │  ├─ app
 │  │  ├─ api
@@ -54,6 +54,8 @@ camkeep
 │  │  │  │  ├─ route.ts
 │  │  │  │  └─ [postId]
 │  │  │  │     ├─ comments
+│  │  │  │     │  └─ route.ts
+│  │  │  │     ├─ commu
 │  │  │  │     │  └─ route.ts
 │  │  │  │     └─ likes
 │  │  │  │        └─ route.ts
@@ -85,7 +87,11 @@ camkeep
 │  │  ├─ community
 │  │  │  ├─ components
 │  │  │  │  └─ community.client.tsx
-│  │  │  └─ page.tsx
+│  │  │  ├─ page.tsx
+│  │  │  └─ [id]
+│  │  │     ├─ components
+│  │  │     │  └─ community-detail.client.tsx
+│  │  │     └─ page.tsx
 │  │  ├─ components
 │  │  │  ├─ ClientLayout.tsx
 │  │  │  ├─ HomeClient.tsx
@@ -172,6 +178,7 @@ camkeep
 │  │  └─ useAuthStore.ts
 │  ├─ types
 │  │  ├─ auth.ts
+│  │  ├─ community.ts
 │  │  ├─ gnbtype.ts
 │  │  ├─ index.ts
 │  │  ├─ promotion.ts
