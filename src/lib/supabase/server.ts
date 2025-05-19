@@ -33,7 +33,7 @@ export function serverSupabase({
   // ← 이 줄이 빠지면 serverSupabase()가 undefined를 리턴합니다!
   return createServerClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       cookies: cookieMethods,
       cookieOptions: { secure: process.env.NODE_ENV === "production" },
