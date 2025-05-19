@@ -109,7 +109,7 @@ export default function AuthFormUI({ mode }: AuthFormProps) {
                 </Button>
               </div>
             )}
-          </div>
+          </div>{" "}
           <div className="w-full flex justify-center ">
             <Button
               type="submit"
@@ -118,55 +118,62 @@ export default function AuthFormUI({ mode }: AuthFormProps) {
               {mode === "login" ? "로그인" : "완료"}
             </Button>
           </div>
-          <div className="mt-10">
-            <div className="flex items-center text-[#FFFAEC]">
-              <div className="flex-1 h-px bg-[#FFFAEC]" />
-              <span className="px-4">소셜로그인</span>
-              <div className="flex-1 h-px bg-[#FFFAEC]" />
+          {mode === "login" && (
+            <div className="mt-10">
+              <div className="flex items-center text-[#FFFAEC]">
+                <div className="flex-1 h-px bg-[#FFFAEC]" />
+                <span className="px-4">소셜로그인</span>
+                <div className="flex-1 h-px bg-[#FFFAEC]" />
+              </div>
+
+              <div className="flex gap-4 justify-center mt-6">
+                <button>
+                  <Image
+                    src="/images/kakao.svg"
+                    alt="kakao"
+                    width={40}
+                    height={40}
+                  />
+                </button>
+                <button>
+                  <Image
+                    src="/images/google.svg"
+                    alt="google"
+                    width={40}
+                    height={40}
+                  />
+                </button>
+              </div>
+
+              <div className="flex justify-center mt-4 text-xs text-[#FFFAEC]">
+                <button
+                  type="button"
+                  className="hover:underline pr-1"
+                  onClick={() =>
+                    window.open(
+                      "https://www.kakao.com/policy/terms?type=a&lang=ko",
+                      "_blank"
+                    )
+                  }
+                >
+                  이용약관
+                </button>
+                <span>|</span>
+                <button
+                  type="button"
+                  className="hover:underline pl-1"
+                  onClick={() =>
+                    window.open(
+                      "https://www.kakao.com/policy/privacy",
+                      "_blank"
+                    )
+                  }
+                >
+                  개인정보처리방침
+                </button>
+              </div>
             </div>
-            <div className="flex gap-4 justify-center mt-10">
-              <button>
-                <Image
-                  src="/images/kakao.svg"
-                  alt="kakako"
-                  width={40}
-                  height={40}
-                />
-              </button>
-              <button>
-                <Image
-                  src="/images/google.svg"
-                  alt="google"
-                  width={40}
-                  height={40}
-                />
-              </button>
-            </div>
-          </div>
-          <div className="flex justify-center my-1 text-[#FFFAEC]">
-            <button
-              type="button"
-              className="flex-1 text-right hover:underline pr-1"
-              onClick={() =>
-                window.open(
-                  "https://www.kakao.com/policy/terms?type=a&lang=ko",
-                  "_blank"
-                )
-              }
-            >
-              이용약관
-            </button>
-            |
-            <button
-              type="button"
-              className="flex-1 text-left hover:underline pl-1"
-              onClick={() =>
-                window.open("https://www.kakao.com/policy/privacy", "_blank")
-              }
-            >
-              개인정보처리방침
-            </button>
-          </div>
+          )}
         </div>
       </form>
     </div>
