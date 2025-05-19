@@ -48,6 +48,12 @@ camkeep
 ├─ src
 │  ├─ app
 │  │  ├─ api
+│  │  │  ├─ auth
+│  │  │  │  └─ google
+│  │  │  │     └─ callback
+│  │  │  │        └─ route.ts
+│  │  │  ├─ check-list
+│  │  │  │  └─ route.ts
 │  │  │  ├─ comments
 │  │  │  │  └─ route.ts
 │  │  │  ├─ community
@@ -73,17 +79,17 @@ camkeep
 │  │  │     ├─ layout.tsx
 │  │  │     └─ page.tsx
 │  │  ├─ camping
-│  │  │  ├─ components
-│  │  │  │  └─ camping.client.tsx
 │  │  │  ├─ page.tsx
-│  │  │  └─ [id]
-│  │  │     ├─ components
-│  │  │     │  └─ camping.client.tsx
-│  │  │     └─ page.tsx
-│  │  ├─ check-list
-│  │  │  ├─ page.tsx
+│  │  │  ├─ [id]
+│  │  │  │  ├─ components
+│  │  │  │  │  └─ camping.client.tsx
+│  │  │  │  └─ page.tsx
 │  │  │  └─ _components
-│  │  │     └─ check-list.client.tsx
+│  │  │     └─ camping.client.tsx
+│  │  ├─ check-list
+│  │  │  ├─ components
+│  │  │  │  └─ check-list.client.tsx
+│  │  │  └─ page.tsx
 │  │  ├─ community
 │  │  │  ├─ components
 │  │  │  │  └─ community.client.tsx
@@ -120,15 +126,19 @@ camkeep
 │  │  ├─ SimpleToast.tsx
 │  │  └─ ui
 │  │     ├─ accordion.tsx
+│  │     ├─ alert-dialog.tsx
 │  │     ├─ button.tsx
 │  │     ├─ card.tsx
 │  │     ├─ carousel.tsx
 │  │     └─ input.tsx
 │  ├─ features
 │  │  ├─ auth
-│  │  │  └─ auth-form-ui.tsx
+│  │  │  ├─ auth-google.tsx
+│  │  │  └─ auth-kakao.tsx
 │  │  ├─ camping
 │  │  │  └─ camping-list.tsx
+│  │  ├─ check-list
+│  │  │  └─ image-download-modal.tsx
 │  │  ├─ community
 │  │  │  ├─ community-list.tsx
 │  │  │  ├─ community-modal.tsx
@@ -161,7 +171,7 @@ camkeep
 │  │  │  ├─ mypage-coupon.tsx
 │  │  │  └─ mypage-profile.tsx
 │  │  └─ newbie-guide
-│  │     ├─ newbie-guide-nav.tsx
+│  │     ├─ newbie-list.tsx
 │  │     └─ newbie-quide-data.ts
 │  ├─ lib
 │  │  ├─ auth
@@ -178,6 +188,7 @@ camkeep
 │  │  └─ useAuthStore.ts
 │  ├─ types
 │  │  ├─ auth.ts
+│  │  ├─ check-list.ts
 │  │  ├─ community.ts
 │  │  ├─ gnbtype.ts
 │  │  ├─ index.ts
