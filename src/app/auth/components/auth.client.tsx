@@ -21,7 +21,7 @@ export default function AuthClient({ mode }: AuthFormProps) {
 
   return (
     <div className="flex items-center justify-center w-screen gowun h-screen bg-[#578E7E">
-      <form className="w-full px-4 max-w-lg space-y-6">
+      <div className="w-full px-4 max-w-lg space-y-6">
         <input type="hidden" name="callbackUrl" value={callbackUrl} />
         <div className="">
           <div className="logo my-10 flex flex-col items-center text-xl sm:text-5xl text-[#FFFAEC]">
@@ -164,7 +164,7 @@ export default function AuthClient({ mode }: AuthFormProps) {
             </div>
           )}
         </div>
-      </form>
+      </div>
     </div>
   );
 }
