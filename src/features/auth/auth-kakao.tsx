@@ -6,7 +6,9 @@ export default function Kakao() {
   const kakaoLogin = async () => {
     try {
       await kakaoLoginAction();
-    } catch (err) {}
+    } catch (err) {
+      console.log("err", err);
+    }
   };
   return (
     <>

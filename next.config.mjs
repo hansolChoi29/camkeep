@@ -5,6 +5,7 @@ const nextConfig = {
       "shopping-phinf.pstatic.net",
       "gocamping.or.kr",
       "sjnpgqafckrncydthmis.supabase.co",
+      "lh3.googleusercontent.com",
     ],
   },
 };

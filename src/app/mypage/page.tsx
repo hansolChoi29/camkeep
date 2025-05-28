@@ -2,7 +2,6 @@ import { redirect } from "next/navigation";
 import MypageClient from "./components/mypage.client";
 import { serverSupabase } from "@/lib/supabase/server";
 
-// export const runtime = "edge";
 export const revalidate = 0;
 
 export default async function MyPage() {
