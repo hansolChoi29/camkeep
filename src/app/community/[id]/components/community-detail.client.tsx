@@ -61,8 +61,9 @@ export default function CommunityDetailClient({
   return (
     <main className="max-w-2xl mx-auto my-12 space-y-6">
       <Card className="shadow-lg rounded-lg overflow-hidden">
-        <CardHeader className="flex justify-between items-start px-4 py-2">
-          <div className="flex items-center">
+        <CardHeader className="px-4 py-2">
+          {/* 작성자 정보 */}
+          <div className="flex items-center mb-2">
             {post.user?.profile && (
               <Image
                 src={post.user.profile}
@@ -81,30 +82,38 @@ export default function CommunityDetailClient({
               </p>
             </div>
           </div>
-          <div className="flex  gap-1 w-full justify-end logo">
-            <button
-              onClick={() => setIsEditing(!isEditing)}
-              className="text-white  border bg-[#578E7E] rounded px-2"
-            >
-              {isEditing ? "취소" : "수정"}
-            </button>
-            <button
-              onClick={handleDelete}
-              className="   border bg-[#FFAB5B] rounded px-2"
-            >
-              삭제
-            </button>
+
+          {/* 타이틀 + 수정/삭제 버튼 */}
+          <div className="flex justify-between items-center">
+            {isEditing ? (
+              <input
+                type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                className="flex-1 border rounded px-2 py-1 mr-4"
+              />
+            ) : (
+              <h2 className="text-xl font-semibold">{post.title}</h2>
+            )}
+            <div className="flex gap-2">
+              <button
+                onClick={() => setIsEditing(!isEditing)}
+                className="px-3 py-1 bg-[#578E7E] text-white rounded transform transition hover:scale-105"
+              >
+                {isEditing ? "취소" : "수정"}
+              </button>
+              <button
+                onClick={handleDelete}
+                className="px-3 py-1 bg-[#FFAB5B] text-white rounded transform transition hover:scale-105"
+              >
+                삭제
+              </button>
+            </div>
           </div>
         </CardHeader>
 
         {isEditing ? (
           <div className="px-4 py-6 space-y-4">
-            <input
-              type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              className="w-full border rounded px-2 py-1"
-            />
             <textarea
               value={content}
               onChange={(e) => setContent(e.target.value)}
@@ -112,7 +121,7 @@ export default function CommunityDetailClient({
             />
             <button
               onClick={handleSave}
-              className="px-4 py-2 bg-[#578E7E] text-white rounded hover:bg-[#4b7c6c]"
+              className="px-4 py-2 bg-[#578E7E] text-white rounded transform transition hover:scale-105"
             >
               저장
             </button>
@@ -129,8 +138,7 @@ export default function CommunityDetailClient({
                 />
               </div>
             )}
-            <CardContent className="px-4 py-6">
-              <h2 className="text-xl font-semibold mb-2">{post.title}</h2>
+            <CardContent className="px-4">
               <p className="whitespace-pre-wrap">{post.content}</p>
             </CardContent>
             <CardFooter className="px-4 py-2 flex justify-between items-center border-t">
@@ -154,7 +162,7 @@ export default function CommunityDetailClient({
       <div>
         <Link
           href="/mypage"
-          className="inline-block border p-1 bg-[#578E7E] rounded text-white transform transition-transform duration-200 ease-in-out hover:scale-110"
+          className="inline-block border p-1 bg-[#578E7E] rounded text-white transform transition hover:scale-105"
         >
           뒤로가기
         </Link>
