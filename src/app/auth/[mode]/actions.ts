@@ -3,7 +3,6 @@
 import { redirect } from "next/navigation";
 import { serverSupabase } from "@/lib/supabase/server";
 import { cookies } from "next/headers";
-
 // ─── 로그인 액션 ─────────────────────────────────────────
 export async function loginAction(formData: FormData) {
   const email = formData.get("email") as string;
@@ -72,4 +71,36 @@ export async function logout() {
     }
   }
   redirect("/auth/login");
+}
+//  ──────────────────소셜로그인 ───────────────────────
+export async function kakaoLoginAction() {
+  const supabase = serverSupabase({ writeCookies: true });
+  const redirectUrl =
+    process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URL ||
+    "http://localhost:3000/api/auth/kakao/callback";
+
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: "kakao",
+    options: { redirectTo: redirectUrl },
+  });
+
+  if (error) throw new Error(`소셜 로그인 실패: ${error.message}`);
+  if (!data?.url) throw new Error("Redirect URL이 없습니다.");
+
+  redirect(data.url);
+}
+// ─── 구글 로그인  ───────────────────────────────────────
+export async function googleLoginAction() {
+  //googleLoginAction() 호출 OK
+  // 1) 쿠키를 바로 기록하기 위해 writeCookies: true
+  const supabase = serverSupabase({ writeCookies: true });
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: "google",
+    options: {
+      redirectTo: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/oauth-callback`,
+    },
+  });
+  if (error) throw new Error(error.message);
+  // Supabase가 준 URL로 이동
+  redirect(data.url);
 }

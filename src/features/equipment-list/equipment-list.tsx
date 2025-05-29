@@ -83,7 +83,7 @@ export default function EquipmentList({
           ))}
         </ul>
       ) : (
-        <p className="px-2 text-gray-500">등록된 상품이 없습니다.</p>
+        <p className="px-2 text-gray-500">새로고침 해주세요.</p>
       )}
 
       <EquipmentModal

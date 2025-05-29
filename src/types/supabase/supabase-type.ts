@@ -9,6 +9,70 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      checklist_categories: {
+        Row: {
+          created_at: string
+          id: string
+          title: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          title: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          title?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "checklist_categories_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      checklist_items: {
+        Row: {
+          category_id: string | null
+          created_at: string
+          description: string
+          id: string
+          is_checked: boolean
+          title: string
+        }
+        Insert: {
+          category_id?: string | null
+          created_at?: string
+          description: string
+          id?: string
+          is_checked: boolean
+          title: string
+        }
+        Update: {
+          category_id?: string | null
+          created_at?: string
+          description?: string
+          id?: string
+          is_checked?: boolean
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "checklist_items_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "checklist_categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       community_comments: {
         Row: {
           content: string
@@ -125,7 +189,7 @@ export type Database = {
           email: string
           id: string
           nickname: string
-          phone: string
+          phone: string | null
           points: number | null
           profile: string | null
         }
@@ -134,7 +198,7 @@ export type Database = {
           email: string
           id?: string
           nickname: string
-          phone: string
+          phone?: string | null
           points?: number | null
           profile?: string | null
         }
@@ -143,7 +207,7 @@ export type Database = {
           email?: string
           id?: string
           nickname?: string
-          phone?: string
+          phone?: string | null
           points?: number | null
           profile?: string | null
         }

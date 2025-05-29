@@ -6,6 +6,8 @@ const nextConfig = {
       "gocamping.or.kr",
       "sjnpgqafckrncydthmis.supabase.co",
       "lh3.googleusercontent.com",
+
+      "k.kakaocdn.net",
     ],
   },
 };
