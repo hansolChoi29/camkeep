@@ -53,7 +53,7 @@ export default function EquipmentModal({
         >
           {/* modal content */}
           <motion.div
-            className="p-4 relative bg-white  overflow-y-auto w-full max-h-[80vh] sm:rounded-lg sm:max-w-lg [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+            className="p-4 relative bg-white overflow-y-auto w-full h-screen sm:h-auto sm:rounded-lg sm:max-w-lg [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
             onClick={(e) => e.stopPropagation()}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -121,19 +121,7 @@ export default function EquipmentModal({
             </div>
 
             {/* 버튼 */}
-            <div className=" flex justify-center items-center gap-6 ">
-              <motion.button
-                variants={btnVariants}
-                initial="rest"
-                whileHover="hover"
-                whileTap="tap"
-                animate="rest"
-                className="inline-block w-32 px-2 py-1 bg-[#578E7E] font-bold text-[#FFFAEC] rounded text-center"
-              >
-                {" "}
-                장바구니넣기
-              </motion.button>
-
+            <div className=" flex justify-center items-center gap-2 mt-4">
               <motion.button
                 onClick={handleGet}
                 variants={btnVariants}
@@ -141,7 +129,7 @@ export default function EquipmentModal({
                 whileHover="hover"
                 whileTap="tap"
                 animate="rest"
-                className="inline-block px-2 w-32 py-1 bg-[#578E7E] font-bold text-[#FFFAEC] rounded text-center"
+                className="sm:text-base text-xs  inline-block px-2 w-32 py-2 bg-[#578E7E] font-bold text-[#FFFAEC] rounded text-center h-10"
               >
                 바로 구매
               </motion.button>
@@ -150,14 +138,14 @@ export default function EquipmentModal({
                 target="_blank"
                 rel="noopener"
                 referrerPolicy="no-referrer-when-downgrade"
-                className="inline-block px-2 w-40 py-1 bg-[#578E7E] font-bold text-[#FFFAEC] rounded text-center"
+                className="flex justify-center items-center sm:text-base text-xs px-2 w-32 py-2 bg-[#578E7E] font-bold text-[#FFFAEC] rounded text-center h-10"
                 variants={btnVariants}
                 initial="rest"
                 whileHover="hover"
                 whileTap="tap"
                 animate="rest"
               >
-                구매 페이지로 이동
+                판매처로 이동
               </motion.a>
             </div>
           </motion.div>
