@@ -27,21 +27,181 @@
 
 ---
 
+#### 중간배포일: 5/2 (금)
+
+---
+
 ```
 camkeep
+├─ .eslintrc.json
+├─ components.json ##  shadcn/ui 같은 UI 컴포넌트 생성 도구가 프로젝트 설정을 읽어들이기 위해 사용하는 구성 파일
+├─ middleware.ts
+├─ next-auth.d.ts
+├─ next.config.mjs
+├─ package-lock.json
+├─ package.json
+├─ postcss.config.mjs
 ├─ public
 │  ├─ favicon.png
 │  └─ images
-│     └─ camkeep.png
+│
 ├─ src
 │  ├─ app
-│  │  ├─ favicon.ico
+│  │  ├─ api
+│  │  │  ├─ auth
+│  │  │  │  └─ kakako
+│  │  │  │     └─ callback
+│  │  │  │        └─ route.ts
+│  │  │  ├─ check-list
+│  │  │  │  └─ route.ts
+│  │  │  ├─ comments
+│  │  │  │  └─ route.ts
+│  │  │  ├─ community
+│  │  │  │  ├─ route.ts
+│  │  │  │  └─ [postId]
+│  │  │  │     ├─ comments
+│  │  │  │     │  └─ route.ts
+│  │  │  │     ├─ commu
+│  │  │  │     │  └─ route.ts
+│  │  │  │     └─ likes
+│  │  │  │        └─ route.ts
+│  │  │  ├─ go-camping
+│  │  │  │  └─ route.ts
+│  │  │  ├─ shop
+│  │  │  │  └─ route.ts
+│  │  │  ├─ upload-avatar
+│  │  │  │  └─ route.ts
+│  │  │  └─ users
+│  │  │     └─ upsert
+│  │  │        └─ route.ts
+│  │  ├─ auth
+│  │  │  ├─ components
+│  │  │  │  └─ auth.client.tsx
+│  │  │  ├─ oauth-callback
+│  │  │  │  └─ page.tsx
+│  │  │  └─ [mode]
+│  │  │     ├─ actions.ts
+│  │  │     ├─ layout.tsx
+│  │  │     └─ page.tsx
+│  │  ├─ camping
+│  │  │  ├─ page.tsx
+│  │  │  ├─ [id]
+│  │  │  │  ├─ components
+│  │  │  │  │  └─ camping.client.tsx
+│  │  │  │  └─ page.tsx
+│  │  │  └─ _components
+│  │  │     └─ camping.client.tsx
+│  │  ├─ check-list
+│  │  │  ├─ components
+│  │  │  │  └─ check-list.client.tsx
+│  │  │  └─ page.tsx
+│  │  ├─ community
+│  │  │  ├─ components
+│  │  │  │  └─ community.client.tsx
+│  │  │  ├─ page.tsx
+│  │  │  └─ [id]
+│  │  │     ├─ components
+│  │  │     │  └─ community-detail.client.tsx
+│  │  │     └─ page.tsx
+│  │  ├─ components
+│  │  │  ├─ ClientLayout.tsx
+│  │  │  ├─ HomeClient.tsx
+│  │  │  ├─ Providers.tsx
+│  │  │  └─ SplashScreen.tsx
+│  │  ├─ equipment-list
+│  │  │  ├─ components
+│  │  │  │  └─ equipmentList.client.tsx
+│  │  │  └─ page.tsx
 │  │  ├─ globals.css
 │  │  ├─ layout.tsx
-│  │  ├─ login
+│  │  ├─ mypage
+│  │  │  ├─ components
+│  │  │  │  └─ mypage.client.tsx
 │  │  │  └─ page.tsx
-│  │  └─ page.tsx
-│  └─ components
+│  │  ├─ newbie-guide
+│  │  │  ├─ components
+│  │  │  │  └─ newbie-guide.client.tsx
+│  │  │  └─ page.tsx
+│  │  ├─ page.tsx
+│  │  └─ search
+│  │     └─ page.tsx
+│  ├─ components
+│  │  ├─ components
+│  │  │  └─ client-layout.tsx
+│  │  ├─ SimpleToast.tsx
+│  │  └─ ui
+│  │     ├─ accordion.tsx
+│  │     ├─ alert-dialog.tsx
+│  │     ├─ button.tsx
+│  │     ├─ card.tsx
+│  │     ├─ carousel.tsx
+│  │     └─ input.tsx
+│  ├─ features
+│  │  ├─ auth
+│  │  │  ├─ auth-google.tsx
+│  │  │  └─ auth-kakao.tsx
+│  │  ├─ camping
+│  │  │  └─ camping-list.tsx
+│  │  ├─ check-list
+│  │  │  └─ image-download-modal.tsx
+│  │  ├─ community
+│  │  │  ├─ community-list.tsx
+│  │  │  ├─ community-modal.tsx
+│  │  │  ├─ community-newpost-form.tsx
+│  │  │  └─ like-button.tsx
+│  │  ├─ equipment-list
+│  │  │  ├─ equipment-data.ts
+│  │  │  ├─ equipment-list.tsx
+│  │  │  ├─ equipment-modal.tsx
+│  │  │  ├─ equipment-nav.tsx
+│  │  │  ├─ equipment-search.tsx
+│  │  │  ├─ equipment-sort.tsx
+│  │  │  └─ index.ts
+│  │  ├─ GNB
+│  │  │  ├─ GNB.tsx
+│  │  │  ├─ gnbData.ts
+│  │  │  ├─ GNBItem.tsx
+│  │  │  └─ index.ts
+│  │  ├─ home
+│  │  │  ├─ home-camping-month.tsx
+│  │  │  ├─ home-camping-recommend.tsx
+│  │  │  ├─ home-equipment-recommend.tsx
+│  │  │  ├─ home-promotion.tsx
+│  │  │  └─ promotion-data.ts
+│  │  ├─ mypage
+│  │  │  ├─ coupon-mock.ts
+│  │  │  ├─ mypage-cart.tsx
+│  │  │  ├─ mypage-comment.tsx
+│  │  │  ├─ mypage-commu.tsx
+│  │  │  ├─ mypage-coupon.tsx
+│  │  │  └─ mypage-profile.tsx
+│  │  └─ newbie-guide
+│  │     ├─ newbie-list.tsx
+│  │     └─ newbie-quide-data.ts
+│  ├─ lib
+│  │  ├─ auth
+│  │  │  └─ session.ts
+│  │  ├─ camping.ts
+│  │  ├─ supabase
+│  │  │  ├─ client.ts
+│  │  │  ├─ index.ts
+│  │  │  └─ server.ts
+│  │  ├─ supabaseAdmin.ts
+│  │  ├─ supabaseClient.ts
+│  │  └─ utils.ts
+│  ├─ store
+│  │  └─ useAuthStore.ts
+│  ├─ types
+│  │  ├─ auth.ts
+│  │  ├─ check-list.ts
+│  │  ├─ community.ts
+│  │  ├─ gnbtype.ts
+│  │  ├─ index.ts
+│  │  ├─ promotion.ts
+│  │  ├─ supabase
+│  │  │  └─ supabase-type.ts
+│  │  └─ user.ts
+│  └─ widgets
 │     ├─ Footer.tsx
 │     └─ Header.tsx
 ├─ tailwind.config.ts

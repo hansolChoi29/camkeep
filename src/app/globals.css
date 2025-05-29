@@ -1,7 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+@import url("https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap");
 @font-face {
   font-family: "Ownglyph_corncorn-Rg";
   src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/2412-1@1.0/Ownglyph_corncorn-Rg.woff2")
@@ -9,14 +9,19 @@
   font-weight: normal;
   font-style: normal;
 }
+@import url("https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Yeon+Sung&display=swap");
 
-main {
+.gowun {
+  font-family: "Gowun Dodum", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.main {
   font-family: "Ownglyph_corncorn-Rg", sans-serif;
-  margin: 0;
-  padding: 0;
 }
 header {
-  background-color: #e07b39;
+  background-color: #504b38;
   margin: 0;
   padding: 1rem;
 }

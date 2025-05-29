@@ -6,15 +6,23 @@ const config: Config = {
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    // 모바일에서만 GNB보이게
+    "./src/features/**/*.{js,ts,jsx,tsx,mdx}",
+    // 모바일에서 메뉴 안보이는거
+    "./src/widgets/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     screens: {
-      sm: "560px", // sm: '560px'부터 적용
+      sm: "560px",
       md: "768px",
       lg: "1024px",
       xl: "1280px",
     },
     extend: {
+      fontFamily: {
+        roboto: ["Roboto", "sans-serif"],
+        corn: ["Ownglyph_corncorn-Rg", "sans-serif"],
+      },
       colors: {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
@@ -61,6 +69,28 @@ const config: Config = {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+      },
+      keyframes: {
+        "accordion-down": {
+          from: {
+            height: "0",
+          },
+          to: {
+            height: "var(--radix-accordion-content-height)",
+          },
+        },
+        "accordion-up": {
+          from: {
+            height: "var(--radix-accordion-content-height)",
+          },
+          to: {
+            height: "0",
+          },
+        },
+      },
+      animation: {
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
       },
     },
   },
