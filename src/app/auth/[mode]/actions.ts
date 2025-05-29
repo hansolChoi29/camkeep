@@ -92,7 +92,6 @@ export async function kakaoLoginAction() {
 // ─── 구글 로그인  ───────────────────────────────────────
 export async function googleLoginAction() {
   //googleLoginAction() 호출 OK
-  console.log("🔥[1] googleLoginAction 호출");
   // 1) 쿠키를 바로 기록하기 위해 writeCookies: true
   const supabase = serverSupabase({ writeCookies: true });
   const { data, error } = await supabase.auth.signInWithOAuth({
@@ -101,7 +100,6 @@ export async function googleLoginAction() {
       redirectTo: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/oauth-callback`,
     },
   });
-  console.log("🔥[2] signInWithOAuth 결과", { data, error });
   if (error) throw new Error(error.message);
   // Supabase가 준 URL로 이동
   redirect(data.url);

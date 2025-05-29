@@ -27,7 +27,7 @@ export function serverSupabase({
             })
           );
         }
-      : (_: any[]) => {},
+      : () => {},
   };
 
   // ← 이 줄이 빠지면 serverSupabase()가 undefined를 리턴합니다!
