@@ -42,7 +42,7 @@ export default function CommunityDetailClient({
     });
     if (!res.ok) return alert("삭제에 실패했습니다.");
     alert("삭제되었습니다.");
-    router.push("/mypage");
+    window.location.href = "/mypage";
   };
 
   const handleSave = async () => {
@@ -81,16 +81,16 @@ export default function CommunityDetailClient({
               </p>
             </div>
           </div>
-          <div className="flex space-x-4">
+          <div className="flex  gap-1 w-full justify-end logo">
             <button
               onClick={() => setIsEditing(!isEditing)}
-              className="text-blue-500 hover:underline"
+              className="text-white  border bg-[#578E7E] rounded px-2"
             >
               {isEditing ? "취소" : "수정"}
             </button>
             <button
               onClick={handleDelete}
-              className="text-red-500 hover:underline"
+              className="   border bg-[#FFAB5B] rounded px-2"
             >
               삭제
             </button>

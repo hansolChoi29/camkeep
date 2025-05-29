@@ -3,6 +3,7 @@
 import { redirect } from "next/navigation";
 import { serverSupabase } from "@/lib/supabase/server";
 import { cookies } from "next/headers";
+import { supabaseAdmin } from "@/lib/supabaseAdmin";
 // ─── 로그인 액션 ─────────────────────────────────────────
 export async function loginAction(formData: FormData) {
   const email = formData.get("email") as string;
@@ -26,12 +27,9 @@ export async function registerAction(formData: FormData) {
   const nickname = formData.get("nickname") as string;
   const phone = formData.get("phone") as string;
 
-  // createRouteHandlerClient 제거, serverSupabase로 통일
-  const supabase = await serverSupabase();
-
-  // 관리자 권한으로 유저 생성 (service_role 키 사용)
+  // 1) service_role 키로 새로운 유저 생성
   const { data: adminData, error: adminError } =
-    await supabase.auth.admin.createUser({
+    await supabaseAdmin.auth.admin.createUser({
       email,
       password,
       email_confirm: true,
@@ -39,22 +37,18 @@ export async function registerAction(formData: FormData) {
     });
   if (adminError) throw new Error(adminError.message);
 
-  // 프로필 테이블 초기화
-  const insertData = {
+  // 2) service_role 키로 프로필(users) 테이블 초기화
+  const { error: insertError } = await supabaseAdmin.from("users").insert({
     id: adminData.user.id,
     email,
     nickname,
     phone,
     points: 10000,
-    // created_at 는 테이블에 설정된 DEFAULT now() 가 알아서 채워줍니다.
-  };
-
-  const { error: insertError } = await supabase
-    .from("users")
-    .insert(insertData);
+  });
   if (insertError) throw new Error(insertError.message);
 
-  redirect("/auth/login"); // 회원가입 후 로그인 페이지로
+  // 3) 가입 완료 후 로그인 페이지로
+  redirect("/auth/login");
 }
 // ─── 로그아웃 액션 ────────────────────────────────────────
 export async function logout() {
