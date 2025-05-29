@@ -12,9 +12,9 @@ export default function CampingDetailClient({
   camp,
 }: CampingDetailClientProps) {
   return (
-    <main className="max-w-4xl mx-auto p-6 space-y-6">
+    <main className="max-w-4xl mx-auto my-8 space-y-6">
       <div className="overflow-hidden">
-        <div className="flex">
+        <div className="sm:flex">
           {camp.firstImageUrl && (
             <div className="relative w-full h-64">
               <Image
@@ -26,23 +26,25 @@ export default function CampingDetailClient({
             </div>
           )}
           <div className="ml-2">
-            <p className="text-2xl font-bold">{camp.facltNm}</p>
-            <div className="badges">
+            <p className="sm:text-2xl text-base font-bold">{camp.facltNm}</p>
+            <div className="badges sm:text-sm text-xs text-[#E07B39]">
               {camp.hasGlamping ? (
                 <span className="badge-glamp">글램핑 가능</span>
               ) : (
-                <span className="badge-camp">일반 캠핑장</span>
+                <span className="badge-camp ">일반 캠핑장</span>
               )}
             </div>
-            <p className="mt-4 ">주소: {camp.addr1}</p>
-            <p className="mt-2 ">전화: {camp.tel ?? "정보 없음"}</p>
-            <p className="mt-2 ">운영 요일: {camp.operDeCl ?? "정보 없음"}</p>
-            <p className="mt-2 ">예약 방식: {camp.resveCl ?? "정보 없음"}</p>
+            <div className="sm:text-base text-sm">
+              <p className="mt-4 ">주소: {camp.addr1}</p>
+              <p className="mt-2 ">전화: {camp.tel ?? "정보 없음"}</p>
+              <p className="mt-2 ">운영 요일: {camp.operDeCl ?? "정보 없음"}</p>
+              <p className="mt-2 ">예약 방식: {camp.resveCl ?? "정보 없음"}</p>
+            </div>
           </div>
         </div>
 
         <div className="border p-1 text-base">
-          <p className="mt-2 ">{camp.sbrsCl ?? "정보 없음"}</p>
+          <p className="mt-2 ">이용시설: {camp.sbrsCl ?? "정보 없음"}</p>
         </div>
 
         <div className="border rounded">
@@ -69,7 +71,7 @@ export default function CampingDetailClient({
           <p className="mt-2 ">반려동물: {camp.animalCmgCl ?? "정보 없음"}</p>
         </div>
 
-        <div className="flex flex-col w-full justify-end">
+        <div className="flex flex-col w-full justify-end gap-1 mt-1">
           <Link
             href={camp.homepage!}
             className="hover:underline text-[#578E7E]"
@@ -83,7 +85,7 @@ export default function CampingDetailClient({
             예약사이트로 이동
           </Link>
         </div>
-        <div className="p-6 flex justify-end">
+        <div className="mb-8 py-2 flex justify-end">
           <Link
             href="/camping"
             className="text-sm text-[#578E7E] hover:underline"
