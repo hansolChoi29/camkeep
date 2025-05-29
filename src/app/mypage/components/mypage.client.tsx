@@ -10,7 +10,7 @@ import MypageCoupon from "@/features/mypage/mypage-coupon";
 import { SimpleToast } from "@/components/SimpleToast";
 import { createClient } from "@/lib/supabase/client";
 import { logout } from "@/app/auth/[mode]/actions";
-
+export const dynamic = "force-dynamic"; //export const revalidate = 0;와 같음
 interface PostSummary {
   id: string;
   title: string;
