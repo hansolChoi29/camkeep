@@ -1,13 +1,22 @@
 "use client";
-import { kakaoLoginAction } from "@/app/auth/[mode]/actions";
+import { createClient } from "@/lib/supabase/client";
 import Image from "next/image";
 
 export default function Kakao() {
   const kakaoLogin = async () => {
-    try {
-      await kakaoLoginAction();
-    } catch (err) {
-      console.log("err", err);
+    const supabase = createClient();
+
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: "kakao",
+      options: {
+        redirectTo: "http://localhost:3000/auth/oauth-callback",
+      },
+    });
+
+    if (error) {
+      console.error("❌ 카카오 로그인 오류:", error.message);
+    } else {
+      console.log("📦 카카오 로그인 리디렉션:", data);
     }
   };
   return (

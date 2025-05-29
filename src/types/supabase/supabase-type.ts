@@ -189,7 +189,7 @@ export type Database = {
           email: string
           id: string
           nickname: string
-          phone: string
+          phone: string | null
           points: number | null
           profile: string | null
         }
@@ -198,7 +198,7 @@ export type Database = {
           email: string
           id?: string
           nickname: string
-          phone: string
+          phone?: string | null
           points?: number | null
           profile?: string | null
         }
@@ -207,7 +207,7 @@ export type Database = {
           email?: string
           id?: string
           nickname?: string
-          phone?: string
+          phone?: string | null
           points?: number | null
           profile?: string | null
         }

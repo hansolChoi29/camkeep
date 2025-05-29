@@ -8,7 +8,7 @@ import GNB from "@/features/GNB/GNB";
 import { useAuthStore } from "@/store/useAuthStore";
 import CommunityModal from "@/features/community/community-modal";
 import CommunityNewPostForm from "@/features/community/community-newpost-form";
-import { browserSupabase } from "@/lib/supabase/client";
+import { createClient } from "@/lib/supabase/client";
 
 export default function ClientLayout({
   children,
@@ -20,7 +20,7 @@ export default function ClientLayout({
   const [submitting, setSubmitting] = useState(false);
   const setSession = useAuthStore((s) => s.setSession);
   const pathname = usePathname();
-  const supabase = browserSupabase();
+  const supabase = createClient();
   // Splash & Auth 복원
   useEffect(() => {
     const t = setTimeout(() => setLoading(false), 1500);

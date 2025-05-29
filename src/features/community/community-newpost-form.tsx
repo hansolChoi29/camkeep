@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { SimpleToast } from "@/components/SimpleToast";
-import { browserSupabase } from "@/lib/supabase/client";
+import { createClient } from "@/lib/supabase/client";
 import { useAuthStore } from "@/store/useAuthStore";
 interface Props {
   onSubmit: (title: string, content: string, photos: string[]) => void;
@@ -16,7 +16,7 @@ export default function CommunityNewPostForm({ onSubmit, loading }: Props) {
   const [toast, setToast] = useState<string | null>(null);
 
   const user = useAuthStore((state) => state.user);
-  const supabase = browserSupabase();
+  const supabase = createClient();
 
   const uploadPhotos = async (): Promise<string[]> => {
     if (!files || files.length === 0) return [];

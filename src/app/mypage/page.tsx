@@ -53,7 +53,7 @@ export default async function MyPage() {
       email={session.user.email!}
       userId={user.id}
       nickname={nickname}
-      phone={phone}
+      phone={phone ?? ""}
       points={points}
       photo={photo}
       initialPosts={myPosts ?? []}
