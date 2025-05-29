@@ -14,7 +14,7 @@ import { CouponMock } from "./coupon-mock";
 export default function MypageCoupon() {
   return (
     <article className="w-full my-8 logo">
-      <h1 className="text-2xl font-bold mb-4">내가 보유한 쿠폰</h1>
+      <h1 className="sm:text-2xl text-base font-bold pb-2">내가 보유한 쿠폰</h1>
       <Carousel className="relative">
         <CarouselContent className="-ml-8 md:-ml-4">
           {CouponMock.map((c, idx) => (

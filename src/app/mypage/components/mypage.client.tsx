@@ -113,7 +113,7 @@ export default function MypageClient({
 
   return (
     <section>
-      <div className="flex flex-col items-stretch justify-center gowun w-full max-w-4xl p-8 min-h-screen mx-auto">
+      <div className="flex flex-col items-stretch justify-center gowun w-full max-w-4xl  min-h-screen mx-auto">
         <MypageProfile
           photoUrl={photoUrl}
           handleFileChange={handleFileChange}
@@ -134,17 +134,19 @@ export default function MypageClient({
         <hr className="w-full border-t-1 border-[#578E7E] my-4" />
 
         <div>
-          <MypageCart />
+          <div className="border-b border-b-1 pb-4 flex justify-center">
+            <MypageCart />
+          </div>
           <MypageCommu initialPosts={initialPosts} />
 
           <MypageCoupon />
         </div>
       </div>
 
-      <article className="mt-6 flex flex-col gap-2 items-end logo">
+      <article className="mt-2 flex flex-col gap-2 items-end logo">
         <button
           onClick={() => router.push(callback)}
-          className="bg-[#578E7E] text-white  px-4 py-2 border rounded transform transition-transform duration-200 ease-in-out hover:scale-110"
+          className="bg-[#578E7E] text-white  px-4 py-2 border rounded transform transition-transform duration-200 ease-in-out hover:scale-110 mb-10 "
         >
           뒤로가기
         </button>
