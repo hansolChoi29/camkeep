@@ -53,7 +53,7 @@ export default function EquipmentModal({
         >
           {/* modal content */}
           <motion.div
-            className="p-4 relative bg-white overflow-y-auto w-full h-screen sm:h-auto sm:rounded-lg sm:max-w-lg [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+            className="p-4 relative bg-white overflow-y-auto w-full sm:w-[90%] sm:max-w-lg sm:rounded-lg sm:h-auto h-screen max-h-screen sm:max-h-[90vh]"
             onClick={(e) => e.stopPropagation()}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
