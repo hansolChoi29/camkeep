@@ -126,7 +126,7 @@ export default function CommunityClient({
                     </div>
                   </CardHeader>
                 </div>
-                <div className="flex items-center  py-2">
+                <div className="flex items-center justify-between  py-2">
                   <p className="justify-start ">{p.title}</p>
                   <p className="text-xs ml-2 text-[#A7A6A6]">
                     {timeAgo(p.created_at)}
