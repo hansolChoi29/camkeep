@@ -1,5 +1,5 @@
 import { serverSupabase } from "./server";
-import { browserSupabase } from "./client";
+import { createClient } from "./client";
 
 export const supabase =
-  typeof window === "undefined" ? serverSupabase() : browserSupabase();
+  typeof window === "undefined" ? serverSupabase() : createClient();

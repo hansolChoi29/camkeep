@@ -19,8 +19,8 @@ async function withAuth(req: NextRequest) {
     };
   }
 
-  return { supabase, user, unauthorized: null };
   console.log("req", req);
+  return { supabase, user, unauthorized: null };
 }
 //GET 사용자 인증 확인 후, 전체 카테고리 또는 특정 카테고리의 아이템 목록 반환
 export async function GET(req: NextRequest) {
@@ -66,17 +66,14 @@ export async function POST(req: NextRequest) {
 
   //요청 본문 파싱 (한 번만)
   const { type, payload } = await req.json();
-  console.log("POST body →", { type, payload });
   //카테고리 생성
   if (type === "category") {
-    console.log("▶ insert category:", payload.title);
     const { data, error } = await supabase
       .from("checklist_categories")
       .insert({ user_id: user.id, title: payload.title })
       .select("id, title")
       .single();
 
-    console.log("insert category result →", { data, error });
     if (error) {
       console.error("Insert category failed:", error);
       return NextResponse.json({ error: error.message }, { status: 500 });
@@ -85,7 +82,6 @@ export async function POST(req: NextRequest) {
   }
   //아이템 생성
   if (type === "item") {
-    console.log("▶ insert item into category", payload.category_id);
     const { data, error } = await supabase
       .from("checklist_items")
       .insert({
@@ -97,7 +93,6 @@ export async function POST(req: NextRequest) {
       .select("id, title, description, is_checked")
       .single();
 
-    console.log("insert item result →", { data, error });
     if (error) {
       console.error("Insert item failed:", error);
       return NextResponse.json({ error: error.message }, { status: 500 });
@@ -117,7 +112,6 @@ export async function PATCH(req: NextRequest) {
   const { type, id, fields } = await req.json();
   //카테고리 제목 수정
   if (type === "category") {
-    console.log("▶ update category", id, "→", fields.title);
     const { error } = await supabase
       .from("checklist_categories")
       .update({ title: fields.title })
@@ -131,7 +125,6 @@ export async function PATCH(req: NextRequest) {
   }
   //아이템 속성 수정
   if (type === "item") {
-    console.log("▶ update item", id, "→", fields);
     const { error } = await supabase
       .from("checklist_items")
       .update(fields)
@@ -156,7 +149,6 @@ export async function DELETE(req: NextRequest) {
   const { type, id } = await req.json();
   // 카테고리 삭제
   if (type === "category") {
-    console.log("▶ delete category", id);
     const { error } = await supabase
       .from("checklist_categories")
       .delete()
@@ -170,7 +162,6 @@ export async function DELETE(req: NextRequest) {
   }
   //아이템 삭제
   if (type === "item") {
-    console.log("▶ delete item", id);
     const { error } = await supabase
       .from("checklist_items")
       .delete()

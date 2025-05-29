@@ -8,7 +8,7 @@ import MypageCart from "@/features/mypage/mypage-cart";
 import MypageCommu from "@/features/mypage/mypage-commu";
 import MypageCoupon from "@/features/mypage/mypage-coupon";
 import { SimpleToast } from "@/components/SimpleToast";
-import { browserSupabase } from "@/lib/supabase/client";
+import { createClient } from "@/lib/supabase/client";
 import { logout } from "@/app/auth/[mode]/actions";
 
 interface PostSummary {
@@ -50,7 +50,7 @@ export default function MypageClient({
   const [toastMsg, setToastMsg] = useState<string | null>(null);
 
   const callback = params.get("callbackUrl") ?? "/";
-  const supabase = browserSupabase();
+  const supabase = createClient();
   // 로그아웃
   const handleLogout = async () => {
     await logout();
