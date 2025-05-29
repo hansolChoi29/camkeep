@@ -49,7 +49,7 @@ camkeep
 │  ├─ app
 │  │  ├─ api
 │  │  │  ├─ auth
-│  │  │  │  └─ google
+│  │  │  │  └─ kakako
 │  │  │  │     └─ callback
 │  │  │  │        └─ route.ts
 │  │  │  ├─ check-list
@@ -69,11 +69,16 @@ camkeep
 │  │  │  │  └─ route.ts
 │  │  │  ├─ shop
 │  │  │  │  └─ route.ts
-│  │  │  └─ upload-avatar
-│  │  │     └─ route.ts
+│  │  │  ├─ upload-avatar
+│  │  │  │  └─ route.ts
+│  │  │  └─ users
+│  │  │     └─ upsert
+│  │  │        └─ route.ts
 │  │  ├─ auth
 │  │  │  ├─ components
 │  │  │  │  └─ auth.client.tsx
+│  │  │  ├─ oauth-callback
+│  │  │  │  └─ page.tsx
 │  │  │  └─ [mode]
 │  │  │     ├─ actions.ts
 │  │  │     ├─ layout.tsx
