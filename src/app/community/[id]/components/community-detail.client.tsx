@@ -14,7 +14,7 @@ import { timeAgo } from "@/lib/utils";
 import { Post } from "@/types/community";
 import Image from "next/image";
 import Link from "next/link";
-
+import { SimpleToast } from "@/components/SimpleToast";
 interface CommunityDetailClientProps {
   post: Post;
 }
@@ -26,6 +26,9 @@ export default function CommunityDetailClient({
   const [isEditing, setIsEditing] = useState(false);
   const [title, setTitle] = useState(post.title);
   const [content, setContent] = useState(post.content);
+
+  const [toastMsg, setToastMsg] = useState<string | null>(null);
+
   const router = useRouter();
 
   const photos = Array.isArray(post.photos)
@@ -40,9 +43,12 @@ export default function CommunityDetailClient({
       method: "DELETE",
       credentials: "include",
     });
-    if (!res.ok) return alert("삭제에 실패했습니다.");
-    alert("삭제되었습니다.");
-    window.location.href = "/mypage";
+    if (!res.ok) {
+      setToastMsg("삭제에 실패했습니다.");
+      return;
+    }
+    setToastMsg("게시글이 삭제되었습니다.");
+    router.push("/mypage");
   };
 
   const handleSave = async () => {
@@ -52,8 +58,11 @@ export default function CommunityDetailClient({
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ title, content }),
     });
-    if (!res.ok) return alert("수정에 실패했습니다.");
-    alert("수정되었습니다.");
+    if (!res.ok) {
+      setToastMsg("수정에 실패했습니다.");
+      return;
+    }
+    setToastMsg("수정이 완료되었습니다.");
     setIsEditing(false);
     router.refresh();
   };
@@ -167,6 +176,14 @@ export default function CommunityDetailClient({
           뒤로가기
         </Link>
       </div>
+
+      {toastMsg && (
+        <SimpleToast
+          message={toastMsg}
+          duration={2000}
+          onClose={() => setToastMsg(null)}
+        />
+      )}
     </main>
   );
 }
