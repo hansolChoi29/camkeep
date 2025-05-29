@@ -143,15 +143,15 @@ export default function MypageClient({
         </div>
       </div>
 
-      <article className="mt-2 flex flex-col gap-2 items-end logo">
+      <article className="mt-1 flex flex-col gap-2 items-end logo mb-40">
         <button
           onClick={() => router.push(callback)}
-          className="bg-[#578E7E] text-white  px-4 py-2 border rounded transform transition-transform duration-200 ease-in-out hover:scale-110 mb-10 "
+          className="bg-[#578E7E] text-white  px-4 py-2 border rounded transform transition-transform duration-200 ease-in-out hover:scale-110  "
         >
           뒤로가기
         </button>
 
-        <button className="px-4 py-2  rounded">회원탈퇴</button>
+        <button className=" text-[#E07B39] rounded">회원탈퇴</button>
       </article>
 
       {toastMsg && (
