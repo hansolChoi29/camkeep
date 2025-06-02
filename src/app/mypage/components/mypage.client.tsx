@@ -10,7 +10,7 @@ import MypageCoupon from "@/features/mypage/mypage-coupon";
 import { SimpleToast } from "@/components/SimpleToast";
 import { createClient } from "@/lib/supabase/client";
 import { logout } from "@/app/auth/[mode]/actions";
-
+export const dynamic = "force-dynamic"; //export const revalidate = 0;와 같음
 interface PostSummary {
   id: string;
   title: string;
@@ -48,6 +48,9 @@ export default function MypageClient({
   const [uploading, setUploading] = useState(false);
 
   const [toastMsg, setToastMsg] = useState<string | null>(null);
+  const [toastType, setToastType] = useState<"success" | "error" | "warning">(
+    "success"
+  );
 
   const callback = params.get("callbackUrl") ?? "/";
   const supabase = createClient();
@@ -70,11 +73,13 @@ export default function MypageClient({
 
     if (error) {
       setToastMsg("닉네임 업데이트 실패: " + error.message);
+      setToastType("error");
     } else {
       setNickname(newNickname);
 
       setEditing(false);
       setToastMsg("닉네임이 성공적으로 변경되었습니다.");
+      setToastType("success");
     }
   };
 
@@ -101,11 +106,13 @@ export default function MypageClient({
       // 성공하면 화면 갱신
       setPhotoUrl(json.publicUrl);
       setToastMsg("프로필 사진이 성공적으로 변경되었습니다.");
+      setToastType("success");
 
       router.refresh();
     } catch (err) {
       const message = err instanceof Error ? err.message : String(err);
       setToastMsg("업로드 실패: " + message);
+      setToastType("error");
     } finally {
       setUploading(false);
     }
@@ -113,7 +120,7 @@ export default function MypageClient({
 
   return (
     <section>
-      <div className="flex flex-col items-stretch justify-center gowun w-full max-w-4xl p-8 min-h-screen mx-auto">
+      <div className="flex flex-col items-stretch justify-center gowun w-full max-w-4xl  min-h-screen mx-auto">
         <MypageProfile
           photoUrl={photoUrl}
           handleFileChange={handleFileChange}
@@ -134,26 +141,29 @@ export default function MypageClient({
         <hr className="w-full border-t-1 border-[#578E7E] my-4" />
 
         <div>
-          <MypageCart />
+          <div className="border-b border-b-1 pb-4 flex justify-center">
+            <MypageCart />
+          </div>
           <MypageCommu initialPosts={initialPosts} />
 
           <MypageCoupon />
         </div>
       </div>
 
-      <article className="mt-6 flex flex-col gap-2 items-end logo">
+      <article className="mt-1 flex flex-col gap-2 items-end logo mb-40">
         <button
           onClick={() => router.push(callback)}
-          className="bg-[#578E7E] text-white  px-4 py-2 border rounded transform transition-transform duration-200 ease-in-out hover:scale-110"
+          className="bg-[#578E7E] text-white  px-4 py-2 border rounded transform transition-transform duration-200 ease-in-out hover:scale-110  "
         >
           뒤로가기
         </button>
 
-        <button className="px-4 py-2  rounded">회원탈퇴</button>
+        <button className=" text-[#E07B39] rounded">회원탈퇴</button>
       </article>
 
       {toastMsg && (
         <SimpleToast
+          type={toastType}
           message={toastMsg}
           duration={2000}
           onClose={() => setToastMsg(null)}

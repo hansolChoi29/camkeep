@@ -23,6 +23,10 @@ export default function CommentsList({
   const [newComment, setNewComment] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [toast, setToast] = useState<string | null>(null);
+  const [toastType, setToastType] = useState<"success" | "error" | "warning">(
+    "success"
+  ); // 알림 타입 관리
+
   // 1) 댓글 불러오기
   const fetchComments = () =>
     fetch(`/api/community/${postId}/comments`)
@@ -54,6 +58,7 @@ export default function CommentsList({
       setNewComment("");
       fetchComments();
       setToast("성공적으로 등록되었습니다.");
+      setToastType("success");
       onCommentAdded?.();
     }
   };
@@ -105,6 +110,7 @@ export default function CommentsList({
           message={toast}
           duration={2000}
           onClose={() => setToast(null)}
+          type={toastType}
         />
       )}
     </div>

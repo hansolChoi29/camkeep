@@ -12,7 +12,7 @@ export default function EquipmentNav(props: NaProps) {
   return (
     <div className="overflow-auto mb-12  justify-center items-center flex flex-col">
       <nav>
-        <div className="mt-44 flex-wrap flex justify-center rounded-xl  bg-[#F5ECD5]   ">
+        <div className="mt-24 flex-wrap flex justify-center rounded-xl  bg-[#F5ECD5]   ">
           {CATEGORIES.map(({ label: cat, icon }) => (
             <button
               key={cat}

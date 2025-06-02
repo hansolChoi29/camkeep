@@ -1,34 +1,39 @@
-import { GNBItemData } from "../../types/gnbtype";
+import TentIcon from "./icons/TentIcon";
+import EquipmentIcon from "./icons/EquipmentIcon";
+import CommuIcon from "./icons/CommuIcon";
+import ChecklistIcon from "./icons/ChecklistIcon";
+import MypageIcon from "./icons/MypageIcon";
+import type { GNBItemData } from "@/types/gnbtype";
 
 export const gnbItems: GNBItemData[] = [
   {
     id: "camping",
     label: "캠핑장",
     href: "/camping",
-    img: "/images/menu-tent.png",
+    Icon: TentIcon,
   },
   {
     id: "shop",
     label: "용품샵",
     href: "/equipment-list",
-    img: "/images/menu-chair.png",
+    Icon: EquipmentIcon,
   },
   {
     id: "community",
     label: "커뮤니티",
     href: "/community",
-    img: "/images/menu-community.png",
+    Icon: CommuIcon,
   },
   {
     id: "checklist",
     label: "체크리스트",
     href: "/check-list",
-    img: "/images/menu-checklist.png",
+    Icon: ChecklistIcon,
   },
   {
     id: "mypage",
     label: "마이페이지",
     href: "/mypage",
-    img: "/images/menu-person.png",
+    Icon: MypageIcon,
   },
 ];
