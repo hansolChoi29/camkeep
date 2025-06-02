@@ -14,7 +14,7 @@ import { timeAgo } from "@/lib/utils";
 import { Post } from "@/types/community";
 import Image from "next/image";
 import Link from "next/link";
-import { SimpleToast } from "@/components/SimpleToast";
+import { SimpleToast } from "@/app/components/SimpleToast";
 interface CommunityDetailClientProps {
   post: Post;
 }

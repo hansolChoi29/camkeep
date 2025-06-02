@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { NaverItem } from "@/app/equipment-list/components/equipmentList.client";
 import { AnimatePresence, motion } from "framer-motion";
-import { SimpleToast } from "@/components/SimpleToast";
+import { SimpleToast } from "@/app/components/SimpleToast";
 interface EquipmentModalProps {
   open: boolean;
   onClose: () => void;

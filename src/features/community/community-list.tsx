@@ -1,5 +1,5 @@
 "use client";
-import { SimpleToast } from "@/components/SimpleToast";
+import { SimpleToast } from "@/app/components/SimpleToast";
 import { timeAgo } from "@/lib/utils";
 import Image from "next/image";
 import React, { useState, useEffect } from "react";

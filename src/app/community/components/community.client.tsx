@@ -30,7 +30,7 @@ export default function CommunityClient({
   const [loadingPost, setLoadingPost] = useState(false);
   const [openComments, setOpenComments] = useState<Record<string, boolean>>({});
 
-  console.log("setCommentCounts", setCommentCounts);
+  // console.log("setCommentCounts", setCommentCounts);
 
   // 사진 데이터(문자열 또는 배열)를 string[] 으로 정규화하는 함수
   const normalizePhotos = (photos?: string[] | string | null): string[] => {
@@ -101,21 +101,18 @@ export default function CommunityClient({
       {posts.map((p) => {
         const photos = normalizePhotos(p.photos);
         return (
-          <Card
-            key={p.id}
-            className="rounded-lg overflow-hidden shadow-md px-5"
-          >
+          <Card key={p.id} className="rounded-lg overflow-hidden shadow-md ">
             <div className="flex ">
               <div className="w-full">
                 <div>
-                  <CardHeader className="flex flex-row items-center h-full px-2 py-1 ">
+                  <CardHeader className="flex flex-row items-center h-full px-4">
                     {p.user?.profile && (
                       <Image
                         src={p.user.profile}
                         alt={p.user.nickname}
-                        width={20}
-                        height={20}
-                        className="rounded-full object-cover border"
+                        width={33}
+                        height={33}
+                        className="rounded-full h-8 object-cover border"
                       />
                     )}
 
@@ -126,7 +123,7 @@ export default function CommunityClient({
                     </div>
                   </CardHeader>
                 </div>
-                <div className="flex items-center justify-between  py-2">
+                <div className="flex items-center justify-between  px-4 py-1">
                   <p className="justify-start ">{p.title}</p>
                   <p className="text-xs ml-2 text-[#A7A6A6]">
                     {timeAgo(p.created_at)}
@@ -135,11 +132,11 @@ export default function CommunityClient({
               </div>
             </div>
 
-            <div className="w-full ">
+            <div className="w-full px-4">
               <hr />
             </div>
             {photos[0] && (
-              <div className="relative w-full h-64">
+              <div className="relative w-full h-64 mt-4">
                 <Image
                   src={photos[0]}
                   alt="post photo"
