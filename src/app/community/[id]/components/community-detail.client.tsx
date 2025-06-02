@@ -28,6 +28,9 @@ export default function CommunityDetailClient({
   const [content, setContent] = useState(post.content);
 
   const [toastMsg, setToastMsg] = useState<string | null>(null);
+  const [toastType, setToastType] = useState<"success" | "error" | "warning">(
+    "success"
+  );
 
   const router = useRouter();
 
@@ -39,16 +42,19 @@ export default function CommunityDetailClient({
 
   const handleDelete = async () => {
     if (!confirm("정말 이 게시글을 삭제하시겠습니까?")) return;
+    setToastType("warning");
     const res = await fetch(`/api/community/${post.id}/commu`, {
       method: "DELETE",
       credentials: "include",
     });
     if (!res.ok) {
       setToastMsg("삭제에 실패했습니다.");
+      setToastType("error");
       return;
     }
-    setToastMsg("게시글이 삭제되었습니다.");
     router.push("/mypage");
+    setToastMsg("게시글이 삭제되었습니다.");
+    setToastType("success");
   };
 
   const handleSave = async () => {
@@ -179,6 +185,7 @@ export default function CommunityDetailClient({
 
       {toastMsg && (
         <SimpleToast
+          type={toastType}
           message={toastMsg}
           duration={2000}
           onClose={() => setToastMsg(null)}

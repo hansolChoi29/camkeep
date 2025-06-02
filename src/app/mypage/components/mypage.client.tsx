@@ -48,6 +48,9 @@ export default function MypageClient({
   const [uploading, setUploading] = useState(false);
 
   const [toastMsg, setToastMsg] = useState<string | null>(null);
+  const [toastType, setToastType] = useState<"success" | "error" | "warning">(
+    "success"
+  );
 
   const callback = params.get("callbackUrl") ?? "/";
   const supabase = createClient();
@@ -70,11 +73,13 @@ export default function MypageClient({
 
     if (error) {
       setToastMsg("닉네임 업데이트 실패: " + error.message);
+      setToastType("error");
     } else {
       setNickname(newNickname);
 
       setEditing(false);
       setToastMsg("닉네임이 성공적으로 변경되었습니다.");
+      setToastType("success");
     }
   };
 
@@ -101,11 +106,13 @@ export default function MypageClient({
       // 성공하면 화면 갱신
       setPhotoUrl(json.publicUrl);
       setToastMsg("프로필 사진이 성공적으로 변경되었습니다.");
+      setToastType("success");
 
       router.refresh();
     } catch (err) {
       const message = err instanceof Error ? err.message : String(err);
       setToastMsg("업로드 실패: " + message);
+      setToastType("error");
     } finally {
       setUploading(false);
     }
@@ -156,6 +163,7 @@ export default function MypageClient({
 
       {toastMsg && (
         <SimpleToast
+          type={toastType}
           message={toastMsg}
           duration={2000}
           onClose={() => setToastMsg(null)}

@@ -13,7 +13,11 @@ export default function CommunityNewPostForm({ onSubmit, loading }: Props) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [files, setFiles] = useState<FileList | null>(null);
+
   const [toast, setToast] = useState<string | null>(null);
+  const [toastType, setToastType] = useState<"success" | "error" | "warning">(
+    "success"
+  );
 
   const user = useAuthStore((state) => state.user);
   const supabase = createClient();
@@ -52,12 +56,14 @@ export default function CommunityNewPostForm({ onSubmit, loading }: Props) {
 
     if (!user) {
       setToast("로그인이 필요합니다.");
+      setToastType("warning");
 
       return;
     }
 
     if (!title.trim() || !content.trim()) {
       setToast("제목과 내용을 입력해 주세요.");
+      setToastType("warning");
 
       return;
     }
@@ -76,7 +82,7 @@ export default function CommunityNewPostForm({ onSubmit, loading }: Props) {
           console.error("게시글 사진 업로드 실패:", updateError);
 
           setToast("게시글 사진 업로드 실패");
-
+          setToastType("error");
           return;
         }
       }
@@ -86,6 +92,7 @@ export default function CommunityNewPostForm({ onSubmit, loading }: Props) {
       console.error(e);
 
       setToast("사진 업로드에 실패했습니다.");
+      setToastType("error");
     }
   };
 
@@ -122,6 +129,7 @@ export default function CommunityNewPostForm({ onSubmit, loading }: Props) {
       </form>
       {toast && (
         <SimpleToast
+          type={toastType}
           message={toast}
           duration={2000}
           onClose={() => setToast(null)}

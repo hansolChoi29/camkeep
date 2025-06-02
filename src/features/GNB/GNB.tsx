@@ -1,6 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import type { GNBItemData } from "@/types/gnbtype";
 import { gnbItems } from "./gnbData";
 import GNBItem from "./GNBItem";
 
@@ -13,27 +14,30 @@ export default function GNB({ onCommunityClick }: Props) {
 
   return (
     <nav className="fixed bottom-0 left-0 w-full h-16 border-t flex justify-around items-center z-40 shadow-inner bg-white p-4 sm:hidden">
-      {gnbItems.map((item) => {
-        // 1) 현재 /community 경로이고, 이 아이템이 id === 'community' 라면
+      {gnbItems.map((item: GNBItemData) => {
+        const isActive = pathname === item.href;
+
         if (pathname === "/community" && item.id === "community") {
           return (
             <GNBItem.Button
               key={item.id}
-              id={item.id}
-              label=""
-              img="/images/newpost.png" // 원하는 아이콘으로 바꿔도 OK
-              onClick={onCommunityClick} // 모달 열기 핸들러
-              className="border rounded-full p-1"
+              Icon={item.Icon}
+              onClick={onCommunityClick}
+              className={`border rounded-full p-1 transition-all ${
+                isActive ? "border-[#578E7E]" : "border-transparent"
+              }`}
             />
           );
         }
 
-        // 2) 그 외의 경우는 기존대로 Link
         return (
           <GNBItem.Link
             key={item.id}
-            {...item}
-            active={pathname === item.href}
+            id={item.id}
+            label={item.label}
+            href={item.href}
+            Icon={item.Icon}
+            active={isActive}
           />
         );
       })}

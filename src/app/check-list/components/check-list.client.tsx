@@ -37,6 +37,10 @@ export default function CheckListClient() {
   const [editItemDesc, setEditItemDesc] = useState("");
   // 토스트 알림
   const [toast, setToast] = useState<string | null>(null);
+  const [toastType, setToastType] = useState<"success" | "error" | "warning">(
+    "success"
+  ); // 알림 타입 관리
+
   const containerRef = useRef<HTMLDivElement>(null);
 
   // 카테고리 로드
@@ -77,6 +81,7 @@ export default function CheckListClient() {
     const { data } = await (await fetch("/api/check-list")).json();
     setCategories(data.slice().reverse());
     setToast("카테고리 추가 완료!");
+    setToastType("success");
   };
 
   // 카테고리 삭제
@@ -89,6 +94,7 @@ export default function CheckListClient() {
       setToast(
         "완료되지 않은 항목이 남아 있습니다. 모든 항목을 완료하거나 비운 뒤에 삭제하세요."
       );
+      setToastType("error");
       return;
     }
 
@@ -136,6 +142,7 @@ export default function CheckListClient() {
     const { data } = await (await fetch("/api/check-list")).json();
     setCategories(data);
     setToast("카테고리 수정 완료!");
+    setToastType("success");
   };
 
   // 아이템 추가 (카테고리별)
@@ -165,6 +172,7 @@ export default function CheckListClient() {
     ).json();
     setItemsByCat((prev) => ({ ...prev, [categoryId]: data }));
     setToast("체크리스트 추가!");
+    setToastType("success");
   };
 
   // 아이템 삭제
@@ -179,6 +187,7 @@ export default function CheckListClient() {
     ).json();
     setItemsByCat((prev) => ({ ...prev, [categoryId]: data }));
     setToast("체크리스트 삭제!");
+    setToastType("success");
   };
 
   // 아이템 수정 저장
@@ -201,6 +210,7 @@ export default function CheckListClient() {
     ).json();
     setItemsByCat((prev) => ({ ...prev, [categoryId]: data }));
     setToast("체크리스트 수정!");
+    setToastType("success");
   };
 
   // 체크박스 토글
@@ -501,6 +511,7 @@ export default function CheckListClient() {
 
       {toast && (
         <SimpleToast
+          type={toastType}
           message={toast}
           duration={5000}
           onClose={() => setToast(null)}

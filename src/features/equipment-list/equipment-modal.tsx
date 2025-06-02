@@ -1,9 +1,9 @@
 /** @jsxImportSource @emotion/react */
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { NaverItem } from "@/app/equipment-list/components/equipmentList.client";
 import { AnimatePresence, motion } from "framer-motion";
-import { useRouter } from "next/navigation";
+import { SimpleToast } from "@/components/SimpleToast";
 interface EquipmentModalProps {
   open: boolean;
   onClose: () => void;
@@ -15,7 +15,10 @@ export default function EquipmentModal({
   onClose,
   item,
 }: EquipmentModalProps) {
-  const router = useRouter();
+  const [toast, setToast] = useState<string | null>(null);
+  const [toastType, setToastType] = useState<"success" | "error" | "warning">(
+    "success"
+  );
 
   useEffect(() => {
     if (open) {
@@ -37,8 +40,10 @@ export default function EquipmentModal({
   };
 
   const handleGet = () => {
-    router.push("/");
+    setToast("업데이트 예정!");
+    setToastType("warning");
   };
+
   return (
     <AnimatePresence>
       {open && (
@@ -149,6 +154,14 @@ export default function EquipmentModal({
               </motion.a>
             </div>
           </motion.div>
+          {toast && (
+            <SimpleToast
+              message={toast}
+              duration={5000}
+              onClose={() => setToast(null)}
+              type={toastType}
+            />
+          )}
         </motion.div>
       )}
     </AnimatePresence>
