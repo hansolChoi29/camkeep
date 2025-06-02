@@ -99,7 +99,7 @@ export default function EquipmentListClient() {
   if (loading) return <p className="p-6 text-center">로딩중…</p>;
 
   return (
-    <section className="sm:m-10">
+    <section className="sm:m-2 ">
       <EquipmentNav
         selected={selected}
         setSelected={setSelected}
