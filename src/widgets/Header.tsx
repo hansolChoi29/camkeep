@@ -64,7 +64,6 @@ export default function Header() {
                 onClick={() => setOpen(false)}
                 className="px-4 py-3 flex items-center space-x-2 text-[#578E7E] hover:bg-gray-100"
               >
-                <Image src={item.img} alt={item.label} width={20} height={20} />
                 <span>{item.label}</span>
               </Link>
             ))}
