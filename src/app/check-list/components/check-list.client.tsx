@@ -1,5 +1,5 @@
 "use client";
-import { SimpleToast } from "@/components/SimpleToast";
+import { SimpleToast } from "@/app/components/SimpleToast";
 import { useEffect, useRef, useState } from "react";
 import html2canvas from "html2canvas";
 import Image from "next/image";

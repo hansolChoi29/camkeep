@@ -7,7 +7,7 @@ import MypageProfile from "@/features/mypage/mypage-profile";
 import MypageCart from "@/features/mypage/mypage-cart";
 import MypageCommu from "@/features/mypage/mypage-commu";
 import MypageCoupon from "@/features/mypage/mypage-coupon";
-import { SimpleToast } from "@/components/SimpleToast";
+import { SimpleToast } from "@/app/components/SimpleToast";
 import { createClient } from "@/lib/supabase/client";
 import { logout } from "@/app/auth/[mode]/actions";
 export const dynamic = "force-dynamic"; //export const revalidate = 0;와 같음
