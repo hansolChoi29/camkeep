@@ -14,7 +14,7 @@ import { timeAgo } from "@/lib/utils";
 import { Post } from "@/types/community";
 import Image from "next/image";
 import Link from "next/link";
-import { SimpleToast } from "@/components/SimpleToast";
+import { SimpleToast } from "@/app/components/SimpleToast";
 interface CommunityDetailClientProps {
   post: Post;
 }
@@ -144,12 +144,12 @@ export default function CommunityDetailClient({
         ) : (
           <>
             {photos.length > 0 && (
-              <div className="w-full h-80">
+              <div className="w-full h-80 justify-center flex">
                 <Image
                   src={photos[0]}
                   alt={post.title}
-                  fill
-                  className="object-contain"
+                  width={500}
+                  height={500}
                 />
               </div>
             )}

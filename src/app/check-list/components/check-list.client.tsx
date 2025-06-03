@@ -1,5 +1,5 @@
 "use client";
-import { SimpleToast } from "@/components/SimpleToast";
+import { SimpleToast } from "@/app/components/SimpleToast";
 import { useEffect, useRef, useState } from "react";
 import html2canvas from "html2canvas";
 import Image from "next/image";
@@ -250,7 +250,7 @@ export default function CheckListClient() {
   //TODO: 단일 아이템(체크박스+제목+수정/삭제) ...
   // 드롭스 엄청 길 것 같네 =>Zustand
   return (
-    <section className="m-4">
+    <section className="m-4 mb-20">
       <h2 className="text-3xl mt-10 main">나만의 체크리스트</h2>
       <article className="flex justify-end">
         <motion.button
