@@ -144,12 +144,12 @@ export default function CommunityDetailClient({
         ) : (
           <>
             {photos.length > 0 && (
-              <div className="w-full h-80">
+              <div className="w-full h-80 justify-center flex">
                 <Image
                   src={photos[0]}
                   alt={post.title}
-                  fill
-                  className="object-contain"
+                  width={500}
+                  height={500}
                 />
               </div>
             )}
