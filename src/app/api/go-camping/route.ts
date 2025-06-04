@@ -7,7 +7,10 @@ export async function GET(request: Request) {
 
   try {
     const items = await fetchCampingList(pageNo, 20);
-
+    console.log(
+      "▶▶ fetchCampingList 결과(items):",
+      JSON.stringify(items, null, 2)
+    );
     return NextResponse.json(items, {
       status: 200,
       headers: {
