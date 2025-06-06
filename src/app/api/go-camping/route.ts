@@ -1,8 +1,12 @@
 import { fetchCampingList } from "@/lib/camping";
 import { NextResponse } from "next/server";
+//첫 요청 시점에 실제 GET 핸들러 코드를 실행해 데이터를 가져오고
+// 그 이후 1시간(3,600초) 동안은 CDN이 캐시된 응답을 그대로 반환
+export const revalidate = 3600;
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
+
   const pageNo = Number(searchParams.get("pageNo")) || 1;
 
   try {
