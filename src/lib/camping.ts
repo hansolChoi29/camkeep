@@ -19,6 +19,8 @@ export interface CampingItem {
   homepage?: string;
   resveUrl?: string;
   hasGlamping?: string;
+  lineIntro?: string;
+  intro?: string;
 }
 
 export interface Camp {
@@ -27,11 +29,23 @@ export interface Camp {
   address: string;
   img?: string;
 }
-
+const campingListCache: {
+  [key: string]: {
+    data: CampingItem[];
+    timestamp: number;
+  };
+} = {};
 export async function fetchCampingList(
   pageNo: number = 1,
   numOfRows: number = 20
 ): Promise<CampingItem[]> {
+  const cacheKey = `${pageNo}-${numOfRows}`;
+  const now = Date.now();
+
+  const cached = campingListCache[cacheKey];
+  if (cached && now - cached.timestamp < 600_000) {
+    return cached.data;
+  }
   const { data } = await axios.get(
     "https://apis.data.go.kr/B551011/GoCamping/basedList",
     {
@@ -53,7 +67,13 @@ export async function fetchCampingList(
   }
 
   const raw = data.response.body.items?.item;
-  return Array.isArray(raw) ? raw : raw ? [raw] : [];
+  const items = Array.isArray(raw) ? raw : raw ? [raw] : [];
+  campingListCache[cacheKey] = {
+    data: items,
+    timestamp: now,
+  };
+
+  return items;
 }
 
 /* 전체 캠핑장 목록 한 번에 가져오기 (페이징 자동)
