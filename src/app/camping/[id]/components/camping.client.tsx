@@ -57,7 +57,6 @@ export default function CampingDetailClient({
             <h1>캠핑장 소개</h1>
             <div className="flex justify-center">
               <p className="mt-4">
-                소개{" "}
                 {camp.lineIntro ??
                   camp.intro ??
                   "아름다운 자연 속에서 편안한 휴식을 즐길 수 있는 캠핑장입니다. 평온한 숲과 맑은 공기, 그리고 별빛 가득한 밤하늘을 느껴보세요."}
@@ -76,7 +75,6 @@ export default function CampingDetailClient({
             ) : (
               <p className="mt-2">정보 없음</p>
             )}
-            {/* <p className="mt-2 "> {camp.posblFcltyCl ?? "정보 없음"}</p> */}
 
             {/* <p className="mt-2 ">
             일반 야영장 수 : {camp.gnrlSiteCo ?? "정보 없음"}
