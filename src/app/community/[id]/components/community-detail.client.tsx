@@ -74,7 +74,7 @@ export default function CommunityDetailClient({
   };
 
   return (
-    <main className="max-w-2xl mx-auto my-12 space-y-6">
+    <main className="max-w-2xl mx-auto my-12 space-y-6 mb-20">
       <Card className="shadow-lg rounded-lg overflow-hidden">
         <CardHeader className="px-4 py-2">
           {/* 작성자 정보 */}
@@ -128,7 +128,7 @@ export default function CommunityDetailClient({
         </CardHeader>
 
         {isEditing ? (
-          <div className="px-4 py-6 space-y-4">
+          <div className="px-4 py-6 space-y-4 ">
             <textarea
               value={content}
               onChange={(e) => setContent(e.target.value)}
