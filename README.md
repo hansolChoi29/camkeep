@@ -208,3 +208,217 @@ camkeep
 └─ tsconfig.json
 
 ```
+
+
+
+```
+camkeep
+├─ .eslintrc.json
+├─ components.json
+├─ middleware.ts
+├─ next-auth.d.ts
+├─ next.config.mjs
+├─ package-lock.json
+├─ package.json
+├─ postcss.config.mjs
+├─ public
+│  ├─ favicon.png
+│  └─ images
+│     ├─ camkeep.png
+│     ├─ check-download.svg
+│     ├─ check.svg
+│     ├─ checkbox.svg
+│     ├─ delete.svg
+│     ├─ google.svg
+│     ├─ header-newbie.png
+│     ├─ kakao.svg
+│     ├─ newpost.png
+│     ├─ promotion-clamping.png
+│     ├─ promotion-newbie-batch.png
+│     ├─ promotion-photo-contest.png
+│     ├─ shop-chair.png
+│     ├─ shop-cockle.png
+│     ├─ shop-cooker.png
+│     ├─ shop-lantern.png
+│     ├─ shop-mat.png
+│     ├─ shop-table.png
+│     ├─ shop-tarp.png
+│     ├─ shop-tent.png
+│     ├─ sleeping-bag.png
+│     └─ update.png
+├─ README.md
+├─ src
+│  ├─ app
+│  │  ├─ api
+│  │  │  ├─ auth
+│  │  │  │  ├─ find-id
+│  │  │  │  │  └─ route.ts
+│  │  │  │  ├─ kakako
+│  │  │  │  │  └─ callback
+│  │  │  │  │     └─ route.ts
+│  │  │  │  └─ reset-password
+│  │  │  │     └─ route.ts
+│  │  │  ├─ check-list
+│  │  │  │  └─ route.ts
+│  │  │  ├─ comments
+│  │  │  │  └─ route.ts
+│  │  │  ├─ community
+│  │  │  │  ├─ route.ts
+│  │  │  │  └─ [postId]
+│  │  │  │     ├─ comments
+│  │  │  │     │  └─ route.ts
+│  │  │  │     ├─ commu
+│  │  │  │     │  └─ route.ts
+│  │  │  │     └─ likes
+│  │  │  │        └─ route.ts
+│  │  │  ├─ go-camping
+│  │  │  │  └─ route.ts
+│  │  │  ├─ shop
+│  │  │  │  └─ route.ts
+│  │  │  ├─ upload-avatar
+│  │  │  │  └─ route.ts
+│  │  │  └─ users
+│  │  │     └─ upsert
+│  │  │        └─ route.ts
+│  │  ├─ auth
+│  │  │  ├─ components
+│  │  │  │  ├─ auth.client.tsx
+│  │  │  │  ├─ find-id.client.tsx
+│  │  │  │  └─ reset-password.client.tsx
+│  │  │  ├─ oauth-callback
+│  │  │  │  └─ page.tsx
+│  │  │  └─ [mode]
+│  │  │     ├─ actions.ts
+│  │  │     ├─ layout.tsx
+│  │  │     └─ page.tsx
+│  │  ├─ camping
+│  │  │  ├─ page.tsx
+│  │  │  ├─ [id]
+│  │  │  │  ├─ components
+│  │  │  │  │  └─ camping.client.tsx
+│  │  │  │  └─ page.tsx
+│  │  │  └─ _components
+│  │  │     └─ camping.client.tsx
+│  │  ├─ check-list
+│  │  │  ├─ components
+│  │  │  │  └─ check-list.client.tsx
+│  │  │  └─ page.tsx
+│  │  ├─ community
+│  │  │  ├─ components
+│  │  │  │  └─ community.client.tsx
+│  │  │  ├─ page.tsx
+│  │  │  └─ [id]
+│  │  │     ├─ components
+│  │  │     │  └─ community-detail.client.tsx
+│  │  │     └─ page.tsx
+│  │  ├─ components
+│  │  │  ├─ client-layout.tsx
+│  │  │  ├─ ClientLayout.tsx
+│  │  │  ├─ HomeClient.tsx
+│  │  │  ├─ LoginButton.tsx
+│  │  │  ├─ Providers.tsx
+│  │  │  ├─ SimpleToast.tsx
+│  │  │  └─ SplashScreen.tsx
+│  │  ├─ equipment-list
+│  │  │  ├─ components
+│  │  │  │  └─ equipmentList.client.tsx
+│  │  │  └─ page.tsx
+│  │  ├─ globals.css
+│  │  ├─ layout.tsx
+│  │  ├─ mypage
+│  │  │  ├─ components
+│  │  │  │  └─ mypage.client.tsx
+│  │  │  └─ page.tsx
+│  │  ├─ newbie-guide
+│  │  │  ├─ components
+│  │  │  │  └─ newbie-guide.client.tsx
+│  │  │  └─ page.tsx
+│  │  ├─ page.tsx
+│  │  └─ search
+│  │     └─ page.tsx
+│  ├─ components
+│  │  └─ ui
+│  │     ├─ accordion.tsx
+│  │     ├─ alert-dialog.tsx
+│  │     ├─ button.tsx
+│  │     ├─ card.tsx
+│  │     ├─ carousel.tsx
+│  │     └─ input.tsx
+│  ├─ features
+│  │  ├─ auth
+│  │  │  ├─ auth-google.tsx
+│  │  │  └─ auth-kakao.tsx
+│  │  ├─ camping
+│  │  │  └─ camping-list.tsx
+│  │  ├─ check-list
+│  │  │  └─ image-download-modal.tsx
+│  │  ├─ community
+│  │  │  ├─ community-list.tsx
+│  │  │  ├─ community-modal.tsx
+│  │  │  ├─ community-newpost-form.tsx
+│  │  │  └─ like-button.tsx
+│  │  ├─ equipment-list
+│  │  │  ├─ equipment-data.ts
+│  │  │  ├─ equipment-list.tsx
+│  │  │  ├─ equipment-modal.tsx
+│  │  │  ├─ equipment-nav.tsx
+│  │  │  ├─ equipment-search.tsx
+│  │  │  ├─ equipment-sort.tsx
+│  │  │  └─ index.ts
+│  │  ├─ GNB
+│  │  │  ├─ GNB.tsx
+│  │  │  ├─ gnbData.ts
+│  │  │  ├─ GNBItem.tsx
+│  │  │  ├─ icons
+│  │  │  │  ├─ ChecklistIcon.tsx
+│  │  │  │  ├─ CommuIcon.tsx
+│  │  │  │  ├─ EquipmentIcon.tsx
+│  │  │  │  ├─ MypageIcon.tsx
+│  │  │  │  └─ TentIcon.tsx
+│  │  │  └─ index.ts
+│  │  ├─ home
+│  │  │  ├─ home-camping-month.tsx
+│  │  │  ├─ home-camping-recommend.tsx
+│  │  │  ├─ home-equipment-recommend.tsx
+│  │  │  ├─ home-promotion.tsx
+│  │  │  └─ promotion-data.ts
+│  │  ├─ mypage
+│  │  │  ├─ coupon-mock.ts
+│  │  │  ├─ mypage-cart.tsx
+│  │  │  ├─ mypage-comment.tsx
+│  │  │  ├─ mypage-commu.tsx
+│  │  │  ├─ mypage-coupon.tsx
+│  │  │  └─ mypage-profile.tsx
+│  │  └─ newbie-guide
+│  │     ├─ newbie-list.tsx
+│  │     └─ newbie-quide-data.ts
+│  ├─ lib
+│  │  ├─ auth
+│  │  │  └─ session.ts
+│  │  ├─ camping.ts
+│  │  ├─ supabase
+│  │  │  ├─ client.ts
+│  │  │  ├─ index.ts
+│  │  │  └─ server.ts
+│  │  ├─ supabaseAdmin.ts
+│  │  ├─ supabaseClient.ts
+│  │  └─ utils.ts
+│  ├─ store
+│  │  └─ useAuthStore.ts
+│  ├─ types
+│  │  ├─ auth.ts
+│  │  ├─ check-list.ts
+│  │  ├─ community.ts
+│  │  ├─ gnbtype.ts
+│  │  ├─ index.ts
+│  │  ├─ promotion.ts
+│  │  ├─ supabase
+│  │  │  └─ supabase-type.ts
+│  │  └─ user.ts
+│  └─ widgets
+│     ├─ Footer.tsx
+│     └─ Header.tsx
+├─ tailwind.config.ts
+└─ tsconfig.json
+
+```

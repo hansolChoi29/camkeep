@@ -25,6 +25,7 @@ export async function registerAction(formData: FormData) {
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
   const nickname = formData.get("nickname") as string;
+  const name = formData.get("name") as string;
   const phone = formData.get("phone") as string;
 
   // 1) service_role 키로 새로운 유저 생성
@@ -33,7 +34,7 @@ export async function registerAction(formData: FormData) {
       email,
       password,
       email_confirm: true,
-      user_metadata: { nickname, phone },
+      user_metadata: { nickname, phone, name },
     });
   if (adminError) throw new Error(adminError.message);
 
@@ -43,6 +44,7 @@ export async function registerAction(formData: FormData) {
     email,
     nickname,
     phone,
+    name,
     points: 10000,
   });
   if (insertError) throw new Error(insertError.message);

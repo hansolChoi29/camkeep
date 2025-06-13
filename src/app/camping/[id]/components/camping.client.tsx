@@ -75,19 +75,6 @@ export default function CampingDetailClient({
             ) : (
               <p className="mt-2">정보 없음</p>
             )}
-
-            {/* <p className="mt-2 ">
-            일반 야영장 수 : {camp.gnrlSiteCo ?? "정보 없음"}
-            </p>
-            <p className="mt-2 ">
-            자동차 야영장 수 : {camp.autoSiteCo ?? "정보 없음"}
-            </p>
-            <p className="mt-2 ">
-            카라반 사이트 수 : {camp.caravSiteCo ?? "정보 없음"}
-            </p>
-            <p className="mt-2 ">
-            글램핑 사이트 수 : {camp.glampSiteCo ?? "정보 없음"}
-            </p> */}
           </div>
 
           <div className=" rounded-b-2xl px-4 py-2 shadow ">

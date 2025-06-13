@@ -37,7 +37,14 @@ export default function ClientLayout({
   }, [setSession]);
 
   if (loading) return <SplashScreen />;
-  if (["/auth/login", "/auth/register"].includes(pathname)) {
+  if (
+    [
+      "/auth/login",
+      "/auth/register",
+      "/auth/find-id",
+      "/auth/reset-password",
+    ].includes(pathname)
+  ) {
     return (
       <main className="flex min-h-screen items-center justify-center bg-[#578E7E]">
         {children}
