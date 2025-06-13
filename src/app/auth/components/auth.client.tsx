@@ -1,4 +1,5 @@
 "use client";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Google from "@/features/auth/auth-google";
@@ -13,9 +14,21 @@ interface AuthFormProps {
   mode: "login" | "register";
 }
 
+type Values = {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  nickname: string;
+  phone: string;
+};
+
 export default function AuthClient({ mode }: AuthFormProps) {
   const [findIdOpen, setFindIdOpne] = useState(false);
   const [findPasswordOpen, setFindPasswordOpen] = useState(false);
+  const [toastType, setToastType] = useState<"success" | "error" | "warning">(
+    "success"
+  );
 
   const openFindId = () => setFindIdOpne(true);
   const closeFindId = () => setFindIdOpne(false);
@@ -28,6 +41,104 @@ export default function AuthClient({ mode }: AuthFormProps) {
 
   const toggle = () =>
     router.push(mode === "login" ? "/auth/register" : "/auth/login");
+
+  const [values, setValues] = useState<Values>({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    nickname: "",
+    phone: "",
+  });
+  const [errors, setErrors] = useState<Partial<Record<keyof Values, string>>>(
+    {}
+  );
+
+  const labels: Record<keyof Values, string> = {
+    name: "이름",
+    email: "이메일",
+    password: "비밀번호",
+    confirmPassword: "비밀번호 확인",
+    nickname: "닉네임",
+    phone: "전화번호",
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setValues((prev) => ({ ...prev, [name]: value }));
+
+    let msg = "";
+    if (!value.trim()) {
+      msg = `${labels[name as keyof Values]}을(를) 입력해 주세요.`;
+    } else {
+      if (name === "email") {
+        // 1) 이메일 기본 형식 검사
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+          msg = "유효한 이메일 형식을 입력해 주세요.";
+        }
+        // 2) 네이버/구글 도메인 검사
+        else if (!/^[^\s@]+@(naver\.com|gmail\.com)$/.test(value)) {
+          msg = "네이버 또는 구글 이메일만 사용할 수 있습니다.";
+        }
+      }
+      if (name === "password" && value.length < 6) {
+        msg = "비밀번호는 최소 6자 이상이어야 합니다.";
+      }
+      if (name === "confirmPassword" && value !== values.password) {
+        msg = "비밀번호가 일치하지 않습니다.";
+      }
+      if (name === "phone" && !/^\d{10,11}$/.test(value)) {
+        msg = "유효한 전화번호를 입력해 주세요.";
+      }
+    }
+    setErrors((prev) => ({ ...prev, [name]: msg }));
+  };
+
+  const handleSubmit: React.MouseEventHandler<HTMLButtonElement> = (e) => {
+    const newErrors: Partial<Record<keyof Values, string>> = {};
+    const required: (keyof Values)[] =
+      mode === "login"
+        ? ["email", "password"]
+        : ["name", "email", "password", "confirmPassword", "nickname", "phone"];
+
+    required.forEach((key) => {
+      if (!values[key].trim()) {
+        newErrors[key] = `${labels[key]}을(를) 입력해 주세요.`;
+      }
+    });
+
+    // 추가 검증 (형식 등)
+    if (values.email && !/^\S+@\S+\.\S+$/.test(values.email)) {
+      newErrors.email = "유효한 이메일을 입력해 주세요.";
+    }
+    if (values.password && values.password.length < 6) {
+      newErrors.password = "비밀번호는 최소 6자 이상이어야 합니다.";
+    }
+    if (
+      mode === "register" &&
+      values.confirmPassword &&
+      values.confirmPassword !== values.password
+    ) {
+      newErrors.confirmPassword = "비밀번호가 일치하지 않습니다.";
+    }
+    if (
+      mode === "register" &&
+      values.phone &&
+      !/^\d{10,11}$/.test(values.phone)
+    ) {
+      newErrors.phone = "유효한 전화번호를 입력해 주세요.";
+    }
+
+    setErrors(newErrors);
+
+    // 에러가 하나라도 있으면 제출 막기
+    if (Object.keys(newErrors).length > 0) {
+      e.preventDefault();
+      const firstErrorKey = Object.keys(newErrors)[0] as keyof Values;
+      alert(newErrors[firstErrorKey]);
+      return;
+    }
+  };
 
   return (
     <div className="flex items-center justify-center w-screen gowun h-screen bg-[#578E7E">
@@ -46,15 +157,26 @@ export default function AuthClient({ mode }: AuthFormProps) {
               {mode === "login" ? "로그인" : "회원가입"}
             </h2>
           </div>
-          <label className="block mb-4 text-xs sm:text-base">
-            <p className="text-[#FFFAEC]">이름</p>
-            <Input
-              name="name"
-              type="name"
-              required
-              className="w-full mt-1 p-2 border rounded"
-            />
-          </label>
+
+          {/* 이름 */}
+          {mode === "register" && (
+            <label className="block mb-4 text-xs sm:text-base">
+              <p className="text-[#FFFAEC]">이름</p>
+              <Input
+                name="name"
+                type="name"
+                required
+                className="w-full mt-1 p-2 border rounded"
+                value={values.name}
+                onChange={handleChange}
+              />
+              {errors.name && (
+                <p className="mt-1 text-red-500 text-sm">{errors.name}</p>
+              )}
+            </label>
+          )}
+
+          {/* 이메일 */}
           <label className="block mb-4 text-xs sm:text-base">
             <p className="text-[#FFFAEC]">이메일</p>
             <Input
@@ -62,19 +184,34 @@ export default function AuthClient({ mode }: AuthFormProps) {
               type="email"
               required
               className="w-full mt-1 p-2 border rounded"
+              value={values.email}
+              onChange={handleChange}
             />
+            {errors.email && (
+              <p className="mt-1 text-red-500 text-sm">{errors.email}</p>
+            )}
           </label>
-          <label className="block  text-xs sm:text-base">
+
+          {/* 비밀번호 */}
+          <label className="block text-xs sm:text-base">
             <p className="text-[#FFFAEC]">비밀번호</p>
             <Input
               name="password"
               type="password"
               required
               className="w-full mt-1 p-2 border rounded"
+              value={values.password}
+              onChange={handleChange}
             />
+            {errors.password && (
+              <p className="mt-1 text-red-500 text-sm">{errors.password}</p>
+            )}
           </label>
+
+          {/* 회원가입 추가 필드 */}
           {mode === "register" && (
             <>
+              {/* 비밀번호 확인 */}
               <label className="block mb-4 text-xs sm:text-base">
                 <p className="text-[#FFFAEC]">비밀번호 확인</p>
                 <Input
@@ -82,9 +219,17 @@ export default function AuthClient({ mode }: AuthFormProps) {
                   type="password"
                   required
                   className="w-full mt-1 p-2 border rounded"
+                  value={values.confirmPassword}
+                  onChange={handleChange}
                 />
+                {errors.confirmPassword && (
+                  <p className="mt-1 text-red-500 text-sm">
+                    {errors.confirmPassword}
+                  </p>
+                )}
               </label>
 
+              {/* 닉네임 */}
               <label className="block mb-4 text-xs sm:text-base">
                 <p className="text-[#FFFAEC]">닉네임</p>
                 <Input
@@ -92,19 +237,32 @@ export default function AuthClient({ mode }: AuthFormProps) {
                   type="text"
                   required
                   className="w-full mt-1 p-2 border rounded"
+                  value={values.nickname}
+                  onChange={handleChange}
                 />
+                {errors.nickname && (
+                  <p className="mt-1 text-red-500 text-sm">{errors.nickname}</p>
+                )}
               </label>
 
+              {/* 전화번호 */}
               <label className="block mb-4 text-xs sm:text-base">
                 <p className="text-[#FFFAEC]">전화번호</p>
                 <Input
                   name="phone"
                   type="tel"
+                  required
                   className="w-full mt-1 p-2 border rounded"
+                  value={values.phone}
+                  onChange={handleChange}
                 />
+                {errors.phone && (
+                  <p className="mt-1 text-red-500 text-sm">{errors.phone}</p>
+                )}
               </label>
             </>
           )}
+
           {mode === "login" && (
             <div className="flex justify-end text-xs mb-10 sm:text-sm text-[#FFFAEC]">
               <button
@@ -127,15 +285,19 @@ export default function AuthClient({ mode }: AuthFormProps) {
                 onClose={closeFindPassword}
               />
             </div>
-          )}{" "}
+          )}
+
+          {/* 제출 버튼 */}
           <div className="w-full flex justify-center ">
             <Button
               type="submit"
               className="w-80 h-12 flex justify-center bg-[#FFFAEC] text-sm sm:text-base text-[#3D3D3D] py-2 rounded hover:bg-[#D4C9BE] hover:text-white transition"
+              onClick={handleSubmit}
             >
               {mode === "login" ? "로그인" : "완료"}
             </Button>
           </div>
+
           <div className="flex mt-1 justify-center text-xs mb-10 sm:text-sm text-[#FFFAEC]">
             {mode === "login" ? (
               <>
@@ -145,7 +307,7 @@ export default function AuthClient({ mode }: AuthFormProps) {
                   onClick={toggle}
                   className="ml-2 hover:text-black hover:font-bold text-xs sm:text-sm"
                 >
-                  회원가입
+                  회원가입하기
                 </button>
               </>
             ) : (
@@ -157,11 +319,12 @@ export default function AuthClient({ mode }: AuthFormProps) {
                   variant="ghost"
                   className="bg-transparent text-xs sm:text-sm hover:bg-transparent focus:bg-transparent hover:font-bold hover:text-black"
                 >
-                  로그인
+                  로그인하기
                 </Button>
               </div>
             )}
           </div>
+
           {mode === "login" && (
             <div className="mt-10">
               <div className="flex items-center text-[#FFFAEC]">
