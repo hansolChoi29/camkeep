@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
     },
   });
 
-  console.log("📍 7. upsert 응답 상태:", res.status);
+  console.log("upsert 응답 상태:", res.status);
 
   return NextResponse.redirect(new URL("/", request.url));
 }

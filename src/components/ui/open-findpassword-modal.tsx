@@ -106,7 +106,16 @@ export default function OpenFindPasswordModal({
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+    <div
+      tabIndex={-1}
+      onKeyDownCapture={(e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          handleNext();
+        }
+      }}
+      className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+    >
       <div className="bg-[#FFFAEC] text-[#578E7E] rounded-xl shadow-lg w-full max-w-lg p-6 relative">
         <button onClick={handleClose} className="absolute top-2 right-2 p-1">
           <Image src="/icons/close.svg" alt="close" width={24} height={24} />
@@ -120,6 +129,7 @@ export default function OpenFindPasswordModal({
               <p className="font-bold pb-1">이메일</p>
               <input
                 value={email}
+                name="email"
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="이메일"
                 className="border rounded w-full p-2 placeholder:text-[#b18960] focus:outline-none focus:border-[#875A2C]"
@@ -129,6 +139,7 @@ export default function OpenFindPasswordModal({
               <p className="font-bold pb-1">전화번호</p>
               <input
                 value={phone}
+                name="phone"
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="전화번호"
                 className="border rounded w-full p-2 placeholder:text-[#b18960] focus:outline-none focus:border-[#875A2C]"
@@ -158,6 +169,7 @@ export default function OpenFindPasswordModal({
               <p className="font-bold pb-1">새 비밀번호</p>
               <input
                 type="password"
+                name="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="새 비밀번호"
@@ -168,6 +180,7 @@ export default function OpenFindPasswordModal({
               <p className="font-bold pb-1">비밀번호 확인</p>
               <input
                 type="password"
+                name="password"
                 value={confirmPw}
                 onChange={(e) => setConfirmPw(e.target.value)}
                 placeholder="비밀번호 확인"
@@ -199,6 +212,7 @@ export default function OpenFindPasswordModal({
           {step < 3 ? (
             <button
               onClick={handleNext}
+              type="button"
               className="bg-[#578E7E] text-white font-bold rounded py-2 px-8"
             >
               완료
@@ -209,6 +223,7 @@ export default function OpenFindPasswordModal({
                 handleClose();
                 window.location.reload();
               }}
+              type="button"
               className="bg-[#578E7E] text-white font-bold rounded py-2 px-8"
             >
               확인

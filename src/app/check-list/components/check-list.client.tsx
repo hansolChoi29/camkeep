@@ -297,7 +297,7 @@ export default function CheckListClient() {
 
           <button onClick={addCategory} className="border px-3 rounded">
             <Image
-              src="/images/check.svg"
+              src="/icons/check.svg"
               alt="check"
               className="text-white "
               width={25}
@@ -325,7 +325,7 @@ export default function CheckListClient() {
                     />
                     <button onClick={() => saveCategory(cat.id)}>
                       <Image
-                        src="/images/check.svg"
+                        src="/icons/check.svg"
                         alt="check"
                         width={25}
                         height={25}
@@ -334,7 +334,7 @@ export default function CheckListClient() {
                     </button>
                     <button onClick={() => setEditCatId(null)}>
                       <Image
-                        src="/images/delete.svg"
+                        src="/icons/delete.svg"
                         alt="delete"
                         width={16}
                         height={16}
@@ -401,7 +401,7 @@ export default function CheckListClient() {
                   className="border px-3 rounded"
                 >
                   <Image
-                    src="/images/check.svg"
+                    src="/icons/check.svg"
                     alt="check"
                     className="text-white"
                     width={25}
@@ -448,7 +448,7 @@ export default function CheckListClient() {
                         />
                         <button onClick={() => saveItem(cat.id, item.id)}>
                           <Image
-                            src="/images/check.svg"
+                            src="/icons/check.svg"
                             alt="check"
                             width={25}
                             height={25}
@@ -456,7 +456,7 @@ export default function CheckListClient() {
                         </button>
                         <button onClick={() => setEditItemId(null)}>
                           <Image
-                            src="/images/delete.svg"
+                            src="/iamges/delete.svg"
                             alt="delete"
                             width={16}
                             height={16}
@@ -486,7 +486,7 @@ export default function CheckListClient() {
                             </button>
                             <button onClick={() => deleteItem(cat.id, item.id)}>
                               <Image
-                                src="/images/delete.svg"
+                                src="/icons/delete.svg"
                                 alt="delete"
                                 width={16}
                                 height={16}
