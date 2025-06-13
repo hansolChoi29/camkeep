@@ -5,6 +5,7 @@ import Google from "@/features/auth/auth-google";
 import Kakao from "@/features/auth/auth-kakao";
 import { useRouter, useSearchParams } from "next/navigation";
 import { googleLoginAction } from "../[mode]/actions";
+import Link from "next/link";
 
 interface AuthFormProps {
   mode: "login" | "register";
@@ -36,6 +37,15 @@ export default function AuthClient({ mode }: AuthFormProps) {
               {mode === "login" ? "로그인" : "회원가입"}
             </h2>
           </div>
+          <label className="block mb-4 text-xs sm:text-base">
+            <p className="text-[#FFFAEC]">이름</p>
+            <Input
+              name="name"
+              type="name"
+              required
+              className="w-full mt-1 p-2 border rounded"
+            />
+          </label>
           <label className="block mb-4 text-xs sm:text-base">
             <p className="text-[#FFFAEC]">이메일</p>
             <Input
@@ -120,6 +130,14 @@ export default function AuthClient({ mode }: AuthFormProps) {
               {mode === "login" ? "로그인" : "완료"}
             </Button>
           </div>
+          <div className="">
+            <Link href="/auth/find-id" className="mr-2">
+              아이디 찾기
+            </Link>
+            <Link href="/auth/reset-password" className="">
+              비밀번호 재설정
+            </Link>
+          </div>
           {mode === "login" && (
             <div className="mt-10">
               <div className="flex items-center text-[#FFFAEC]">
@@ -130,7 +148,6 @@ export default function AuthClient({ mode }: AuthFormProps) {
 
               <div className="flex gap-4 justify-center mt-6">
                 <Kakao />
-
                 <Google onClick={() => googleLoginAction()} />
               </div>
 
