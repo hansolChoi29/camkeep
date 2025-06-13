@@ -147,6 +147,41 @@ export type Database = {
           },
         ]
       }
+      OTP: {
+        Row: {
+          created_at: string
+          expires_at: string
+          id: string
+          otp: string
+          used: boolean
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          expires_at: string
+          id?: string
+          otp: string
+          used?: boolean
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          expires_at?: string
+          id?: string
+          otp?: string
+          used?: boolean
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "OTP_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       post_likes: {
         Row: {
           created_at: string
@@ -188,6 +223,7 @@ export type Database = {
           created_at: string
           email: string
           id: string
+          name: string | null
           nickname: string
           phone: string | null
           points: number | null
@@ -197,6 +233,7 @@ export type Database = {
           created_at?: string
           email: string
           id?: string
+          name?: string | null
           nickname: string
           phone?: string | null
           points?: number | null
@@ -206,6 +243,7 @@ export type Database = {
           created_at?: string
           email?: string
           id?: string
+          name?: string | null
           nickname?: string
           phone?: string | null
           points?: number | null

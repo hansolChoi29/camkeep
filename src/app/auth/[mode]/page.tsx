@@ -8,11 +8,12 @@ export default function AuthPage({
   params: { mode: string };
 }) {
   if (mode !== "login" && mode !== "register") return notFound();
+
   const action = mode === "login" ? loginAction : registerAction;
 
   return (
-    <form action={action} method="post" className="…">
-      <AuthClient mode={mode} />
+    <form action={action} method="post" noValidate className="…">
+      <AuthClient mode={mode as "login" | "register"} />
     </form>
   );
 }

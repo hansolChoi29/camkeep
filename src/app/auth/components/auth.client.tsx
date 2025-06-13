@@ -5,15 +5,25 @@ import Google from "@/features/auth/auth-google";
 import Kakao from "@/features/auth/auth-kakao";
 import { useRouter, useSearchParams } from "next/navigation";
 import { googleLoginAction } from "../[mode]/actions";
+import { useState } from "react";
+import OpenFindidModal from "@/components/ui/open-findid-modal";
+import OpanFindPasswordModal from "@/components/ui/open-findpassword-modal";
 
 interface AuthFormProps {
   mode: "login" | "register";
 }
 
 export default function AuthClient({ mode }: AuthFormProps) {
+  const [findIdOpen, setFindIdOpne] = useState(false);
+  const [findPasswordOpen, setFindPasswordOpen] = useState(false);
+
+  const openFindId = () => setFindIdOpne(true);
+  const closeFindId = () => setFindIdOpne(false);
+  const openFindPassword = () => setFindPasswordOpen(true);
+  const closeFindPassword = () => setFindPasswordOpen(false);
+
   const router = useRouter();
   const searchParams = useSearchParams();
-  // 쿼리 파라미터에서 callbackUrl 가져오기 (없으면 '/')
   const callbackUrl = searchParams.get("callbackUrl") ?? "/";
 
   const toggle = () =>
@@ -36,6 +46,15 @@ export default function AuthClient({ mode }: AuthFormProps) {
               {mode === "login" ? "로그인" : "회원가입"}
             </h2>
           </div>
+          <label className="block mb-4 text-xs sm:text-base">
+            <p className="text-[#FFFAEC]">이름</p>
+            <Input
+              name="name"
+              type="name"
+              required
+              className="w-full mt-1 p-2 border rounded"
+            />
+          </label>
           <label className="block mb-4 text-xs sm:text-base">
             <p className="text-[#FFFAEC]">이메일</p>
             <Input
@@ -86,14 +105,40 @@ export default function AuthClient({ mode }: AuthFormProps) {
               </label>
             </>
           )}{" "}
-          <div className="flex justify-end text-xs mb-10 sm:text-sm text-[#FFFAEC]">
+          {mode === "login" && (
+            <div className="flex justify-end text-xs mb-10 sm:text-sm text-[#FFFAEC]">
+              <button onClick={openFindId} className="mr-2  hover:text-black">
+                아이디 찾기
+              </button>
+              <OpenFindidModal findIdOpen={findIdOpen} onClose={closeFindId} />|
+              <button
+                onClick={openFindPassword}
+                className="ml-2   hover:text-black"
+              >
+                비밀번호 변경
+              </button>
+              <OpanFindPasswordModal
+                findPasswordOpen={findPasswordOpen}
+                onClose={closeFindPassword}
+              />
+            </div>
+          )}{" "}
+          <div className="w-full flex justify-center ">
+            <Button
+              type="submit"
+              className="w-80 h-12 flex justify-center bg-[#FFFAEC] text-sm sm:text-base text-[#3D3D3D] py-2 rounded hover:bg-[#D4C9BE] hover:text-white transition"
+            >
+              {mode === "login" ? "로그인" : "완료"}
+            </Button>
+          </div>
+          <div className="flex mt-1 justify-center text-xs mb-10 sm:text-sm text-[#FFFAEC]">
             {mode === "login" ? (
               <>
                 <p>아직 회원이 아니신가요?</p>
                 <button
                   type="button"
                   onClick={toggle}
-                  className="ml-2 hover:text-red-700 text-xs sm:text-sm"
+                  className="ml-2 hover:text-black hover:font-bold text-xs sm:text-sm"
                 >
                   회원가입
                 </button>
@@ -105,20 +150,12 @@ export default function AuthClient({ mode }: AuthFormProps) {
                   type="button"
                   onClick={toggle}
                   variant="ghost"
-                  className="bg-transparent text-xs sm:text-sm hover:bg-transparent focus:bg-transparent hover:text-red-600"
+                  className="bg-transparent text-xs sm:text-sm hover:bg-transparent focus:bg-transparent hover:font-bold hover:text-black"
                 >
                   로그인
                 </Button>
               </div>
             )}
-          </div>{" "}
-          <div className="w-full flex justify-center ">
-            <Button
-              type="submit"
-              className="w-80 h-12 flex justify-center bg-[#FFFAEC] text-sm sm:text-base text-[#3D3D3D] py-2 rounded hover:bg-[#D4C9BE] hover:text-white transition"
-            >
-              {mode === "login" ? "로그인" : "완료"}
-            </Button>
           </div>
           {mode === "login" && (
             <div className="mt-10">
@@ -130,7 +167,6 @@ export default function AuthClient({ mode }: AuthFormProps) {
 
               <div className="flex gap-4 justify-center mt-6">
                 <Kakao />
-
                 <Google onClick={() => googleLoginAction()} />
               </div>
 

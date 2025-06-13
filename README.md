@@ -29,7 +29,9 @@
 
 #### 중간배포 완료: 5/29 (목)
 
+
 ---
+
 
 ```
 camkeep
@@ -42,29 +44,19 @@ camkeep
 ├─ package.json
 ├─ postcss.config.mjs
 ├─ public
-│  ├─ favicon.png
-│  └─ images
-│
+│  ├─ ...
 ├─ src
 │  ├─ app
 │  │  ├─ api
 │  │  │  ├─ auth
-│  │  │  │  └─ kakako
-│  │  │  │     └─ callback
-│  │  │  │        └─ route.ts
+│  │  │  │  ...
 │  │  │  ├─ check-list
 │  │  │  │  └─ route.ts
 │  │  │  ├─ comments
 │  │  │  │  └─ route.ts
 │  │  │  ├─ community
 │  │  │  │  ├─ route.ts
-│  │  │  │  └─ [postId]
-│  │  │  │     ├─ comments
-│  │  │  │     │  └─ route.ts
-│  │  │  │     ├─ commu
-│  │  │  │     │  └─ route.ts
-│  │  │  │     └─ likes
-│  │  │  │        └─ route.ts
+│  │  │  │  ...
 │  │  │  ├─ go-camping
 │  │  │  │  └─ route.ts
 │  │  │  ├─ shop
@@ -84,127 +76,54 @@ camkeep
 │  │  │     ├─ layout.tsx
 │  │  │     └─ page.tsx
 │  │  ├─ camping
-│  │  │  ├─ page.tsx
-│  │  │  ├─ [id]
-│  │  │  │  ├─ components
-│  │  │  │  │  └─ camping.client.tsx
-│  │  │  │  └─ page.tsx
-│  │  │  └─ _components
-│  │  │     └─ camping.client.tsx
+│  │  │  ...
 │  │  ├─ check-list
-│  │  │  ├─ components
-│  │  │  │  └─ check-list.client.tsx
-│  │  │  └─ page.tsx
+│  │  │  ...
 │  │  ├─ community
-│  │  │  ├─ components
-│  │  │  │  └─ community.client.tsx
-│  │  │  ├─ page.tsx
-│  │  │  └─ [id]
-│  │  │     ├─ components
-│  │  │     │  └─ community-detail.client.tsx
-│  │  │     └─ page.tsx
+│  │  │  ...
 │  │  ├─ components
-│  │  │  ├─ ClientLayout.tsx
-│  │  │  ├─ HomeClient.tsx
-│  │  │  ├─ Providers.tsx
-│  │  │  └─ SplashScreen.tsx
+│  │  │  ...
 │  │  ├─ equipment-list
-│  │  │  ├─ components
-│  │  │  │  └─ equipmentList.client.tsx
-│  │  │  └─ page.tsx
+│  │  │  ...
 │  │  ├─ globals.css
 │  │  ├─ layout.tsx
 │  │  ├─ mypage
-│  │  │  ├─ components
-│  │  │  │  └─ mypage.client.tsx
-│  │  │  └─ page.tsx
+│  │  │  ...
 │  │  ├─ newbie-guide
-│  │  │  ├─ components
-│  │  │  │  └─ newbie-guide.client.tsx
-│  │  │  └─ page.tsx
+│  │  │  ...
 │  │  ├─ page.tsx
 │  │  └─ search
 │  │     └─ page.tsx
 │  ├─ components
-│  │  ├─ components
-│  │  │  └─ client-layout.tsx
-│  │  ├─ SimpleToast.tsx
 │  │  └─ ui
-│  │     ├─ accordion.tsx
-│  │     ├─ alert-dialog.tsx
-│  │     ├─ button.tsx
-│  │     ├─ card.tsx
-│  │     ├─ carousel.tsx
-│  │     └─ input.tsx
+│  │     ...
 │  ├─ features
 │  │  ├─ auth
-│  │  │  ├─ auth-google.tsx
-│  │  │  └─ auth-kakao.tsx
+│  │  │  ...
 │  │  ├─ camping
-│  │  │  └─ camping-list.tsx
+│  │  │  ...
 │  │  ├─ check-list
-│  │  │  └─ image-download-modal.tsx
+│  │  │  ...
 │  │  ├─ community
-│  │  │  ├─ community-list.tsx
-│  │  │  ├─ community-modal.tsx
-│  │  │  ├─ community-newpost-form.tsx
-│  │  │  └─ like-button.tsx
+│  │  │  ...
 │  │  ├─ equipment-list
-│  │  │  ├─ equipment-data.ts
-│  │  │  ├─ equipment-list.tsx
-│  │  │  ├─ equipment-modal.tsx
-│  │  │  ├─ equipment-nav.tsx
-│  │  │  ├─ equipment-search.tsx
-│  │  │  ├─ equipment-sort.tsx
-│  │  │  └─ index.ts
 │  │  ├─ GNB
-│  │  │  ├─ GNB.tsx
-│  │  │  ├─ gnbData.ts
-│  │  │  ├─ GNBItem.tsx
-│  │  │  └─ index.ts
+│  │  │  ...
 │  │  ├─ home
-│  │  │  ├─ home-camping-month.tsx
-│  │  │  ├─ home-camping-recommend.tsx
-│  │  │  ├─ home-equipment-recommend.tsx
-│  │  │  ├─ home-promotion.tsx
-│  │  │  └─ promotion-data.ts
+│  │  │  ...
 │  │  ├─ mypage
-│  │  │  ├─ coupon-mock.ts
-│  │  │  ├─ mypage-cart.tsx
-│  │  │  ├─ mypage-comment.tsx
-│  │  │  ├─ mypage-commu.tsx
-│  │  │  ├─ mypage-coupon.tsx
-│  │  │  └─ mypage-profile.tsx
+│  │  │  ...
 │  │  └─ newbie-guide
-│  │     ├─ newbie-list.tsx
-│  │     └─ newbie-quide-data.ts
+│  │     ...
 │  ├─ lib
-│  │  ├─ auth
-│  │  │  └─ session.ts
-│  │  ├─ camping.ts
-│  │  ├─ supabase
-│  │  │  ├─ client.ts
-│  │  │  ├─ index.ts
-│  │  │  └─ server.ts
-│  │  ├─ supabaseAdmin.ts
-│  │  ├─ supabaseClient.ts
-│  │  └─ utils.ts
+│  │  ...
 │  ├─ store
 │  │  └─ useAuthStore.ts
 │  ├─ types
 │  │  ├─ auth.ts
-│  │  ├─ check-list.ts
-│  │  ├─ community.ts
-│  │  ├─ gnbtype.ts
-│  │  ├─ index.ts
-│  │  ├─ promotion.ts
-│  │  ├─ supabase
-│  │  │  └─ supabase-type.ts
-│  │  └─ user.ts
+│  │  ...
 │  └─ widgets
 │     ├─ Footer.tsx
 │     └─ Header.tsx
-├─ tailwind.config.ts
-└─ tsconfig.json
 
 ```
