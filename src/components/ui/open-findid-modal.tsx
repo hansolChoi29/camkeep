@@ -67,7 +67,16 @@ export default function OpenFindidModal({ findIdOpen, onClose }: ModalProps) {
   if (!findIdOpen) return null;
 
   return (
-    <div className="fixed inset-0 text-[#578E7E] bg-black bg-opacity-50 flex justify-center items-center z-50">
+    <div
+      tabIndex={-1}
+      onKeyDownCapture={(e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          findEmail();
+        }
+      }}
+      className="fixed inset-0 text-[#578E7E] bg-black bg-opacity-50 flex justify-center items-center z-50"
+    >
       <div className="bg-[#FFFAEC] rounded-xl shadow-lg w-full max-w-lg  p-6 relative ">
         <div className="my-10">
           <button
@@ -86,6 +95,7 @@ export default function OpenFindidModal({ findIdOpen, onClose }: ModalProps) {
               <p className="font-bold pb-1">이름</p>
               <input
                 value={name}
+                name="name"
                 onChange={(e) => setName(e.target.value)}
                 className="border rounded  w-full p-2 placeholder:text-[#875A2C] focus:outline-none focus:border-[#875A2C]"
                 placeholder="이름을 입력해 주세요."
@@ -96,6 +106,7 @@ export default function OpenFindidModal({ findIdOpen, onClose }: ModalProps) {
               <p className="font-bold pb-1">휴대폰번호</p>
               <input
                 value={phone}
+                name="phone"
                 onChange={(e) => setPhone(e.target.value)}
                 className="border rounded w-full p-2  placeholder:text-[#875A2C] focus:outline-none focus:border-[#875A2C]"
                 placeholder="휴대폰 번호를 입력해 주세요."
@@ -106,6 +117,7 @@ export default function OpenFindidModal({ findIdOpen, onClose }: ModalProps) {
             <div className="flex justify-center mt-10">
               <button
                 onClick={findEmail}
+                type="button"
                 className="bg-[#578E7E] text-white font-bold rounded py-2 px-20"
               >
                 완료
@@ -128,6 +140,7 @@ export default function OpenFindidModal({ findIdOpen, onClose }: ModalProps) {
             <div className="flex items-center justify-center gap-2">
               <p className="font-semibold">{email}</p>
               <button
+                type="button"
                 onClick={() => {
                   navigator.clipboard.writeText(email);
                   setCopied(true);
@@ -148,6 +161,7 @@ export default function OpenFindidModal({ findIdOpen, onClose }: ModalProps) {
             <div className="flex justify-center mt-10">
               <button
                 onClick={handleComplete}
+                type="button"
                 className="bg-[#578E7E] text-white font-bold rounded py-2 px-20"
               >
                 확인

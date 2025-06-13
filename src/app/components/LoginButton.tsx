@@ -57,7 +57,7 @@ export default function LoginButton() {
 
       const { data, error } = await supabase
         .from("users")
-        .select("nickname, profile, email")
+        .select("name, profile, email")
         .eq("id", userId)
         .single();
 
@@ -73,7 +73,7 @@ export default function LoginButton() {
       } else {
         setUserProfile({
           id: userId,
-          name: data.nickname,
+          name: data.name ?? email.split("@")[0],
           email,
           avatarUrl: data.profile ?? undefined, // users.profile 컬럼이 이미지 URL이라고 가정
         });
@@ -122,14 +122,14 @@ export default function LoginButton() {
           </Link>
           <div className="mt-2">
             <Link
-              href="/auth/reset-id"
+              href="/auth/login?modal=find-password"
               className="text-xs ml-1 hover:underline"
             >
               아이디찾기
             </Link>
             <span className="mx-1 text-xs">|</span>
             <Link
-              href="/auth/reset-password"
+              href="/auth/login?modal=find-password"
               className="text-xs ml-1 hover:underline"
             >
               비밀번호 재설정

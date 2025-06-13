@@ -24,7 +24,6 @@ export default function OAuthCallbackPage() {
         return;
       }
 
-      // 🔥 DB에 업서트
       const res = await fetch("/api/users/upsert", {
         method: "POST",
         body: JSON.stringify(user),
@@ -37,7 +36,7 @@ export default function OAuthCallbackPage() {
         return;
       }
 
-      console.log("📦 마이페이지로 이동");
+      console.log("마이페이지로 이동");
       router.replace("/");
     };
 
