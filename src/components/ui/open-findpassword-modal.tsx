@@ -120,6 +120,7 @@ export default function OpenFindPasswordModal({
               <p className="font-bold pb-1">이메일</p>
               <input
                 value={email}
+                name="email"
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="이메일"
                 className="border rounded w-full p-2 placeholder:text-[#b18960] focus:outline-none focus:border-[#875A2C]"
@@ -129,6 +130,7 @@ export default function OpenFindPasswordModal({
               <p className="font-bold pb-1">전화번호</p>
               <input
                 value={phone}
+                name="phone"
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="전화번호"
                 className="border rounded w-full p-2 placeholder:text-[#b18960] focus:outline-none focus:border-[#875A2C]"
@@ -158,6 +160,7 @@ export default function OpenFindPasswordModal({
               <p className="font-bold pb-1">새 비밀번호</p>
               <input
                 type="password"
+                name="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="새 비밀번호"
@@ -168,6 +171,7 @@ export default function OpenFindPasswordModal({
               <p className="font-bold pb-1">비밀번호 확인</p>
               <input
                 type="password"
+                name="password"
                 value={confirmPw}
                 onChange={(e) => setConfirmPw(e.target.value)}
                 placeholder="비밀번호 확인"

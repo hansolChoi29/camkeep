@@ -86,6 +86,7 @@ export default function OpenFindidModal({ findIdOpen, onClose }: ModalProps) {
               <p className="font-bold pb-1">이름</p>
               <input
                 value={name}
+                name="name"
                 onChange={(e) => setName(e.target.value)}
                 className="border rounded  w-full p-2 placeholder:text-[#875A2C] focus:outline-none focus:border-[#875A2C]"
                 placeholder="이름을 입력해 주세요."
@@ -96,6 +97,7 @@ export default function OpenFindidModal({ findIdOpen, onClose }: ModalProps) {
               <p className="font-bold pb-1">휴대폰번호</p>
               <input
                 value={phone}
+                name="phone"
                 onChange={(e) => setPhone(e.target.value)}
                 className="border rounded w-full p-2  placeholder:text-[#875A2C] focus:outline-none focus:border-[#875A2C]"
                 placeholder="휴대폰 번호를 입력해 주세요."

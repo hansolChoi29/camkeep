@@ -9,6 +9,10 @@ export async function loginAction(formData: FormData) {
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
   const callbackUrl = (formData.get("callbackUrl") as string) || "/";
+  console.log("▶ loginAction:", {
+    email: formData.get("email"),
+    passwordLength: (formData.get("password") as string)?.length,
+  });
 
   if (!callbackUrl) throw new Error("callbackUrl is missing!");
   // ✅ 로그인 시에만 writeCookies: true
@@ -19,7 +23,6 @@ export async function loginAction(formData: FormData) {
 
   redirect(callbackUrl);
 }
-
 // ─── 회원가입 액션 ────dkEK────────────────────────────────────
 export async function registerAction(formData: FormData) {
   const email = formData.get("email") as string;
