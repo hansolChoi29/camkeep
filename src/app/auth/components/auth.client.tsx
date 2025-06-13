@@ -6,9 +6,10 @@ import Google from "@/features/auth/auth-google";
 import Kakao from "@/features/auth/auth-kakao";
 import { useRouter, useSearchParams } from "next/navigation";
 import { googleLoginAction } from "../[mode]/actions";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import OpenFindidModal from "@/components/ui/open-findid-modal";
 import OpanFindPasswordModal from "@/components/ui/open-findpassword-modal";
+import { SimpleToast } from "@/app/components/SimpleToast";
 
 interface AuthFormProps {
   mode: "login" | "register";
@@ -26,9 +27,10 @@ type Values = {
 export default function AuthClient({ mode }: AuthFormProps) {
   const [findIdOpen, setFindIdOpne] = useState(false);
   const [findPasswordOpen, setFindPasswordOpen] = useState(false);
-  const [toastType, setToastType] = useState<"success" | "error" | "warning">(
-    "success"
-  );
+  const [toast, setToast] = useState<{
+    message: string;
+    type: "success" | "error" | "warning";
+  } | null>(null);
 
   const openFindId = () => setFindIdOpne(true);
   const closeFindId = () => setFindIdOpne(false);
@@ -94,7 +96,11 @@ export default function AuthClient({ mode }: AuthFormProps) {
     setErrors((prev) => ({ ...prev, [name]: msg }));
   };
 
-  const handleSubmit: React.MouseEventHandler<HTMLButtonElement> = (e) => {
+  const handleSubmit: React.MouseEventHandler<HTMLButtonElement> = async (
+    e
+  ) => {
+    e.preventDefault();
+
     const newErrors: Partial<Record<keyof Values, string>> = {};
     const required: (keyof Values)[] =
       mode === "login"
@@ -133,12 +139,33 @@ export default function AuthClient({ mode }: AuthFormProps) {
 
     // 에러가 하나라도 있으면 제출 막기
     if (Object.keys(newErrors).length > 0) {
-      e.preventDefault();
-      const firstErrorKey = Object.keys(newErrors)[0] as keyof Values;
-      alert(newErrors[firstErrorKey]);
+      setToast({ message: "다시 확인해 주세요.", type: "error" });
       return;
     }
+    const formData = new FormData();
+    Object.entries(values).forEach(([key, value]) =>
+      formData.append(key, value)
+    );
+
+    const res =
+      mode === "login"
+        ? await (await import("../[mode]/actions")).loginAction(formData)
+        : await (await import("../[mode]/actions")).registerAction(formData);
+
+    if (res?.error) {
+      setToast({ message: res.error, type: "error" });
+      return;
+    }
+    router.push(mode === "login" ? "/" : "/auth/login");
   };
+
+  // 메인페이지에서 가져온 모달열기
+  useEffect(() => {
+    const modal = searchParams.get("modal");
+    if (modal === "find-id") setFindIdOpne(true);
+    if (modal === "find-password") setFindPasswordOpen(true);
+  }, [searchParams]);
+
 
   return (
     <div className="flex items-center justify-center w-screen gowun h-screen bg-[#578E7E">
@@ -369,6 +396,14 @@ export default function AuthClient({ mode }: AuthFormProps) {
           )}
         </div>
       </div>
+      {toast && (
+        <SimpleToast
+          type={toast.type}
+          message={toast.message}
+          duration={5000}
+          onClose={() => setToast(null)}
+        />
+      )}
     </div>
   );
 }

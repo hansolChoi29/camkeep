@@ -122,14 +122,14 @@ export default function LoginButton() {
           </Link>
           <div className="mt-2">
             <Link
-              href="/auth/reset-id"
+              href="/auth/login?modal=find-id"
               className="text-xs ml-1 hover:underline"
             >
               아이디찾기
             </Link>
             <span className="mx-1 text-xs">|</span>
             <Link
-              href="/auth/reset-password"
+              href="/auth/login?modal=find-password"
               className="text-xs ml-1 hover:underline"
             >
               비밀번호 재설정

@@ -14,9 +14,9 @@ export default function Kakao() {
     });
 
     if (error) {
-      console.error("❌ 카카오 로그인 오류:", error.message);
+      console.error("카카오 로그인 오류:", error.message);
     } else {
-      console.log("📦 카카오 로그인 리디렉션:", data);
+      console.log("카카오 로그인 리디렉션:", data);
     }
   };
   return (
