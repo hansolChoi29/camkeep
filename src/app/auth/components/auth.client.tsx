@@ -7,6 +7,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { googleLoginAction } from "../[mode]/actions";
 import { useState } from "react";
 import OpenFindidModal from "@/components/ui/open-findid-modal";
+import OpanFindPasswordModal from "@/components/ui/open-findpassword-modal";
 
 interface AuthFormProps {
   mode: "login" | "register";
@@ -15,9 +16,12 @@ interface AuthFormProps {
 export default function AuthClient({ mode }: AuthFormProps) {
   //아이디찾기 모달
   const [findIdOpen, setFindIdOpne] = useState(false);
+  const [findPasswordOpen, setFindPasswordOpen] = useState(false);
 
   const openFindId = () => setFindIdOpne(true);
   const closeFindId = () => setFindIdOpne(false);
+  const openFindPassword = () => setFindPasswordOpen(true);
+  const closeFindPassword = () => setFindPasswordOpen(false);
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -142,9 +146,12 @@ export default function AuthClient({ mode }: AuthFormProps) {
             <OpenFindidModal findIdOpen={findIdOpen} onClose={closeFindId} />
           </div>
           <div className="">
-            <button onClick={openFindId}>아이디 찾기</button>
+            <button onClick={openFindPassword}>비밀번호 변경</button>
             {/* 오픈 모달 코드 🔥🔥🔥넣기 */}
-            <OpenFindidModal findIdOpen={findIdOpen} onClose={closeFindId} />
+            <OpanFindPasswordModal
+              findPasswordOpen={findPasswordOpen}
+              onClose={closeFindPassword}
+            />
           </div>
           {mode === "login" && (
             <div className="mt-10">
