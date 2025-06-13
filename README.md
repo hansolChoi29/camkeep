@@ -282,9 +282,7 @@ camkeep
 │  │  │        └─ route.ts
 │  │  ├─ auth
 │  │  │  ├─ components
-│  │  │  │  ├─ auth.client.tsx
-│  │  │  │  ├─ find-id.client.tsx
-│  │  │  │  └─ reset-password.client.tsx
+│  │  │  │  └─ auth.client.tsx
 │  │  │  ├─ oauth-callback
 │  │  │  │  └─ page.tsx
 │  │  │  └─ [mode]
@@ -343,9 +341,11 @@ camkeep
 │  │     ├─ button.tsx
 │  │     ├─ card.tsx
 │  │     ├─ carousel.tsx
-│  │     └─ input.tsx
+│  │     ├─ input.tsx
+│  │     └─ open-findid-modal.tsx
 │  ├─ features
 │  │  ├─ auth
+│  │  │  ├─ auth-find-modal.tsx
 │  │  │  ├─ auth-google.tsx
 │  │  │  └─ auth-kakao.tsx
 │  │  ├─ camping
