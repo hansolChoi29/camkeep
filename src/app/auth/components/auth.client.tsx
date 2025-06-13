@@ -21,7 +21,6 @@ export default function AuthClient({ mode }: AuthFormProps) {
 
   const router = useRouter();
   const searchParams = useSearchParams();
-  // 쿼리 파라미터에서 callbackUrl 가져오기 (없으면 '/')
   const callbackUrl = searchParams.get("callbackUrl") ?? "/";
 
   const toggle = () =>
@@ -140,6 +139,11 @@ export default function AuthClient({ mode }: AuthFormProps) {
           <div className="">
             <button onClick={openFindId}>아이디 찾기</button>
             {/* 오픈 모달 코드 넣기 */}
+            <OpenFindidModal findIdOpen={findIdOpen} onClose={closeFindId} />
+          </div>
+          <div className="">
+            <button onClick={openFindId}>아이디 찾기</button>
+            {/* 오픈 모달 코드 🔥🔥🔥넣기 */}
             <OpenFindidModal findIdOpen={findIdOpen} onClose={closeFindId} />
           </div>
           {mode === "login" && (
