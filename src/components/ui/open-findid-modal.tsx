@@ -30,7 +30,7 @@ export default function OpenFindidModal({ findIdOpen, onClose }: ModalProps) {
   const findEmail = async () => {
     setError("");
     if (!name || !phone) {
-      setError("모든 필드를 입력해 주세요.");
+      setError("모두 입력해 주세요.");
       return;
     }
 
