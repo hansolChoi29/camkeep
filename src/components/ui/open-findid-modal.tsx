@@ -67,7 +67,16 @@ export default function OpenFindidModal({ findIdOpen, onClose }: ModalProps) {
   if (!findIdOpen) return null;
 
   return (
-    <div className="fixed inset-0 text-[#578E7E] bg-black bg-opacity-50 flex justify-center items-center z-50">
+    <div
+      tabIndex={-1}
+      onKeyDownCapture={(e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          findEmail();
+        }
+      }}
+      className="fixed inset-0 text-[#578E7E] bg-black bg-opacity-50 flex justify-center items-center z-50"
+    >
       <div className="bg-[#FFFAEC] rounded-xl shadow-lg w-full max-w-lg  p-6 relative ">
         <div className="my-10">
           <button
@@ -131,6 +140,7 @@ export default function OpenFindidModal({ findIdOpen, onClose }: ModalProps) {
             <div className="flex items-center justify-center gap-2">
               <p className="font-semibold">{email}</p>
               <button
+                type="button"
                 onClick={() => {
                   navigator.clipboard.writeText(email);
                   setCopied(true);

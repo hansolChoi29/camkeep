@@ -106,7 +106,16 @@ export default function OpenFindPasswordModal({
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+    <div
+      tabIndex={-1}
+      onKeyDownCapture={(e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          handleNext();
+        }
+      }}
+      className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+    >
       <div className="bg-[#FFFAEC] text-[#578E7E] rounded-xl shadow-lg w-full max-w-lg p-6 relative">
         <button onClick={handleClose} className="absolute top-2 right-2 p-1">
           <Image src="/icons/close.svg" alt="close" width={24} height={24} />
