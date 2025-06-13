@@ -152,8 +152,8 @@ export default function AuthClient({ mode }: AuthFormProps) {
         ? await (await import("../[mode]/actions")).loginAction(formData)
         : await (await import("../[mode]/actions")).registerAction(formData);
 
-    if (res?.error) {
-      setToast({ message: res.error, type: "error" });
+    if (res instanceof Error) {
+      setToast({ message: res.message, type: "error" });
       return;
     }
     router.push(mode === "login" ? "/" : "/auth/login");
@@ -165,7 +165,6 @@ export default function AuthClient({ mode }: AuthFormProps) {
     if (modal === "find-id") setFindIdOpne(true);
     if (modal === "find-password") setFindPasswordOpen(true);
   }, [searchParams]);
-
 
   return (
     <div className="flex items-center justify-center w-screen gowun h-screen bg-[#578E7E">

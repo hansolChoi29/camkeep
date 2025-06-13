@@ -109,7 +109,7 @@ export async function googleLoginAction() {
       redirectTo: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/oauth-callback`,
     },
   });
-  if (error) return { error: error.message };
+  if (error) throw new Error(error.message);
   // Supabase가 준 URL로 이동
   redirect(data.url);
 }
