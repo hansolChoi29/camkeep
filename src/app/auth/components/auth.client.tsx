@@ -14,7 +14,6 @@ interface AuthFormProps {
 }
 
 export default function AuthClient({ mode }: AuthFormProps) {
-  //아이디찾기 모달
   const [findIdOpen, setFindIdOpne] = useState(false);
   const [findPasswordOpen, setFindPasswordOpen] = useState(false);
 
@@ -106,14 +105,40 @@ export default function AuthClient({ mode }: AuthFormProps) {
               </label>
             </>
           )}{" "}
-          <div className="flex justify-end text-xs mb-10 sm:text-sm text-[#FFFAEC]">
+          {mode === "login" && (
+            <div className="flex justify-end text-xs mb-10 sm:text-sm text-[#FFFAEC]">
+              <button onClick={openFindId} className="mr-2  hover:text-black">
+                아이디 찾기
+              </button>
+              <OpenFindidModal findIdOpen={findIdOpen} onClose={closeFindId} />|
+              <button
+                onClick={openFindPassword}
+                className="ml-2   hover:text-black"
+              >
+                비밀번호 변경
+              </button>
+              <OpanFindPasswordModal
+                findPasswordOpen={findPasswordOpen}
+                onClose={closeFindPassword}
+              />
+            </div>
+          )}{" "}
+          <div className="w-full flex justify-center ">
+            <Button
+              type="submit"
+              className="w-80 h-12 flex justify-center bg-[#FFFAEC] text-sm sm:text-base text-[#3D3D3D] py-2 rounded hover:bg-[#D4C9BE] hover:text-white transition"
+            >
+              {mode === "login" ? "로그인" : "완료"}
+            </Button>
+          </div>
+          <div className="flex mt-1 justify-center text-xs mb-10 sm:text-sm text-[#FFFAEC]">
             {mode === "login" ? (
               <>
                 <p>아직 회원이 아니신가요?</p>
                 <button
                   type="button"
                   onClick={toggle}
-                  className="ml-2 hover:text-red-700 text-xs sm:text-sm"
+                  className="ml-2 hover:text-black hover:font-bold text-xs sm:text-sm"
                 >
                   회원가입
                 </button>
@@ -125,33 +150,12 @@ export default function AuthClient({ mode }: AuthFormProps) {
                   type="button"
                   onClick={toggle}
                   variant="ghost"
-                  className="bg-transparent text-xs sm:text-sm hover:bg-transparent focus:bg-transparent hover:text-red-600"
+                  className="bg-transparent text-xs sm:text-sm hover:bg-transparent focus:bg-transparent hover:font-bold hover:text-black"
                 >
                   로그인
                 </Button>
               </div>
             )}
-          </div>{" "}
-          <div className="w-full flex justify-center ">
-            <Button
-              type="submit"
-              className="w-80 h-12 flex justify-center bg-[#FFFAEC] text-sm sm:text-base text-[#3D3D3D] py-2 rounded hover:bg-[#D4C9BE] hover:text-white transition"
-            >
-              {mode === "login" ? "로그인" : "완료"}
-            </Button>
-          </div>
-          <div className="">
-            <button onClick={openFindId}>아이디 찾기</button>
-            {/* 오픈 모달 코드 넣기 */}
-            <OpenFindidModal findIdOpen={findIdOpen} onClose={closeFindId} />
-          </div>
-          <div className="">
-            <button onClick={openFindPassword}>비밀번호 변경</button>
-            {/* 오픈 모달 코드 🔥🔥🔥넣기 */}
-            <OpanFindPasswordModal
-              findPasswordOpen={findPasswordOpen}
-              onClose={closeFindPassword}
-            />
           </div>
           {mode === "login" && (
             <div className="mt-10">
