@@ -266,7 +266,7 @@ export default function CheckListClient() {
     border-none outline-none focus:outline-none focus:ring-0 active:outline-none active:ring-0 overflow-visible"
         >
           <Image
-            src="/images/check-download.svg"
+            src="/icons/check-download.svg"
             alt="download"
             width={30}
             height={30}
@@ -361,7 +361,7 @@ export default function CheckListClient() {
                       </button>
                       <button onClick={() => deleteCategory(cat.id)}>
                         <Image
-                          src="/images/delete.svg"
+                          src="/icons/delete.svg"
                           alt="delete"
                           width={16}
                           height={16}
@@ -426,8 +426,8 @@ export default function CheckListClient() {
                       <Image
                         src={
                           item.is_checked
-                            ? "/images/check.svg"
-                            : "/images/checkbox.svg"
+                            ? "/icons/check.svg"
+                            : "/icons/checkbox.svg"
                         }
                         alt={item.is_checked ? "checked" : "unchecked"}
                         width={24}

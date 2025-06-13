@@ -12,8 +12,8 @@ export default function AuthPage({
   const action = mode === "login" ? loginAction : registerAction;
 
   return (
-    <form action={action} method="post" className="…">
-      <AuthClient mode={mode} />
+    <form action={action} method="post" noValidate className="…">
+      <AuthClient mode={mode as "login" | "register"} />
     </form>
   );
 }

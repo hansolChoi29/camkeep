@@ -118,7 +118,7 @@ export default function OpenFindidModal({ findIdOpen, onClose }: ModalProps) {
           <div className="text-center flex flex-col gap-1">
             <div className="flex justify-center ">
               <Image
-                src="/icons/check.svg"
+                src="/icons/check-auth.svg"
                 alt="체크 아이콘"
                 width={80}
                 height={80}
@@ -137,7 +137,7 @@ export default function OpenFindidModal({ findIdOpen, onClose }: ModalProps) {
                 aria-label="이메일 복사"
               >
                 <Image
-                  src={copied ? "/icons/check.svg" : "/icons/copy.svg"}
+                  src={copied ? "/icons/check-auth.svg" : "/icons/copy.svg"}
                   alt={copied ? "복사 완료" : "복사 아이콘"}
                   width={20}
                   height={20}
