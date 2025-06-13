@@ -108,6 +108,7 @@ export default function OpenFindidModal({ findIdOpen, onClose }: ModalProps) {
             <div className="flex justify-center mt-10">
               <button
                 onClick={findEmail}
+                type="button"
                 className="bg-[#578E7E] text-white font-bold rounded py-2 px-20"
               >
                 완료
@@ -150,6 +151,7 @@ export default function OpenFindidModal({ findIdOpen, onClose }: ModalProps) {
             <div className="flex justify-center mt-10">
               <button
                 onClick={handleComplete}
+                type="button"
                 className="bg-[#578E7E] text-white font-bold rounded py-2 px-20"
               >
                 확인

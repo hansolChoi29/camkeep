@@ -104,15 +104,20 @@ export default function AuthClient({ mode }: AuthFormProps) {
                 />
               </label>
             </>
-          )}{" "}
+          )}
           {mode === "login" && (
             <div className="flex justify-end text-xs mb-10 sm:text-sm text-[#FFFAEC]">
-              <button onClick={openFindId} className="mr-2  hover:text-black">
+              <button
+                type="button"
+                onClick={openFindId}
+                className="mr-2  hover:text-black"
+              >
                 아이디 찾기
               </button>
               <OpenFindidModal findIdOpen={findIdOpen} onClose={closeFindId} />|
               <button
                 onClick={openFindPassword}
+                type="button"
                 className="ml-2   hover:text-black"
               >
                 비밀번호 변경

@@ -203,6 +203,7 @@ export default function OpenFindPasswordModal({
           {step < 3 ? (
             <button
               onClick={handleNext}
+              type="button"
               className="bg-[#578E7E] text-white font-bold rounded py-2 px-8"
             >
               완료
@@ -213,6 +214,7 @@ export default function OpenFindPasswordModal({
                 handleClose();
                 window.location.reload();
               }}
+              type="button"
               className="bg-[#578E7E] text-white font-bold rounded py-2 px-8"
             >
               확인
