@@ -7,113 +7,179 @@ interface ModalProps {
   findPasswordOpen: boolean;
   onClose: () => void;
 }
-export default function OpanFindPasswordModal({
+
+export default function OpenFindPasswordModal({
   findPasswordOpen,
   onClose,
 }: ModalProps) {
   const [step, setStep] = useState(1);
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [otp, setOtp] = useState("");
-  const [error, setError] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [confirmPw, setConfirmPw] = useState("");
+  const [error, setError] = useState("");
+  const [otp, setOtp] = useState("");
 
   useEffect(() => {
-    if (findPasswordOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auth";
-    }
-
+    document.body.style.overflow = findPasswordOpen ? "hidden" : "auto";
     return () => {
       document.body.style.overflow = "auto";
     };
   }, [findPasswordOpen]);
 
-  const findPassword = async () => {
-    setError("");
-    if (!email || !phone) {
-      setError("모두 입력해 주세요.");
-      return;
-      }
-      
-      try {
-          const res = await fetch('/api/auth/find-password', {
-              method: "POST",
-              headers: {
-                  "Content-Type": "application/json"
-              },
-              body: JSON.stringify({ email, phone }),
-          });
-          const data = await res.json();
-
-          if (!res.ok) {
-              setError(data.error || '이메일을 찾을 수 없습니다.')
-              return;
-          }
-
-          setEmail(data.email);
-          setStep(2);
-      }
-  };
-
-  const handleComplete = () => {
-    setStep(1);
-    setPhone("");
-    setEmail("");
-    setError("");
-    onClose();
-  };
-
   if (!findPasswordOpen) return null;
+
+  const handleNext = async () => {
+    setError("");
+    if (step === 1) {
+      if (!email || !phone) {
+        setError("이메일과 휴대폰 번호를 모두 입력해 주세요.");
+        return;
+      }
+      try {
+        // OTP 발급 API 호출
+        const res = await fetch("/api/auth/send-otp", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, phone }),
+        });
+        const { otp: issuedOtp, error: otpError } = await res.json();
+        if (!res.ok) {
+          setError(otpError || "OTP 발급에 실패했습니다.");
+          return;
+        }
+        setOtp(issuedOtp); // 받은 OTP 를 상태에 저장
+        setStep(2); // 바로 2단계로 넘어감
+        return;
+      } catch {
+        setError("서버 오류가 발생했습니다.");
+        return;
+      }
+    }
+
+    // 2단계 검증
+    if (step === 2) {
+      if (password === "" || password !== confirmPw) {
+        setError(
+          password === ""
+            ? "새 비밀번호를 입력해 주세요."
+            : "비밀번호가 일치하지 않습니다."
+        );
+        return;
+      }
+      setStep(3);
+    }
+  };
+
   return (
-    <div className="fixed inset-0 text-[#578E7E] bg-black bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-[#FFFAEC] rounded-xl shadow-lg w-full max-w-lg  p-6 relative ">
-        <div className="my-10">
-          <button
-            onClick={handleComplete}
-            className="absolute top-2 right-2 text-gray-500 mt-4 mr-4"
-          >
-            <Image src="/icons/close.svg" alt="close" width={28} height={28} />
-          </button>
-        </div>
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+      <div className="bg-[#FFFAEC] text-[#578E7E] rounded-xl shadow-lg w-full max-w-lg p-6 relative">
+        <button onClick={onClose} className="absolute top-2 right-2 p-1">
+          <Image src="/icons/close.svg" alt="close" width={24} height={24} />
+        </button>
 
         {step === 1 && (
           <>
             <h1 className="text-center text-3xl font-bold   logo">CAMKEEP</h1>
-            <p className="text-center  font-bold   logo">아이디 찾기</p>
-            <div>
-              <p>이메일</p>
+            <p className="text-center  font-bold   logo">비밀번호 찾기</p>
+            <div className=" text-[#875A2C] mb-4">
+              <p className="font-bold pb-1">이메일</p>
               <input
-                placeholder="이메일을 입력해 주세요"
-                onChange={(e) => setEmail(e.target.value)}
-                type="email"
                 value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="이메일"
+                className="border rounded w-full p-2  placeholder:text-[#b18960] focus:outline-none focus:border-[#875A2C]"
               />
             </div>
-            <div>
-              <p>휴대폰 번호</p>
+
+            <div className=" text-[#875A2C]">
+              <p className="font-bold pb-1">전화번호</p>
               <input
-                placeholder="휴대폰 번호를 입력해 주세요"
-                onChange={(e) => setPhone(e.target.value)}
-                type="text"
                 value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                placeholder="전화번호"
+                className="border rounded w-full p-2  placeholder:text-[#b18960] focus:outline-none focus:border-[#875A2C]"
               />
-            </div>
-            {error && <p className="text-red-500 mb-2">{error}</p>}
-            <div className="flex justify-center mt-10">
-              <button
-                onClick={findPassword}
-                className="bg-[#578E7E] text-white font-bold rounded py-2 px-20"
-              >
-                완료
-              </button>
             </div>
           </>
         )}
-        {step === 2 && <>둘</>}
-        {step === 3 && <>셋</>}
+
+        {step === 2 && (
+          <>
+            <h2 className="text-center text-2xl font-bold my-4">
+              새 비밀번호 설정
+            </h2>
+            <div className=" text-[#875A2C]">
+              <p className="font-bold pb-1">OTP</p>
+              <input
+                type="text"
+                value={otp}
+                readOnly
+                className="border rounded w-full p-2  placeholder:text-[#875A2C] focus:outline-none focus:border-[#875A2C]"
+              />
+            </div>
+            <p className="  text-xs text-red-600 flex justify-end  mb-3 mt-1">
+              OTP는 자동으로 입력됩니다.
+            </p>
+            <div className="mb-4 text-[#875A2C]">
+              <p className="font-bold pb-1">새비밀번호</p>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="새 비밀번호"
+                className="border rounded w-full p-2  placeholder:text-[#875A2C] focus:outline-none focus:border-[#875A2C]"
+              />
+            </div>
+
+            <div className="mb-4 text-[#875A2C]">
+              <p className="font-bold pb-1">비밀번호 확인</p>
+              <input
+                type="password"
+                value={confirmPw}
+                onChange={(e) => setConfirmPw(e.target.value)}
+                placeholder="비밀번호 확인"
+                className="border rounded w-full p-2  placeholder:text-[#875A2C] focus:outline-none focus:border-[#875A2C]"
+              />
+            </div>
+          </>
+        )}
+
+        {step === 3 && (
+          <div className="text-center">
+            <Image
+              src="/icons/check.svg"
+              alt="success"
+              width={80}
+              height={80}
+              className="mx-auto my-8"
+            />
+            <p className="font-semibold">
+              비밀번호가 성공적으로 변경되었습니다.
+            </p>
+            <p className="font-semibold">다시 로그인 해주세요.</p>
+          </div>
+        )}
+
+        {error && <p className="text-red-500 text-center mt-2">{error}</p>}
+
+        <div className="flex justify-center mt-10">
+          {step < 3 ? (
+            <button
+              onClick={handleNext}
+              className="bg-[#578E7E] text-white font-bold rounded  px-8"
+            >
+              다음
+            </button>
+          ) : (
+            <button
+              onClick={onClose}
+              className="bg-[#578E7E] text-white font-bold rounded py-2 px-8"
+            >
+              확인
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );

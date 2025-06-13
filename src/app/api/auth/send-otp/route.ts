@@ -3,7 +3,7 @@ import { createClient } from "@/lib/supabase/client";
 import { NextResponse } from "next/server";
 
 export const runtime = "nodejs";
-
+//OTP 생성 전용
 export async function POST(request: Request) {
   try {
     const { email, phone } = await request.json();
