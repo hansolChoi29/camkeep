@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
-
+import { Input } from "@/components/ui/input";
 interface ModalProps {
   findPasswordOpen: boolean;
   onClose: () => void;
@@ -114,121 +114,150 @@ export default function OpenFindPasswordModal({
           handleNext();
         }
       }}
-      className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+      className="bg-transparent fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
     >
-      <div className="bg-[#FFFAEC] text-[#578E7E] rounded-xl shadow-lg w-full max-w-lg p-6 relative">
-        <button onClick={handleClose} className="absolute top-2 right-2 p-1">
+      <div
+        className="bg-[#FFFAEC] text-[#578E7E]  shadow-lg w-full h-full  max-w-lg  sm:w-full sm:max-w-lg sm:h-auto rounded-none
+          sm:rounded-xl
+          relative"
+      >
+        <div
+          className=" w-full bg-[#FFFAEC] border-b border-gray-200 
+                        block sm:hidden text-center "
+        >
+          <h2 className="text-lg font-bold bg-[#578E7E] text-white p-6">
+            비밀번호 변경
+          </h2>
+        </div>
+
+        <button
+          onClick={handleClose}
+          className="absolute top-2 right-2 text-gray-500 mt-4 mr-4"
+        >
           <Image src="/icons/close.svg" alt="close" width={24} height={24} />
         </button>
 
-        {step === 1 && (
-          <>
-            <h1 className="text-center text-3xl font-bold logo">CAMKEEP</h1>
-            <p className="text-center font-bold logo">비밀번호 찾기</p>
-            <div className="text-[#875A2C] mb-4">
-              <p className="font-bold pb-1">이메일</p>
-              <input
-                value={email}
-                name="email"
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="이메일"
-                className="border rounded w-full p-2 placeholder:text-[#b18960] focus:outline-none focus:border-[#875A2C]"
-              />
-            </div>
-            <div className="text-[#875A2C]">
-              <p className="font-bold pb-1">전화번호</p>
-              <input
-                value={phone}
-                name="phone"
-                onChange={(e) => setPhone(e.target.value)}
-                placeholder="전화번호"
-                className="border rounded w-full p-2 placeholder:text-[#b18960] focus:outline-none focus:border-[#875A2C]"
-              />
-            </div>
-          </>
-        )}
+        <div className="sm:p-6 p-12">
+          {step === 1 && (
+            <>
+              <div className="logo text-xl pt-4 ">
+                <p className="sm:text-3xl text-xl">CAMKEEP </p>
+                <p className="pb-12 sm:text-xl text-base">
+                  가입정보를 입력해 주세요.
+                </p>
+              </div>
 
-        {step === 2 && (
-          <>
-            <h2 className="text-center text-2xl font-bold my-4">
-              새 비밀번호 설정
-            </h2>
-            <div className="text-[#875A2C]">
-              <p className="font-bold pb-1">OTP</p>
-              <input
-                type="text"
-                value={otp}
-                readOnly
-                className="border rounded w-full p-2 placeholder:text-[#875A2C] focus:outline-none focus:border-[#875A2C]"
-              />
-            </div>
-            <p className="text-xs text-red-600 flex justify-end mb-3 mt-1">
-              OTP는 자동으로 입력됩니다.
-            </p>
-            <div className="mb-4 text-[#875A2C]">
-              <p className="font-bold pb-1">새 비밀번호</p>
-              <input
-                type="password"
-                name="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="새 비밀번호"
-                className="border rounded w-full p-2 placeholder:text-[#875A2C] focus:outline-none focus:border-[#875A2C]"
-              />
-            </div>
-            <div className="mb-4 text-[#875A2C]">
-              <p className="font-bold pb-1">비밀번호 확인</p>
-              <input
-                type="password"
-                name="password"
-                value={confirmPw}
-                onChange={(e) => setConfirmPw(e.target.value)}
-                placeholder="비밀번호 확인"
-                className="border rounded w-full p-2 placeholder:text-[#875A2C] focus:outline-none focus:border-[#875A2C]"
-              />
-            </div>
-          </>
-        )}
-
-        {step === 3 && (
-          <div className="text-center">
-            <Image
-              src="/icons/check-auth.svg"
-              alt="success"
-              width={80}
-              height={80}
-              className="mx-auto my-8"
-            />
-            <p className="font-semibold">
-              비밀번호가 성공적으로 변경되었습니다.
-            </p>
-            <p className="font-semibold">다시 로그인 해주세요.</p>
-          </div>
-        )}
-
-        {error && <p className="text-red-500 text-center mt-2">{error}</p>}
-
-        <div className="flex justify-center mt-10">
-          {step < 3 ? (
-            <button
-              onClick={handleNext}
-              type="button"
-              className="bg-[#578E7E] text-white font-bold rounded py-2 px-8"
-            >
-              완료
-            </button>
-          ) : (
-            <button
-              onClick={() => {
-                handleClose();
-                window.location.reload();
-              }}
-              type="button"
-              className="bg-[#578E7E] text-white font-bold rounded py-2 px-8"
-            >
-              확인
-            </button>
+              <div className="text-[#875A2C] mb-4">
+                <p className="font-bold pb-1">이메일</p>
+                <Input
+                  value={email}
+                  name="email"
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="이메일"
+                  className="border rounded w-full p-2 placeholder:text-[#b18960] focus:outline-none focus:border-[#875A2C]"
+                />
+              </div>
+              <div className="text-[#875A2C] mt-10">
+                <p className="font-bold pb-1">전화번호</p>
+                <Input
+                  value={phone}
+                  name="phone"
+                  onChange={(e) => setPhone(e.target.value)}
+                  placeholder="하이픈('-') 없이 숫자만 입력해주세요."
+                  className="border rounded w-full p-2 placeholder:text-[#b18960] focus:outline-none focus:border-[#875A2C]"
+                />
+              </div>
+            </>
           )}
+
+          {step === 2 && (
+            <>
+              <div className="logo text-xl pt-4 ">
+                <p className="sm:text-3xl text-xl">CAMKEEP </p>
+                <p className="pb-12 sm:text-xl text-base">
+                  가입정보를 입력해 주세요.
+                </p>
+              </div>
+
+              <div className="text-[#875A2C]">
+                <p className="font-bold pb-1">OTP</p>
+                <Input
+                  type="text"
+                  value={otp}
+                  readOnly
+                  className="border rounded w-full p-2 placeholder:text-[#875A2C] focus:outline-none focus:border-[#875A2C]"
+                />
+              </div>
+              <p className="text-xs text-red-600 flex justify-end mb-3 mt-1">
+                OTP는 자동으로 입력됩니다.
+              </p>
+              <div className="mb-4 text-[#875A2C]">
+                <p className="font-bold pb-1">새 비밀번호</p>
+                <Input
+                  type="password"
+                  name="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="비밀번호는 최소 6자 이상이어야 합니다."
+                  className="border rounded w-full p-2 placeholder:text-[#875A2C] focus:outline-none focus:border-[#875A2C]"
+                />
+              </div>
+              <div className="mb-4 text-[#875A2C] mt-10">
+                <p className="font-bold pb-1">비밀번호 확인</p>
+                <Input
+                  type="password"
+                  name="password"
+                  value={confirmPw}
+                  onChange={(e) => setConfirmPw(e.target.value)}
+                  placeholder="비밀번호 확인"
+                  className="border rounded w-full p-2 placeholder:text-[#875A2C] focus:outline-none focus:border-[#875A2C]"
+                />
+              </div>
+            </>
+          )}
+
+          {step === 3 && (
+            <div className="text-center">
+              <Image
+                src="/icons/check-auth.svg"
+                alt="success"
+                width={80}
+                height={80}
+                className="mx-auto my-8"
+              />
+              <p className="font-semibold sm:text-xl text-sm">
+                비밀번호가 성공적으로 변경되었습니다.
+              </p>
+              <p className="font-semibold sm:text-xl text-sm">
+                다시 로그인 해주세요.
+              </p>
+            </div>
+          )}
+
+          {error && <p className="text-red-500 text-center mt-2">{error}</p>}
+
+          <div className="flex justify-center sm:mt-16 mt-28">
+            {step < 3 ? (
+              <button
+                onClick={handleNext}
+                type="button"
+                className="bg-[#578E7E] text-white font-bold rounded py-2 px-20 sm:text-base text-sm"
+              >
+                완료
+              </button>
+            ) : (
+              <button
+                onClick={() => {
+                  handleClose();
+                  window.location.reload();
+                }}
+                type="button"
+                className="bg-[#578E7E] text-white font-bold rounded py-2 px-20 sm:text-base text-sm"
+              >
+                확인
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </div>
