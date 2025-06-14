@@ -11,6 +11,31 @@ import Autoplay from "embla-carousel-autoplay";
 import Image from "next/image";
 import Link from "next/link";
 
+function ImageWithFallback({
+  src,
+  alt,
+}: {
+  src: string | null | undefined;
+  alt: string;
+}) {
+  const fallback = "/images/noimages.svg";
+  const [imgSrc, setImgSrc] = useState(src || fallback);
+
+  return (
+    <div className="relative w-full h-[200px] flex-shrink-0">
+      <Image
+        src={imgSrc}
+        alt={alt}
+        fill
+        className="object-cover"
+        onError={() => {
+          if (imgSrc !== fallback) setImgSrc(fallback);
+        }}
+      />
+    </div>
+  );
+}
+
 export default function HomeCampingRecommend() {
   const [items, setItems] = useState<CampingItem[]>([]);
 
@@ -43,11 +68,9 @@ export default function HomeCampingRecommend() {
                 <Card className="overflow-hidden p-0 ">
                   <CardContent className="p-0 flex flex-col">
                     <div className="relative h-[200px] flex-shrink-0">
-                      <Image
-                        src={item.firstImageUrl ?? "/images/default-camp.png"}
-                        alt={item.facltNm}
-                        fill
-                        className="object-cover"
+                      <ImageWithFallback
+                        src={item.firstImageUrl ?? "/images/noimages.svg"}
+                        alt={item.facltNm || "no image"}
                       />
                     </div>
                     <div className="p-4 flex-1 flex flex-col">
