@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
-
+import { Input } from "@/components/ui/input";
 interface ModalProps {
   findPasswordOpen: boolean;
   onClose: () => void;
@@ -149,7 +149,7 @@ export default function OpenFindPasswordModal({
 
               <div className="text-[#875A2C] mb-4">
                 <p className="font-bold pb-1">이메일</p>
-                <input
+                <Input
                   value={email}
                   name="email"
                   onChange={(e) => setEmail(e.target.value)}
@@ -159,11 +159,11 @@ export default function OpenFindPasswordModal({
               </div>
               <div className="text-[#875A2C] mt-10">
                 <p className="font-bold pb-1">전화번호</p>
-                <input
+                <Input
                   value={phone}
                   name="phone"
                   onChange={(e) => setPhone(e.target.value)}
-                  placeholder="전화번호"
+                  placeholder="하이픈('-') 없이 숫자만 입력해주세요."
                   className="border rounded w-full p-2 placeholder:text-[#b18960] focus:outline-none focus:border-[#875A2C]"
                 />
               </div>
@@ -181,7 +181,7 @@ export default function OpenFindPasswordModal({
 
               <div className="text-[#875A2C]">
                 <p className="font-bold pb-1">OTP</p>
-                <input
+                <Input
                   type="text"
                   value={otp}
                   readOnly
@@ -193,18 +193,18 @@ export default function OpenFindPasswordModal({
               </p>
               <div className="mb-4 text-[#875A2C]">
                 <p className="font-bold pb-1">새 비밀번호</p>
-                <input
+                <Input
                   type="password"
                   name="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="새 비밀번호"
+                  placeholder="비밀번호는 최소 6자 이상이어야 합니다."
                   className="border rounded w-full p-2 placeholder:text-[#875A2C] focus:outline-none focus:border-[#875A2C]"
                 />
               </div>
               <div className="mb-4 text-[#875A2C] mt-10">
                 <p className="font-bold pb-1">비밀번호 확인</p>
-                <input
+                <Input
                   type="password"
                   name="password"
                   value={confirmPw}

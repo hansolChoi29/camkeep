@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-
+import { Input } from "@/components/ui/input";
 interface ModalProps {
   findIdOpen: boolean;
   onClose: () => void;
@@ -109,25 +109,25 @@ export default function OpenFindidModal({ findIdOpen, onClose }: ModalProps) {
                   가입정보를 입력해 주세요.
                 </p>
               </div>
-              <div className=" text-[#875A2C]">
+              <div className="text-[#875A2C] ">
                 <p className="font-bold pb-1">이름</p>
-                <input
+                <Input
                   value={name}
                   name="name"
                   onChange={(e) => setName(e.target.value)}
-                  className="border rounded  w-full p-2 placeholder:text-[#875A2C] focus:outline-none focus:border-[#875A2C]"
+                  className="focus:border-[#875A2C] rounded w-full p-2 placeholder:text-[#875A2C] focus:outline-none"
                   placeholder="이름을 입력해 주세요."
                   type="text"
                 />
               </div>
               <div className=" text-[#875A2C] mt-8">
-                <p className="font-bold pb-1">휴대폰번호</p>
-                <input
+                <p className="font-bold pb-1">전화번호</p>
+                <Input
                   value={phone}
                   name="phone"
                   onChange={(e) => setPhone(e.target.value)}
                   className="border rounded w-full p-2  placeholder:text-[#875A2C] focus:outline-none focus:border-[#875A2C]"
-                  placeholder="휴대폰 번호를 입력해 주세요."
+                  placeholder="하이픈('-') 없이 숫자만 입력해주세요."
                   type="text"
                 />
               </div>

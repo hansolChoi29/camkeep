@@ -9,7 +9,7 @@ export default function Google({ onClick }: GoogleProps) {
   return (
     <>
       <button onClick={onClick}>
-        <Image src="/icons/google.svg" alt="google" width={40} height={40} />
+        <Image src="/icons/google.svg" alt="google" width={48} height={48} />
       </button>
     </>
   );

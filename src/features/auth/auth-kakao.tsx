@@ -22,7 +22,7 @@ export default function Kakao() {
   return (
     <>
       <button onClick={kakaoLogin}>
-        <Image src="/icons/kakao.svg" alt="kakao" width={40} height={40} />
+        <Image src="/icons/kakao.svg" alt="kakao" width={48} height={48} />
       </button>
     </>
   );
