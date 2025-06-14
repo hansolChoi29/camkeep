@@ -15,7 +15,11 @@ export async function loginAction(formData: FormData) {
   const supabase = serverSupabase({ writeCookies: true });
 
   const { error } = await supabase.auth.signInWithPassword({ email, password });
-  if (error) return { error: error.message };
+  if (error) {
+    return {
+      error: "이메일 또는 비밀번호가 올바르지 않습니다. 다시 입력해 주세요.",
+    };
+  }
 
   redirect(callbackUrl);
 }

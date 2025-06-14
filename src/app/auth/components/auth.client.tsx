@@ -186,7 +186,7 @@ export default function AuthClient({ mode }: AuthFormProps) {
       <div className="">
         <input type="hidden" name="callbackUrl" value={callbackUrl} />
         <div className="w-full">
-          <div className="logo  mt-0 my-10 flex flex-col items-center text-xl sm:text-5xl text-[#FFFAEC]">
+          <div className="logo  mt-0 my-10 flex flex-col items-center text-2xl sm:text-5xl text-[#FFFAEC]">
             <button
               type="button"
               onClick={() => router.push("/")}
