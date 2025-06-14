@@ -1,8 +1,10 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Input } from "@/components/ui/input";
+
 interface ModalProps {
   findPasswordOpen: boolean;
   onClose: () => void;
@@ -12,52 +14,60 @@ export default function OpenFindPasswordModal({
   findPasswordOpen,
   onClose,
 }: ModalProps) {
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPw, setConfirmPw] = useState("");
-  const [error, setError] = useState("");
   const [otp, setOtp] = useState("");
-
-  // 상태 초기화 함수
-  const resetState = () => {
-    setStep(1);
-    setEmail("");
-    setPhone("");
-    setPassword("");
-    setConfirmPw("");
-    setError("");
-    setOtp("");
-  };
-
-  // 닫기 처리: 상태 초기화 후 상위 onClose 호출
-  const handleClose = () => {
-    resetState();
-    onClose();
-  };
+  const [error, setError] = useState("");
+  const emailRef = useRef<HTMLInputElement>(null);
+  const phoneRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    document.body.style.overflow = findPasswordOpen ? "hidden" : "auto";
-    if (!findPasswordOpen) {
-      resetState();
-    }
+    if (findPasswordOpen) document.body.style.overflow = "hidden";
+    else document.body.style.overflow = "auto";
     return () => {
       document.body.style.overflow = "auto";
     };
   }, [findPasswordOpen]);
 
-  if (!findPasswordOpen) return null;
+  useEffect(() => {
+    if (step === 1 && emailRef.current) {
+      emailRef.current.focus();
+      emailRef.current.select();
+    } else if (step === 2 && phoneRef.current) {
+      phoneRef.current.focus();
+      phoneRef.current.select();
+    } else if (step === 3 && passwordRef.current) {
+      passwordRef.current.focus();
+      passwordRef.current.select();
+    }
+  }, [step]);
+
+  const resetAll = () => {
+    setStep(1);
+    setEmail("");
+    setPhone("");
+    setPassword("");
+    setConfirmPw("");
+    setOtp("");
+    setError("");
+  };
+
+  const handleClose = () => {
+    resetAll();
+    onClose();
+  };
 
   const handleNext = async () => {
     setError("");
-    if (step === 1) {
-      if (!email || !phone) {
-        setError("이메일과 휴대폰 번호를 모두 입력해 주세요.");
-        return;
-      }
+
+    if (step === 1 && email) {
+      setStep(2);
+    } else if (step === 2 && phone) {
       try {
-        // OTP 발급 API 호출
         const res = await fetch("/api/auth/send-otp", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -65,200 +75,230 @@ export default function OpenFindPasswordModal({
         });
         const { otp: issuedOtp, error: otpError } = await res.json();
         if (!res.ok) {
-          setError(otpError || "OTP 발급에 실패했습니다.");
+          setError(otpError || "OTP 발급 실패");
           return;
         }
-        setOtp(issuedOtp); // 받은 OTP 를 상태에 저장
-        setStep(2); // 2단계로 넘어감
-        return;
+        setOtp(issuedOtp);
+        setStep(3);
       } catch {
-        setError("서버 오류가 발생했습니다.");
-        return;
+        setError("서버 오류");
       }
-    }
-
-    if (step === 2) {
-      if (password === "") {
-        setError("새 비밀번호를 입력해 주세요.");
+    } else if (step === 3) {
+      if (!password || !confirmPw) {
+        setError("비밀번호를 모두 입력해주세요.");
         return;
       }
       if (password !== confirmPw) {
         setError("비밀번호가 일치하지 않습니다.");
         return;
       }
+
       try {
-        // 비밀번호 변경 API 호출 (예시)
         const res = await fetch("/api/auth/reset-password", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ otp, newPassword: password }),
         });
+        const { error: resetError } = await res.json();
         if (!res.ok) {
-          const { error: resetError } = await res.json();
-          setError(resetError || "비밀번호 변경에 실패했습니다.");
+          setError(resetError || "비밀번호 변경 실패");
           return;
         }
-        setStep(3);
+        setStep(4);
       } catch {
-        setError("비밀번호 변경에 실패했습니다.");
+        setError("비밀번호 변경 실패");
       }
+    } else {
+      setError("모든 값을 입력해주세요.");
     }
   };
+
+  if (!findPasswordOpen) return null;
 
   return (
     <div
       tabIndex={-1}
       onKeyDownCapture={(e) => {
-        if (e.key === "Enter") {
-          e.preventDefault();
-          handleNext();
-        }
+        if (e.key === "Enter") handleNext();
       }}
-      className="bg-transparent fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+      className="bg-black bg-opacity-50 fixed inset-0 text-[#578E7E] flex justify-center items-center z-50"
     >
-      <div
-        className="bg-[#FFFAEC] text-[#578E7E]  shadow-lg w-full h-full  max-w-lg  sm:w-full sm:max-w-lg sm:h-auto rounded-none
-          sm:rounded-xl
-          relative"
-      >
-        <div
-          className=" w-full bg-[#FFFAEC] border-b border-gray-200 
-                        block sm:hidden text-center "
-        >
-          <h2 className="text-lg font-bold bg-[#578E7E] text-white p-6">
-            비밀번호 변경
-          </h2>
-        </div>
-
+      <div className="bg-[#FFFAEC] shadow-xl rounded-xl sm:max-w-md w-[90%] relative px-6 py-8">
         <button
           onClick={handleClose}
-          className="absolute top-2 right-2 text-gray-500 mt-4 mr-4"
+          className="absolute top-4 right-4 text-gray-500"
         >
           <Image src="/icons/close.svg" alt="close" width={24} height={24} />
         </button>
 
-        <div className="sm:p-6 p-12">
-          {step === 1 && (
-            <>
-              <div className="logo text-xl pt-4 ">
-                <p className="sm:text-3xl text-xl">CAMKEEP </p>
-                <p className="pb-12 sm:text-xl text-base">
-                  가입정보를 입력해 주세요.
-                </p>
-              </div>
+        <div className="text-xl sm:text-2xl font-bold mb-6 text-center">
+          CAMKEEP
+        </div>
 
-              <div className="text-[#875A2C] mb-4">
-                <p className="font-bold pb-1">이메일</p>
-                <Input
-                  value={email}
-                  name="email"
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="이메일"
-                  className="border rounded w-full p-2 placeholder:text-[#b18960] focus:outline-none focus:border-[#875A2C]"
-                />
-              </div>
-              <div className="text-[#875A2C] mt-10">
-                <p className="font-bold pb-1">전화번호</p>
-                <Input
-                  value={phone}
-                  name="phone"
-                  onChange={(e) => setPhone(e.target.value)}
-                  placeholder="하이픈('-') 없이 숫자만 입력해주세요."
-                  className="border rounded w-full p-2 placeholder:text-[#b18960] focus:outline-none focus:border-[#875A2C]"
-                />
-              </div>
-            </>
+        <AnimatePresence mode="wait">
+          {step === 1 && (
+            <motion.div
+              key="step1"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+              className="space-y-6"
+              onAnimationComplete={() => {
+                if (emailRef.current) {
+                  emailRef.current.focus();
+                  emailRef.current.select();
+                }
+              }}
+            >
+              <Input
+                ref={emailRef}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="이메일"
+                className="placeholder:text-[#875A2C] text-sm p-3"
+              />
+              {error && <p className="text-red-500 text-sm">{error}</p>}
+              <button
+                onClick={handleNext}
+                className="w-full bg-[#578E7E] text-white font-semibold py-2 rounded"
+              >
+                다음
+              </button>
+            </motion.div>
           )}
 
           {step === 2 && (
-            <>
-              <div className="logo text-xl pt-4 ">
-                <p className="sm:text-3xl text-xl">CAMKEEP </p>
-                <p className="pb-12 sm:text-xl text-base">
-                  가입정보를 입력해 주세요.
-                </p>
+            <motion.div
+              key="step2"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+              className="space-y-6"
+              onAnimationComplete={() => {
+                if (phoneRef.current) {
+                  phoneRef.current.focus();
+                  phoneRef.current.select();
+                }
+              }}
+            >
+              <div className="text-sm text-[#875A2C] bg-[#F5F0E6] rounded-full px-4 py-1 inline-block">
+                {email}
               </div>
-
-              <div className="text-[#875A2C]">
-                <p className="font-bold pb-1">OTP</p>
-                <Input
-                  type="text"
-                  value={otp}
-                  readOnly
-                  className="border rounded w-full p-2 placeholder:text-[#875A2C] focus:outline-none focus:border-[#875A2C]"
-                />
-              </div>
-              <p className="text-xs text-red-600 flex justify-end mb-3 mt-1">
-                OTP는 자동으로 입력됩니다.
-              </p>
-              <div className="mb-4 text-[#875A2C]">
-                <p className="font-bold pb-1">새 비밀번호</p>
-                <Input
-                  type="password"
-                  name="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="비밀번호는 최소 6자 이상이어야 합니다."
-                  className="border rounded w-full p-2 placeholder:text-[#875A2C] focus:outline-none focus:border-[#875A2C]"
-                />
-              </div>
-              <div className="mb-4 text-[#875A2C] mt-10">
-                <p className="font-bold pb-1">비밀번호 확인</p>
-                <Input
-                  type="password"
-                  name="password"
-                  value={confirmPw}
-                  onChange={(e) => setConfirmPw(e.target.value)}
-                  placeholder="비밀번호 확인"
-                  className="border rounded w-full p-2 placeholder:text-[#875A2C] focus:outline-none focus:border-[#875A2C]"
-                />
-              </div>
-            </>
+              <Input
+                ref={phoneRef}
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                placeholder="전화번호 (하이픈 없이)"
+                className="placeholder:text-[#875A2C] text-sm p-3"
+              />
+              {error && <p className="text-red-500 text-sm">{error}</p>}
+              <button
+                onClick={handleNext}
+                className="w-full bg-[#578E7E] text-white font-semibold py-2 rounded"
+              >
+                다음
+              </button>
+            </motion.div>
           )}
 
           {step === 3 && (
-            <div className="text-center">
-              <Image
-                src="/icons/check-auth.svg"
-                alt="success"
-                width={80}
-                height={80}
-                className="mx-auto my-8"
+            <motion.div
+              key="step3"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+              className="space-y-6"
+              onAnimationComplete={() => {
+                if (passwordRef.current) {
+                  passwordRef.current.focus();
+                  passwordRef.current.select();
+                }
+              }}
+            >
+              <p className="text-sm text-gray-500 text-center">
+                OTP는 자동 입력됩니다.
+              </p>
+              <Input
+                type="text"
+                value={otp}
+                readOnly
+                className="bg-gray-100 text-center font-mono tracking-widest text-[#875A2C]"
               />
-              <p className="font-semibold sm:text-xl text-sm">
-                비밀번호가 성공적으로 변경되었습니다.
-              </p>
-              <p className="font-semibold sm:text-xl text-sm">
-                다시 로그인 해주세요.
-              </p>
-            </div>
-          )}
 
-          {error && <p className="text-red-500 text-center mt-2">{error}</p>}
+              <Input
+                ref={passwordRef}
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="새 비밀번호 (6자 이상)"
+                className="placeholder:text-[#875A2C] text-sm p-3"
+              />
 
-          <div className="flex justify-center sm:mt-16 mt-28">
-            {step < 3 ? (
+              <Input
+                type="password"
+                value={confirmPw}
+                onChange={(e) => setConfirmPw(e.target.value)}
+                placeholder="비밀번호 확인"
+                disabled={password.length < 6}
+                className={`text-sm p-3 ${
+                  password.length < 6
+                    ? "bg-gray-100 opacity-50 cursor-not-allowed"
+                    : "bg-white"
+                }`}
+              />
+
+              {error && <p className="text-red-500 text-sm">{error}</p>}
+
               <button
                 onClick={handleNext}
-                type="button"
-                className="bg-[#578E7E] text-white font-bold rounded py-2 px-20 sm:text-base text-sm"
+                className={`w-full text-white font-semibold py-2 rounded ${
+                  password.length >= 6 && confirmPw
+                    ? "bg-[#578E7E] hover:bg-[#4b746c]"
+                    : "bg-gray-400 cursor-not-allowed"
+                }`}
+                disabled={password.length < 6 || !confirmPw}
               >
-                완료
+                비밀번호 변경
               </button>
-            ) : (
+            </motion.div>
+          )}
+
+          {step === 4 && (
+            <motion.div
+              key="step4"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+              className="text-center space-y-6"
+            >
+              <div className="flex justify-center">
+                <Image
+                  src="/icons/check-auth.svg"
+                  alt="완료"
+                  width={70}
+                  height={70}
+                />
+              </div>
+              <p className="text-[#875A2C] text-sm sm:text-base">
+                비밀번호가 성공적으로 변경되었습니다.
+                <br /> 다시 로그인 해주세요.
+              </p>
               <button
                 onClick={() => {
                   handleClose();
                   window.location.reload();
                 }}
-                type="button"
-                className="bg-[#578E7E] text-white font-bold rounded py-2 px-20 sm:text-base text-sm"
+                className="w-full bg-[#578E7E] text-white font-semibold py-2 rounded"
               >
                 확인
               </button>
-            )}
-          </div>
-        </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );

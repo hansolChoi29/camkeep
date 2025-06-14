@@ -1,38 +1,51 @@
 "use client";
+
+import { useEffect, useRef, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
+
 interface ModalProps {
   findIdOpen: boolean;
   onClose: () => void;
 }
 
 export default function OpenFindidModal({ findIdOpen, onClose }: ModalProps) {
+  const [step, setStep] = useState<1 | 2 | 3>(1);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
-  const [step, setStep] = useState(1);
   const [error, setError] = useState("");
   const [copied, setCopied] = useState(false);
+  const phoneRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (findIdOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
-
+    if (findIdOpen) document.body.style.overflow = "hidden";
+    else document.body.style.overflow = "auto";
     return () => {
       document.body.style.overflow = "auto";
     };
   }, [findIdOpen]);
 
-  const findEmail = async () => {
-    setError("");
-    if (!name || !phone) {
-      setError("모두 입력해 주세요.");
+  useEffect(() => {
+    if (step === 2 && phoneRef.current) phoneRef.current.focus();
+  }, [step]);
+
+  const handleNameSubmit = () => {
+    if (!name.trim()) {
+      setError("이름을 입력해 주세요.");
       return;
     }
+    setStep(2);
+    setError("");
+  };
+
+  const handlePhoneSubmit = async () => {
+    if (!phone.trim()) {
+      setError("전화번호를 입력해 주세요.");
+      return;
+    }
+    setError("");
 
     try {
       const res = await fetch("/api/auth/find-id", {
@@ -40,16 +53,13 @@ export default function OpenFindidModal({ findIdOpen, onClose }: ModalProps) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, phone }),
       });
-
       const data = await res.json();
-
       if (!res.ok) {
         setError(data.error || "이메일을 찾을 수 없습니다.");
         return;
       }
-
       setEmail(data.email);
-      setStep(2);
+      setStep(3);
     } catch {
       setError("서버 오류가 발생했습니다.");
     }
@@ -61,6 +71,7 @@ export default function OpenFindidModal({ findIdOpen, onClose }: ModalProps) {
     setPhone("");
     setEmail("");
     setError("");
+    setCopied(false);
     onClose();
   };
 
@@ -69,125 +80,125 @@ export default function OpenFindidModal({ findIdOpen, onClose }: ModalProps) {
   return (
     <div
       tabIndex={-1}
+      className="bg-black bg-opacity-50 fixed inset-0 text-[#578E7E] flex justify-center items-center z-50 bg-transparent "
       onKeyDownCapture={(e) => {
         if (e.key === "Enter") {
-          e.preventDefault();
-          findEmail();
+          if (step === 1) handleNameSubmit();
+          if (step === 2) handlePhoneSubmit();
         }
       }}
-      className="bg-transparent fixed inset-0 text-[#578E7E] bg-black bg-opacity-50 flex justify-center items-center z-50 "
     >
       <div
-        className="bg-[#FFFAEC] shadow-lg
-          w-full h-full 
-          rounded-none
-          sm:rounded-xl sm:w-full sm:max-w-lg sm:h-auto 
+        className="bg-[#FFFAEC] text-[#578E7E]  shadow-lg w-full h-full  max-w-lg  sm:w-full sm:max-w-lg sm:h-auto rounded-none p-6
+          sm:rounded-xl
           relative"
       >
-        <div
-          className=" w-full bg-[#FFFAEC] border-b border-gray-200 
-                        block sm:hidden text-center "
-        >
-          <h2 className="text-lg font-bold bg-[#578E7E] text-white p-6">
-            아이디 찾기
-          </h2>
-        </div>
         <button
           onClick={handleComplete}
-          className="absolute top-2 right-2 text-gray-500 mt-4 mr-4"
+          className="absolute top-4 right-4 text-gray-500"
         >
-          <Image src="/icons/close.svg" alt="close" width={28} height={28} />
+          <Image src="/icons/close.svg" alt="close" width={24} height={24} />
         </button>
 
-        <div className="sm:p-6 p-12">
+        <div className="text-xl sm:text-2xl font-bold mb-6 text-center">
+          CAMKEEP
+        </div>
+
+        <AnimatePresence mode="wait">
           {step === 1 && (
-            <>
-              {" "}
-              <div className="logo text-xl pt-4 ">
-                <p className="sm:text-3xl text-xl">CAMKEEP </p>
-                <p className="pb-12 sm:text-xl text-base">
-                  가입정보를 입력해 주세요.
-                </p>
-              </div>
-              <div className="text-[#875A2C] ">
-                <p className="font-bold pb-1">이름</p>
-                <Input
-                  value={name}
-                  name="name"
-                  onChange={(e) => setName(e.target.value)}
-                  className="focus:border-[#875A2C] rounded w-full p-2 placeholder:text-[#875A2C] focus:outline-none"
-                  placeholder="이름을 입력해 주세요."
-                  type="text"
-                />
-              </div>
-              <div className=" text-[#875A2C] mt-8">
-                <p className="font-bold pb-1">전화번호</p>
-                <Input
-                  value={phone}
-                  name="phone"
-                  onChange={(e) => setPhone(e.target.value)}
-                  className="border rounded w-full p-2  placeholder:text-[#875A2C] focus:outline-none focus:border-[#875A2C]"
-                  placeholder="하이픈('-') 없이 숫자만 입력해주세요."
-                  type="text"
-                />
-              </div>
-              {error && <p className="text-red-500 my-2 ">{error}</p>}
-              <div className="flex justify-center sm:mt-16 mt-28">
-                <button
-                  onClick={findEmail}
-                  type="button"
-                  className="bg-[#578E7E] text-white font-bold rounded py-2 px-20 sm:text-base text-sm"
-                >
-                  완료
-                </button>
-              </div>
-            </>
+            <motion.div
+              key="step1"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+              className="space-y-6"
+            >
+              <Input
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="이름을 입력해 주세요"
+                className="placeholder:text-[#875A2C] text-sm p-3"
+              />
+              {error && <p className="text-red-500 text-sm">{error}</p>}
+              <button
+                onClick={handleNameSubmit}
+                className="w-full bg-[#578E7E] text-white font-semibold py-2 rounded"
+              >
+                다음
+              </button>
+            </motion.div>
           )}
 
           {step === 2 && (
-            <div className="text-center flex flex-col gap-1">
-              <div className="flex justify-center mt-10">
+            <motion.div
+              key="step2"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+              className="space-y-6"
+            >
+              <div className="text-sm text-[#875A2C] bg-[#F5F0E6] rounded-full px-4 py-1 inline-block">
+                {name}
+              </div>
+              <Input
+                ref={phoneRef}
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                placeholder="전화번호 (하이픈 없이)"
+                className="placeholder:text-[#875A2C] text-sm p-3"
+              />
+              {error && <p className="text-red-500 text-sm">{error}</p>}
+              <button
+                onClick={handlePhoneSubmit}
+                className="w-full bg-[#578E7E] text-white font-semibold py-2 rounded"
+              >
+                완료
+              </button>
+            </motion.div>
+          )}
+
+          {step === 3 && (
+            <motion.div
+              key="step3"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+              className="text-center space-y-6"
+            >
+              <div className="flex justify-center">
                 <Image
                   src="/icons/check-auth.svg"
-                  alt="체크 아이콘"
-                  width={80}
-                  height={80}
+                  alt="check"
+                  width={70}
+                  height={70}
                 />
               </div>
-              <p className="sm:text-xl text-sm">회원님의 이메일은</p>
-              <div className="flex items-center justify-center gap-2">
-                <p className="font-semibold sm:text-xl text-sm">{email}</p>
-                <button
-                  type="button"
-                  onClick={() => {
-                    navigator.clipboard.writeText(email);
-                    setCopied(true);
-                    setTimeout(() => setCopied(false), 1800); // 5초 후 복사 아이콘으로 복귀
-                  }}
-                  className="p-1 rounded hover:bg-gray-200"
-                  aria-label="이메일 복사"
-                >
-                  <Image
-                    src={copied ? "/icons/check-auth.svg" : "/icons/copy.svg"}
-                    alt={copied ? "복사 완료" : "복사 아이콘"}
-                    width={20}
-                    height={20}
-                  />
-                </button>
-              </div>
-              <p className="mb-4 sm:text-xl text-sm">다시 로그인 해주세요.</p>
-              <div className="flex justify-center sm:mt-16 mt-36">
-                <button
-                  onClick={handleComplete}
-                  type="button"
-                  className="bg-[#578E7E] text-white font-bold rounded py-2 px-20 sm:text-base text-sm"
-                >
-                  확인
-                </button>
-              </div>
-            </div>
+              <p className="text-[#875A2C] text-sm sm:text-base">
+                회원님의 이메일은 <br />
+                <span className="font-semibold text-[#578E7E]">{email}</span>
+              </p>
+              <button
+                onClick={() => {
+                  navigator.clipboard.writeText(email);
+                  setCopied(true);
+                  setTimeout(() => setCopied(false), 1500);
+                }}
+                className="text-xs text-[#578E7E] underline"
+              >
+                {copied ? "복사 완료!" : "이메일 복사하기"}
+              </button>
+              <button
+                onClick={handleComplete}
+                className="w-full bg-[#578E7E] text-white font-semibold py-2 rounded"
+              >
+                확인
+              </button>
+            </motion.div>
           )}
-        </div>
+        </AnimatePresence>
       </div>
     </div>
   );
