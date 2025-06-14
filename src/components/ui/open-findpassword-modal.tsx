@@ -114,9 +114,13 @@ export default function OpenFindPasswordModal({
           handleNext();
         }
       }}
-      className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+      className="bg-transparent fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
     >
-      <div className="bg-[#FFFAEC] text-[#578E7E] rounded-xl shadow-lg w-full max-w-lg p-6 relative">
+      <div
+        className="bg-[#FFFAEC] text-[#578E7E]  shadow-lg w-full h-full p-6 max-w-lg  sm:w-full sm:max-w-lg sm:h-auto rounded-none
+          sm:rounded-xl
+          relative"
+      >
         <button onClick={handleClose} className="absolute top-2 right-2 p-1">
           <Image src="/icons/close.svg" alt="close" width={24} height={24} />
         </button>

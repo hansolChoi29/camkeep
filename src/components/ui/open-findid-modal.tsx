@@ -75,17 +75,21 @@ export default function OpenFindidModal({ findIdOpen, onClose }: ModalProps) {
           findEmail();
         }
       }}
-      className="fixed inset-0 text-[#578E7E] bg-black bg-opacity-50 flex justify-center items-center z-50"
+      className="bg-transparent fixed inset-0 text-[#578E7E] bg-black bg-opacity-50 flex justify-center items-center z-50"
     >
-      <div className="bg-[#FFFAEC] rounded-xl shadow-lg w-full max-w-lg  p-6 relative ">
-        <div className="my-10">
-          <button
-            onClick={handleComplete}
-            className="absolute top-2 right-2 text-gray-500 mt-4 mr-4"
-          >
-            <Image src="/icons/close.svg" alt="close" width={28} height={28} />
-          </button>
-        </div>
+      <div
+        className="bg-[#FFFAEC] shadow-lg
+          w-full h-full p-6
+          rounded-none
+          sm:rounded-xl sm:w-full sm:max-w-lg sm:h-auto
+          relative"
+      >
+        <button
+          onClick={handleComplete}
+          className="absolute top-2 right-2 text-gray-500 mt-4 mr-4"
+        >
+          <Image src="/icons/close.svg" alt="close" width={28} height={28} />
+        </button>
         {step === 1 && (
           <>
             {" "}
