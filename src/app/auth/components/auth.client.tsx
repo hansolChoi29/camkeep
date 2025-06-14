@@ -157,11 +157,16 @@ export default function AuthClient({ mode }: AuthFormProps) {
         : await (await import("../[mode]/actions")).registerAction(formData);
 
     if (res && typeof res === "object" && "error" in res) {
+      if (mode === "login") {
+        setErrors({
+          email: "메일 주소를 정확히 입력해 주세요. ",
+          password: "이메일 또는 비밀번호가 잘못되었습니다.",
+        });
+      }
       setToast({ message: res.error, type: "warning" });
       return;
     }
 
-    // 문제가 없으면 리디렉션
     if (mode === "login") {
       router.push("/");
     } else {
