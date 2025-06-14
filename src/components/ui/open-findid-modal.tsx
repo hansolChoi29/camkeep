@@ -18,6 +18,7 @@ export default function OpenFindidModal({ findIdOpen, onClose }: ModalProps) {
   const [error, setError] = useState("");
   const [copied, setCopied] = useState(false);
   const phoneRef = useRef<HTMLInputElement>(null);
+  const nameRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (findIdOpen) document.body.style.overflow = "hidden";
@@ -28,7 +29,13 @@ export default function OpenFindidModal({ findIdOpen, onClose }: ModalProps) {
   }, [findIdOpen]);
 
   useEffect(() => {
-    if (step === 2 && phoneRef.current) phoneRef.current.focus();
+    if (step === 1 && nameRef.current) {
+      nameRef.current.focus();
+      nameRef.current.select();
+    } else if (step === 2 && phoneRef.current) {
+      phoneRef.current.focus();
+      phoneRef.current.select();
+    }
   }, [step]);
 
   const handleNameSubmit = () => {
@@ -89,9 +96,10 @@ export default function OpenFindidModal({ findIdOpen, onClose }: ModalProps) {
       }}
     >
       <div
-        className="bg-[#FFFAEC] text-[#578E7E]  shadow-lg w-full h-full  max-w-lg  sm:w-full sm:max-w-lg sm:h-auto rounded-none p-6
-          sm:rounded-xl
-          relative"
+        className="bg-[#FFFAEC] text-[#578E7E] shadow-lg 
+  w-full max-w-lg h-[460px] sm:h-[480px] 
+  sm:rounded-xl rounded-none p-6 relative
+  flex flex-col justify-center"
       >
         <button
           onClick={handleComplete}
@@ -99,10 +107,6 @@ export default function OpenFindidModal({ findIdOpen, onClose }: ModalProps) {
         >
           <Image src="/icons/close.svg" alt="close" width={24} height={24} />
         </button>
-
-        <div className="text-xl sm:text-2xl font-bold mb-6 text-center">
-          CAMKEEP
-        </div>
 
         <AnimatePresence mode="wait">
           {step === 1 && (
@@ -112,10 +116,21 @@ export default function OpenFindidModal({ findIdOpen, onClose }: ModalProps) {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
-              className="space-y-6"
+              className=" flex flex-col justify-center"
+              onAnimationComplete={() => {
+                if (nameRef.current) {
+                  nameRef.current.focus();
+                  nameRef.current.select();
+                }
+              }}
             >
+              <div className=" mb-6 text-center pb-10">
+                <p className="text-xl sm:text-2xl font-bold logo">CAMKEEP</p>
+                <p className="text-xl sm:text-xl ">가입정보를 확인해 주세요.</p>
+              </div>
               <Input
                 value={name}
+                ref={nameRef}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="이름을 입력해 주세요"
                 className="placeholder:text-[#875A2C] text-sm p-3"
@@ -123,7 +138,7 @@ export default function OpenFindidModal({ findIdOpen, onClose }: ModalProps) {
               {error && <p className="text-red-500 text-sm">{error}</p>}
               <button
                 onClick={handleNameSubmit}
-                className="w-full bg-[#578E7E] text-white font-semibold py-2 rounded"
+                className="px-24 bg-[#578E7E] mt-20 text-white font-semibold py-3 rounded text-base"
               >
                 다음
               </button>
@@ -138,7 +153,16 @@ export default function OpenFindidModal({ findIdOpen, onClose }: ModalProps) {
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
               className="space-y-6"
+              onAnimationComplete={() => {
+                if (phoneRef.current) {
+                  phoneRef.current.focus();
+                  phoneRef.current.select();
+                }
+              }}
             >
+              <div className="text-xl sm:text-2xl font-bold mb-6 text-center">
+                CAMKEEP
+              </div>
               <div className="text-sm text-[#875A2C] bg-[#F5F0E6] rounded-full px-4 py-1 inline-block">
                 {name}
               </div>
@@ -166,33 +190,42 @@ export default function OpenFindidModal({ findIdOpen, onClose }: ModalProps) {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
-              className="text-center space-y-6"
+              className="text-center "
             >
-              <div className="flex justify-center">
+              <div className="flex justify-center pt-20">
                 <Image
                   src="/icons/check-auth.svg"
                   alt="check"
-                  width={70}
-                  height={70}
+                  width={80}
+                  height={80}
                 />
               </div>
-              <p className="text-[#875A2C] text-sm sm:text-base">
+
+              <p className="py-4 text-sm sm:text-base">
                 회원님의 이메일은 <br />
-                <span className="font-semibold text-[#578E7E]">{email}</span>
               </p>
-              <button
-                onClick={() => {
-                  navigator.clipboard.writeText(email);
-                  setCopied(true);
-                  setTimeout(() => setCopied(false), 1500);
-                }}
-                className="text-xs text-[#578E7E] underline"
-              >
-                {copied ? "복사 완료!" : "이메일 복사하기"}
-              </button>
+              <div className="flex justify-center text-base">
+                <p className="font-semibold text-xl ">{email}</p>
+                <button
+                  onClick={() => {
+                    navigator.clipboard.writeText(email);
+                    setCopied(true);
+                    setTimeout(() => setCopied(false), 1500);
+                  }}
+                  className="text-xs underline ml-1"
+                >
+                  <Image
+                    src={copied ? "/icons/auth-check.svg" : "/icons/copy.svg"}
+                    alt={copied ? "복사 완료" : "복사"}
+                    width={14}
+                    height={14}
+                  />
+                </button>
+              </div>
+
               <button
                 onClick={handleComplete}
-                className="w-full bg-[#578E7E] text-white font-semibold py-2 rounded"
+                className="px-24 bg-[#578E7E] mt-20 text-white font-semibold py-3 rounded text-base"
               >
                 확인
               </button>
