@@ -163,7 +163,12 @@ export default function LoginButton() {
               />
             ) : (
               <div className="w-full h-full bg-gray-300 rounded-full flex items-center justify-center">
-                <span className="text-white text-sm">?</span>
+                <Image
+                  src="/icons/myprofile.svg"
+                  alt="myprogile"
+                  width={200}
+                  height={200}
+                />
               </div>
             )}
           </div>

@@ -1,6 +1,7 @@
 "use client";
 import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import Image from "next/image";
+import React, { useEffect, useState } from "react";
 
 interface SimpleToastProps {
   message: string;
@@ -13,45 +14,36 @@ export function SimpleToast({
   message,
   duration = 3000,
   onClose,
-  type, // 타입 받기
+  type,
 }: SimpleToastProps) {
   const [show, setShow] = useState(true);
 
   useEffect(() => {
-    const timeout1 = setTimeout(() => setShow(false), duration);
-    const timeout2 = setTimeout(onClose, duration + 300);
+    const t1 = setTimeout(() => setShow(false), duration);
+    const t2 = setTimeout(onClose, duration + 300);
     return () => {
-      clearTimeout(timeout1);
-      clearTimeout(timeout2);
+      clearTimeout(t1);
+      clearTimeout(t2);
     };
   }, [duration, onClose]);
 
-  const getStyles = () => {
-    switch (type) {
-      case "success":
-        return {
-          bgColor: "bg-gradient-to-r from-[#578E7E] to-[#18c997]",
-          textColor: "text-white",
-        };
-      case "error":
-        return {
-          bgColor: "bg-gradient-to-r from-[#ff9800] to-[#f57c00]",
-          textColor: "text-white",
-        };
-      case "warning":
-        return {
-          bgColor: "bg-gradient-to-r from-[#000000] to-[#777777]",
-          textColor: "text-white",
-        };
-      default:
-        return {
-          bgColor: "bg-gradient-to-r from-[#578E7E] to-[#abd1c6]",
-          textColor: "text-white",
-        };
-    }
+  // 타입별 아이콘 SVG와 배경색 매핑
+  const ICONS: Record<SimpleToastProps["type"], { src: string; bg: string }> = {
+    success: {
+      bg: "bg-[#4CAF50]",
+      src: "/icons/alert-success.svg",
+    },
+    error: {
+      bg: "bg-[#AF4C4C]",
+      src: "/icons/alert-error.svg",
+    },
+    warning: {
+      bg: "bg-[#FFC107]",
+      src: "/icons/alert-warning.svg",
+    },
   };
 
-  const { bgColor, textColor } = getStyles();
+  const { src, bg } = ICONS[type];
 
   return (
     <AnimatePresence>
@@ -61,10 +53,23 @@ export function SimpleToast({
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 40 }}
           transition={{ duration: 0.5 }}
-          className={`flex fixed bottom-[80px] right-[30px] w-80 p-6 items-center justify-center rounded-lg ${bgColor} ${textColor} shadow-2xl transform -translate-x-1/2 sm:text-lg`}
+          className="flex fixed bottom-[80px] left-16 transform -translate-x-1/2 bg-gray-600 rounded-[28px] shadow-2xl px-4 py-2"
         >
-          <div className="flex flex-col items-center justify-center w-full">
-            <p className="font-semibold text-center sm:text-xl">{message}</p>
+          {/* 아이콘 */}
+          <div
+            className={`flex-shrink-0 w-10 h-10 ${bg} rounded-full flex items-center justify-center `}
+          >
+            <Image
+              src={src}
+              alt={type}
+              className="w-12 h-12"
+              width={12}
+              height={12}
+            />
+          </div>
+          {/* 메시지 */}
+          <div className="flex-1 flex items-center ml-2 text-white text-base sm:text-lg">
+            {message}
           </div>
         </motion.div>
       )}

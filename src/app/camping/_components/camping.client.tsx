@@ -84,7 +84,12 @@ export default function CampingClient() {
                 </div>
               ) : (
                 <div className="w-full h-40 bg-gray-200 flex items-center justify-center text-sm text-gray-500">
-                  No Image
+                  <Image
+                    src="/images/noimages.svg"
+                    alt="noimages"
+                    width={1000}
+                    height={1000}
+                  />
                 </div>
               )}
 
