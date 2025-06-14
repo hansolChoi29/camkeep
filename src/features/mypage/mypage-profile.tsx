@@ -54,7 +54,12 @@ export default function MypageProfile(props: MypageProfileProps) {
           />
         ) : (
           <div className="w-32 h-32 border rounded-full flex items-center justify-center">
-            No Image
+            <Image
+              src="/icons/myprofile.svg"
+              alt="myprogile"
+              width={200}
+              height={200}
+            />
           </div>
         )}
         <label className="absolute bottom-0 right-1 bg-white p-2 rounded-full shadow cursor-pointer">
