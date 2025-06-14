@@ -9,10 +9,6 @@ export async function loginAction(formData: FormData) {
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
   const callbackUrl = (formData.get("callbackUrl") as string) || "/";
-  console.log("▶ loginAction:", {
-    email: formData.get("email"),
-    passwordLength: (formData.get("password") as string)?.length,
-  });
 
   if (!callbackUrl) return { error: "callbackUrl is missing!" };
   // ✅ 로그인 시에만 writeCookies: true
@@ -30,7 +26,7 @@ export async function registerAction(formData: FormData) {
   const nickname = formData.get("nickname") as string;
   const name = formData.get("name") as string;
   const phone = formData.get("phone") as string;
-  console.log("▶ registerAction formData:", Array.from(formData.entries()));
+  // console.log("▶ registerAction formData:", Array.from(formData.entries()));
 
   // 1) 이메일 기본 형식 검사
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
