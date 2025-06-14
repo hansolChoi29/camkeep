@@ -109,13 +109,17 @@ export default function AuthClient({ mode }: AuthFormProps) {
 
     required.forEach((key) => {
       if (!values[key].trim()) {
-        newErrors[key] = `${labels[key]}을(를) 입력해 주세요.`;
+        if (key === "confirmPassword") {
+          newErrors[key] = "비밀번호를 다시 입력해주세요.";
+        } else {
+          newErrors[key] = `${labels[key]}를 입력해주세요.`;
+        }
       }
     });
 
     // 추가 검증 (형식 등)
     if (values.email && !/^\S+@\S+\.\S+$/.test(values.email)) {
-      newErrors.email = "유효한 이메일을 입력해 주세요.";
+      newErrors.email = "이메일 형식이 올바르지 않습니다.";
     }
     if (values.password && values.password.length < 6) {
       newErrors.password = "비밀번호는 최소 6자 이상이어야 합니다.";
@@ -132,7 +136,7 @@ export default function AuthClient({ mode }: AuthFormProps) {
       values.phone &&
       !/^\d{10,11}$/.test(values.phone)
     ) {
-      newErrors.phone = "유효한 전화번호를 입력해 주세요.";
+      newErrors.phone = "전화번호는 숫자 11자리여야 합니다.";
     }
 
     setErrors(newErrors);
@@ -152,11 +156,22 @@ export default function AuthClient({ mode }: AuthFormProps) {
         ? await (await import("../[mode]/actions")).loginAction(formData)
         : await (await import("../[mode]/actions")).registerAction(formData);
 
-    if (res instanceof Error) {
-      setToast({ message: res.message, type: "error" });
+    if (res && typeof res === "object" && "error" in res) {
+      if (mode === "login") {
+        setErrors({
+          email: "메일 주소를 정확히 입력해 주세요. ",
+          password: "이메일 또는 비밀번호가 잘못되었습니다.",
+        });
+      }
+      setToast({ message: res.error, type: "warning" });
       return;
     }
-    router.push(mode === "login" ? "/" : "/auth/login");
+
+    if (mode === "login") {
+      router.push("/");
+    } else {
+      router.push("/auth/login");
+    }
   };
 
   // 메인페이지에서 가져온 모달열기
@@ -167,11 +182,11 @@ export default function AuthClient({ mode }: AuthFormProps) {
   }, [searchParams]);
 
   return (
-    <div className="flex items-center justify-center w-screen gowun h-screen bg-[#578E7E">
-      <div className="w-full px-4 max-w-lg space-y-6">
-        <input type="hidden" name="callbackUrl" value={callbackUrl} />
+    <div className="w-full max-w-full sm:max-w-md md:max-w-lg lg:max-w-xl px-4 flex items-center justify-center gowun bg-[#578E7E] ">
+      <div className="w-full max-w-md">
+        <Input type="hidden" name="callbackUrl" value={callbackUrl} />
         <div className="">
-          <div className="logo my-10 flex flex-col items-center text-xl sm:text-5xl text-[#FFFAEC]">
+          <div className="logo  mt-0 my-10 flex flex-col items-center text-2xl sm:text-5xl text-[#FFFAEC]">
             <button
               type="button"
               onClick={() => router.push("/")}
@@ -179,58 +194,60 @@ export default function AuthClient({ mode }: AuthFormProps) {
             >
               CAMKEEP
             </button>
-            <h2 className="text-sm sm:text-2xl mb-4 font-bold">
+            <h2 className="text-sm sm:text-2xl   font-bold">
               {mode === "login" ? "로그인" : "회원가입"}
             </h2>
           </div>
 
           {/* 이름 */}
           {mode === "register" && (
-            <label className="block mb-4 text-xs sm:text-base">
-              <p className="text-[#FFFAEC]">이름</p>
+            <label className="block  text-xs sm:text-base">
+              <p className="text-[#FFFAEC] pb-1">이름</p>
               <Input
                 name="name"
                 type="name"
                 required
-                className="w-full mt-1 p-2 border rounded"
+                className="focus:border-[#578E7E] rounded w-full p-2 placeholder:text-[#578E7E] focus:outline-none text-[#578E7E] font-bold"
                 value={values.name}
                 onChange={handleChange}
               />
               {errors.name && (
-                <p className="mt-1 text-red-500 text-sm">{errors.name}</p>
+                <p className=" text-black sm:text-sm text-xs">{errors.name}</p>
               )}
             </label>
           )}
 
           {/* 이메일 */}
-          <label className="block mb-4 text-xs sm:text-base">
-            <p className="text-[#FFFAEC]">이메일</p>
+          <label className="block pt-1  text-xs sm:text-base">
+            <p className="text-[#FFFAEC] pb-1">이메일</p>
             <Input
               name="email"
               type="email"
               required
-              className="w-full mt-1 p-2 border rounded"
+              className="focus:border-[#578E7E] rounded w-full p-2 placeholder:text-[#578E7E] focus:outline-none text-[#578E7E] font-bold"
               value={values.email}
               onChange={handleChange}
             />
             {errors.email && (
-              <p className="mt-1 text-red-500 text-sm">{errors.email}</p>
+              <p className=" text-black sm:text-sm text-xs">{errors.email}</p>
             )}
           </label>
 
           {/* 비밀번호 */}
-          <label className="block text-xs sm:text-base">
-            <p className="text-[#FFFAEC]">비밀번호</p>
+          <label className="block text-xs sm:text-base pt-2">
+            <p className="text-[#FFFAEC] pb-1">비밀번호</p>
             <Input
               name="password"
               type="password"
               required
-              className="w-full mt-1 p-2 border rounded"
+              className="focus:border-[#578E7E] rounded w-full p-2 placeholder:text-[#578E7E] focus:outline-none text-[#578E7E] font-bold"
               value={values.password}
               onChange={handleChange}
             />
             {errors.password && (
-              <p className="mt-1 text-red-500 text-sm">{errors.password}</p>
+              <p className=" text-black sm:text-sm text-xs">
+                {errors.password}
+              </p>
             )}
           </label>
 
@@ -238,59 +255,64 @@ export default function AuthClient({ mode }: AuthFormProps) {
           {mode === "register" && (
             <>
               {/* 비밀번호 확인 */}
-              <label className="block mb-4 text-xs sm:text-base">
-                <p className="text-[#FFFAEC]">비밀번호 확인</p>
+              <label className="block  text-xs sm:text-base pt-2">
+                <p className="text-[#FFFAEC] pb-1">비밀번호 확인</p>
                 <Input
                   name="confirmPassword"
                   type="password"
                   required
-                  className="w-full mt-1 p-2 border rounded"
+                  className="focus:border-[#578E7E] rounded w-full p-2 placeholder:text-[#578E7E] focus:outline-none text-[#578E7E] font-bold"
                   value={values.confirmPassword}
                   onChange={handleChange}
                 />
                 {errors.confirmPassword && (
-                  <p className="mt-1 text-red-500 text-sm">
+                  <p className=" text-black sm:text-sm text-xs">
                     {errors.confirmPassword}
                   </p>
                 )}
               </label>
 
               {/* 닉네임 */}
-              <label className="block mb-4 text-xs sm:text-base">
-                <p className="text-[#FFFAEC]">닉네임</p>
+              <label className="block   text-xs sm:text-base pt-2">
+                <p className="text-[#FFFAEC] pb-1">닉네임</p>
                 <Input
                   name="nickname"
                   type="text"
                   required
-                  className="w-full mt-1 p-2 border rounded"
+                  className="focus:border-[#578E7E] rounded w-full p-2 placeholder:text-[#578E7E] focus:outline-none text-[#578E7E] font-bold"
                   value={values.nickname}
                   onChange={handleChange}
                 />
                 {errors.nickname && (
-                  <p className="mt-1 text-red-500 text-sm">{errors.nickname}</p>
+                  <p className=" text-black sm:text-sm text-xs">
+                    {errors.nickname}
+                  </p>
                 )}
               </label>
 
               {/* 전화번호 */}
-              <label className="block mb-4 text-xs sm:text-base">
-                <p className="text-[#FFFAEC]">전화번호</p>
+              <label className="block   text-xs sm:text-base pt-2">
+                <p className="text-[#FFFAEC] pb-1">전화번호</p>
                 <Input
                   name="phone"
+                  placeholder="하이픈('-') 없이 숫자만 입력해주세요."
                   type="tel"
                   required
-                  className="w-full mt-1 p-2 border rounded"
+                  className="focus:border-[#578E7E] rounded w-full p-2 placeholder:text-[#578E7E] focus:outline-none text-[#578E7E] font-bold"
                   value={values.phone}
                   onChange={handleChange}
                 />
                 {errors.phone && (
-                  <p className="mt-1 text-red-500 text-sm">{errors.phone}</p>
+                  <p className=" text-black sm:text-sm text-xs">
+                    {errors.phone}
+                  </p>
                 )}
               </label>
             </>
           )}
 
           {mode === "login" && (
-            <div className="flex justify-end text-xs mb-10 sm:text-sm text-[#FFFAEC]">
+            <div className="flex justify-end pt-1 text-xs  sm:text-sm text-[#FFFAEC]">
               <button
                 type="button"
                 onClick={openFindId}
@@ -317,14 +339,14 @@ export default function AuthClient({ mode }: AuthFormProps) {
           <div className="w-full flex justify-center ">
             <Button
               type="submit"
-              className="w-80 h-12 flex justify-center bg-[#FFFAEC] text-sm sm:text-base text-[#3D3D3D] py-2 rounded hover:bg-[#D4C9BE] hover:text-white transition"
+              className="w-80 h-12 flex justify-center bg-[#FFFAEC] text-sm sm:text-base text-[#3D3D3D] py-2 rounded hover:bg-[#c7b29e] hover:text-white transition mt-10"
               onClick={handleSubmit}
             >
               {mode === "login" ? "로그인" : "완료"}
             </Button>
           </div>
 
-          <div className="flex mt-1 justify-center text-xs mb-10 sm:text-sm text-[#FFFAEC]">
+          <div className="flex  justify-center text-xs mt-1 sm:text-sm text-[#FFFAEC]">
             {mode === "login" ? (
               <>
                 <p>아직 회원이 아니신가요?</p>

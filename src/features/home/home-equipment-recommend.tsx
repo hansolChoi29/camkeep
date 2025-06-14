@@ -92,7 +92,7 @@ export default function HomeEquipmentRecommend() {
                         <CardContent className="p-0 h-full flex flex-col">
                           <div className="relative h-[200px] flex-shrink-0">
                             <Image
-                              src={item.image}
+                              src={item.image ?? "/images/noimages.svg"}
                               alt={item.title.replace(/<[^>]*>/g, "")}
                               fill
                               className="object-cover"
