@@ -96,38 +96,69 @@ export default function OpenFindidModal({ findIdOpen, onClose }: ModalProps) {
       }}
     >
       <div
-        className="bg-[#FFFAEC] text-[#578E7E] shadow-lg 
-        w-full h-screen
+        className="w-full h-screen
              max-w-lg 
-            sm:h-[460px] sm:rounded-xl rounded-none 
-            p-6 relative flex flex-col justify-center
+            sm:h-[460px] sm:rounded-xl
+             bg-[#FFFAEC] text-[#578E7E] shadow-lg h-rounded-none sm:p-6 relative flex flex-col 
       "
       >
-        <button onClick={handleComplete} className="absolute top-4 right-4">
+        <div
+          className="sm:hidden block bg-[#578E7E] text-white
+        absolute top-0 left-0 w-full
+        "
+        >
+          <p className="flex justify-center items-center text-xl p-4">
+            아이디 찾기
+          </p>
+        </div>
+
+        <button
+          onClick={handleComplete}
+          className="absolute top-4 right-4 text-gray-500 hidden sm:block"
+        >
           <Image src="/icons/close.svg" alt="close" width={24} height={24} />
         </button>
-        <div className="mb-10 px-4">
+        <button
+          onClick={handleComplete}
+          className="absolute top-5 left-4 text-gray-500 sm:hidden block"
+        >
+          <Image src="/icons/back.svg" alt="close" width={24} height={24} />
+        </button>
+
+        <div className="sm:px-0 px-6 mt-20">
           <div>
             {step === 1 && (
               <div className="mb-10">
-                <p className="text-xl sm:text-2xl font-bold ">아이디 찾기</p>
-                <p className="text-sm">가입정보를 확인해 주세요.</p>
+                <p className="text-xl sm:text-2xl font-bold hidden sm:block">
+                  아이디 찾기
+                </p>
+                <p className="logo sm:hidden block text-2xl">CAMKEEP</p>
+                <p className="sm:text-sm text-base sm:font-normal font-bold">
+                  가입정보를 입력해 주세요.
+                </p>
               </div>
             )}
             {step === 2 && (
-              <div className="mb-10">
-                <p className="text-xl sm:text-2xl font-bold ">아이디 찾기</p>
-                <p className="text-sm ">거의 완료 되었습니다.</p>
+              <div className="sm:mb-0 mb-10">
+                <p className="text-xl sm:text-2xl font-bold hidden sm:block">
+                  아이디 찾기
+                </p>
+                <p className="logo sm:hidden block text-2xl">CAMKEEP</p>
+                <p className="sm:text-sm text-base sm:font-normal font-bold">
+                  가입정보를 입력해 주세요.
+                </p>
+                <p>거의 완료 되었어요!</p>
               </div>
             )}
           </div>
         </div>
 
-        <div className="mb-20">
+        <div className="sm:mt-10">
           <AnimatePresence mode="wait">
             {step === 1 && (
               <motion.div
                 key="step1"
+                className="mb-20 sm:px-0 px-6 sm:mt-0 mt-10"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
@@ -155,6 +186,7 @@ export default function OpenFindidModal({ findIdOpen, onClose }: ModalProps) {
             {step === 2 && (
               <motion.div
                 key="step2"
+                className="sm:mb-4 mb-20 sm:px-0 px-6"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
@@ -187,7 +219,7 @@ export default function OpenFindidModal({ findIdOpen, onClose }: ModalProps) {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3 }}
-                className="text-center"
+                className="flex-col flex justify-center items-center sm:mb-1 mb-10 sm:mt-0 mt-20"
               >
                 <div className="flex justify-center ">
                   <Image

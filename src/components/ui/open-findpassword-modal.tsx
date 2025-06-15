@@ -127,168 +127,200 @@ export default function OpenFindPasswordModal({
         className="w-full h-screen
              max-w-lg 
             sm:h-[460px] sm:rounded-xl
-             bg-[#FFFAEC] text-[#578E7E] shadow-lg h-rounded-none p-6 relative flex flex-col justify-center"
+             bg-[#FFFAEC] text-[#578E7E] shadow-lg h-rounded-none sm:p-6 relative flex flex-col "
       >
+        <div
+          className="sm:hidden block bg-[#578E7E] text-white
+        absolute top-0 left-0 w-full
+        "
+        >
+          <p className="flex justify-center items-center text-xl p-4">
+            비밀번호 변경
+          </p>
+        </div>
+
         <button
           onClick={handleClose}
-          className="absolute top-4 right-4 text-gray-500"
+          className="absolute top-4 right-4 text-gray-500 hidden sm:block"
         >
           <Image src="/icons/close.svg" alt="close" width={24} height={24} />
         </button>
+        <button
+          onClick={handleClose}
+          className="absolute top-5 left-4 text-gray-500 sm:hidden block"
+        >
+          <Image src="/icons/back.svg" alt="close" width={24} height={24} />
+        </button>
 
-        <div>
+        <div className="sm:px-0 px-6 mt-20">
           {step === 1 && (
-            <div className="sm:mb-10 mb-20">
-              <p className="text-xl sm:text-2xl font-bold ">비밀번호 변경</p>
-              <p className="text-sm">가입정보를 입력해 주세요.</p>
+            <div className="mb-10">
+              <p className="text-xl sm:text-2xl font-bold hidden sm:block">
+                비밀번호 변경
+              </p>
+              <p className="logo sm:hidden block text-2xl">CAMKEEP</p>
+              <p className="sm:text-sm text-base sm:font-normal font-bold">
+                가입정보를 입력해 주세요.
+              </p>
             </div>
           )}
           {step === 2 && (
             <div className="sm:mb-10 mb-20">
-              <p className="text-xl sm:text-2xl font-bold ">비밀번호 변경</p>
-              <p className="text-sm">가입정보를 입력해 주세요.</p>
+              <p className="text-xl sm:text-2xl font-bold hidden sm:block">
+                비밀번호 변경
+              </p>
+              <p className="logo sm:hidden block text-2xl">CAMKEEP</p>
+              <p className="sm:text-sm text-base sm:font-normal font-bold">
+                가입정보를 입력해 주세요.
+              </p>
             </div>
           )}
           {step === 3 && (
             <div className="sm:mb-10 mb-20">
-              <p className="text-xl sm:text-2xl font-bold ">비밀번호 변경</p>
-              <p className="text-sm">거의 완료 되었습니다.</p>
+              <p className="text-xl sm:text-2xl font-bold hidden sm:block">
+                비밀번호 변경
+              </p>
+              <p className="logo sm:hidden block text-2xl">CAMKEEP</p>
+              <p className="sm:text-sm text-base sm:font-normal font-bold">
+                가입정보를 입력해 주세요.
+              </p>
+              <p>거의 완료되었어요!</p>
             </div>
           )}
         </div>
-
-        <AnimatePresence mode="wait">
-          {step === 1 && (
-            <motion.div
-              key="step1"
-              className="mb-20"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-              onAnimationComplete={() => {
-                if (emailRef.current) {
-                  emailRef.current.focus();
-                  emailRef.current.select();
-                }
-              }}
-            >
-              <Input
-                ref={emailRef}
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="이메일"
-                className="placeholder:text-[#875A2C] text-sm p-3"
-              />
-              {error && <p className="text-red-500 text-sm">{error}</p>}
-            </motion.div>
-          )}
-
-          {step === 2 && (
-            <motion.div
-              key="step2"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-              className="space-y-6 sm:mb-4 mb-20"
-              onAnimationComplete={() => {
-                if (phoneRef.current) {
-                  phoneRef.current.focus();
-                  phoneRef.current.select();
-                }
-              }}
-            >
-              <div className="text-sm text-[#875A2C] bg-[#F5F0E6] rounded-full px-4 py-1 inline-block">
-                {email}
-              </div>
-              <Input
-                ref={phoneRef}
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                placeholder="전화번호 (하이픈 없이)"
-                className="placeholder:text-[#875A2C] text-sm p-3 "
-              />
-              {error && <p className="text-red-500 text-sm">{error}</p>}
-            </motion.div>
-          )}
-
-          {step === 3 && (
-            <motion.div
-              key="step3"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-              className="sm:mb-1 mb-8"
-              onAnimationComplete={() => {
-                if (passwordRef.current) {
-                  passwordRef.current.focus();
-                  passwordRef.current.select();
-                }
-              }}
-            >
-              <Input
-                type="text"
-                value={otp}
-                readOnly
-                className="bg-gray-100 text-center font-mono tracking-widest text-[#875A2C] "
-              />
-              <p className="text-sm text-gray-500 text-end pb-2">
-                OTP는 자동 입력됩니다.
-              </p>
-
-              <Input
-                ref={passwordRef}
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="새 비밀번호 (6자 이상)"
-                className="placeholder:text-[#875A2C] text-sm p-3 mb-4"
-              />
-
-              <Input
-                type="password"
-                value={confirmPw}
-                onChange={(e) => setConfirmPw(e.target.value)}
-                placeholder="비밀번호 확인"
-                disabled={password.length < 6}
-                className={`text-sm p-3  ${
-                  password.length < 6
-                    ? "bg-gray-100 opacity-50 cursor-not-allowed"
-                    : "bg-white"
-                }`}
-              />
-
-              {error && <p className="text-red-500 text-sm ">{error}</p>}
-            </motion.div>
-          )}
-
-          {step === 4 && (
-            <motion.div
-              key="step4"
-              className="flex-col flex justify-center items-center sm:mb-1 mb-10"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-            >
-              <div className="pb-10">
-                <Image
-                  src="/icons/check-auth.svg"
-                  alt="완료"
-                  width={70}
-                  height={70}
+        <div className="sm:mt-10">
+          <AnimatePresence mode="wait">
+            {step === 1 && (
+              <motion.div
+                key="step1"
+                className="mb-20 sm:px-0 px-6 sm:mt-0 mt-10"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+                onAnimationComplete={() => {
+                  if (emailRef.current) {
+                    emailRef.current.focus();
+                    emailRef.current.select();
+                  }
+                }}
+              >
+                <Input
+                  ref={emailRef}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="이메일을 입력해 주세요."
+                  className="placeholder:text-[#875A2C] text-sm p-3"
                 />
-              </div>
-              <div className="flex flex-col justify-center items-center text-[#875A2C] text-sm sm:text-base">
-                <p>비밀번호가 성공적으로 변경되었습니다.</p>
-                <p>다시 로그인 해주세요.</p>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+                {error && <p className="text-red-500 text-sm">{error}</p>}
+              </motion.div>
+            )}
 
+            {step === 2 && (
+              <motion.div
+                key="step2"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+                className="space-y-6 sm:mb-4 mb-20 sm:px-0 px-6"
+                onAnimationComplete={() => {
+                  if (phoneRef.current) {
+                    phoneRef.current.focus();
+                    phoneRef.current.select();
+                  }
+                }}
+              >
+                <div className="text-sm text-[#875A2C] bg-[#F5F0E6] rounded-full px-4 py-1 inline-block">
+                  {email}
+                </div>
+                <Input
+                  ref={phoneRef}
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  placeholder="전화번호 (하이픈 없이)"
+                  className="placeholder:text-[#875A2C] text-sm p-3 "
+                />
+                {error && <p className="text-red-500 text-sm">{error}</p>}
+              </motion.div>
+            )}
+
+            {step === 3 && (
+              <motion.div
+                key="step3"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+                className="mb-20  sm:px-0 px-6"
+                onAnimationComplete={() => {
+                  if (passwordRef.current) {
+                    passwordRef.current.focus();
+                    passwordRef.current.select();
+                  }
+                }}
+              >
+                <Input
+                  type="text"
+                  value={otp}
+                  readOnly
+                  className="bg-gray-100 text-center font-mono tracking-widest text-[#875A2C] "
+                />
+                <p className="text-sm text-gray-500 text-end pb-2">
+                  OTP는 자동 입력됩니다.
+                </p>
+
+                <Input
+                  ref={passwordRef}
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="새 비밀번호 (6자 이상)"
+                  className="placeholder:text-[#875A2C] text-sm p-3 mb-4"
+                />
+
+                <Input
+                  type="password"
+                  value={confirmPw}
+                  onChange={(e) => setConfirmPw(e.target.value)}
+                  placeholder="비밀번호 확인"
+                  disabled={password.length < 6}
+                  className={`text-sm p-3  ${
+                    password.length < 6
+                      ? "bg-gray-100 opacity-50 cursor-not-allowed"
+                      : "bg-white"
+                  }`}
+                />
+
+                {error && <p className="text-red-500 text-sm ">{error}</p>}
+              </motion.div>
+            )}
+
+            {step === 4 && (
+              <motion.div
+                key="step4"
+                className="flex-col flex justify-center items-center sm:mb-1 mb-10 sm:mt-0 mt-20"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+              >
+                <div className="pb-10">
+                  <Image
+                    src="/icons/check-auth.svg"
+                    alt="완료"
+                    width={70}
+                    height={70}
+                  />
+                </div>
+                <div className="flex flex-col justify-center items-center text-[#875A2C] text-sm sm:text-base">
+                  <p>비밀번호가 성공적으로 변경되었습니다.</p>
+                  <p>다시 로그인 해주세요.</p>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
         <div className="sm:absolute bottom-6 left-0 w-full flex justify-center">
           <button
             onClick={step === 4 ? handleClose : handleNext}
