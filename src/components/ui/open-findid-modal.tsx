@@ -99,119 +99,122 @@ export default function OpenFindidModal({ findIdOpen, onClose }: ModalProps) {
         <button onClick={handleComplete} className="absolute top-4 right-4">
           <Image src="/icons/close.svg" alt="close" width={24} height={24} />
         </button>
-
-        <div className="mb-6 text-center pb-8">
-          {step === 1 && (
-            <>
-              <p className="text-xl sm:text-2xl font-bold ">아이디 찾기</p>
-              <p className="text-sm">가입정보를 확인해 주세요.</p>
-            </>
-          )}
-          {step === 2 && (
-            <>
-              <p className="text-xl sm:text-2xl font-bold ">아이디 찾기</p>
-              <p className="text-sm ">거의 완료 되었습니다.</p>
-            </>
-          )}
+        <div className="mb-10 px-4">
+          <div>
+            {step === 1 && (
+              <div className="mb-10">
+                <p className="text-xl sm:text-2xl font-bold ">아이디 찾기</p>
+                <p className="text-sm">가입정보를 확인해 주세요.</p>
+              </div>
+            )}
+            {step === 2 && (
+              <div className="mb-10">
+                <p className="text-xl sm:text-2xl font-bold ">아이디 찾기</p>
+                <p className="text-sm ">거의 완료 되었습니다.</p>
+              </div>
+            )}
+          </div>
         </div>
 
-        <AnimatePresence mode="wait">
-          {step === 1 && (
-            <motion.div
-              key="step1"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-              onAnimationComplete={() => {
-                if (nameRef.current) {
-                  nameRef.current.focus();
-                  nameRef.current.select();
-                }
-              }}
-            >
-              <Input
-                ref={nameRef}
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="이름을 입력해 주세요"
-                className="placeholder:text-[#875A2C] text-sm p-3 "
-              />
-              {error && (
-                <p className="text-red-500 text-sm pt-1 pl-1">{error}</p>
-              )}
-            </motion.div>
-          )}
-
-          {step === 2 && (
-            <motion.div
-              key="step2"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-              onAnimationComplete={() => {
-                if (phoneRef.current) {
-                  phoneRef.current.focus();
-                  phoneRef.current.select();
-                }
-              }}
-            >
-              <div className="my-2 py-1 text-sm text-[#5c5c5c] bg-[#daffd8] rounded-full px-4 inline-block">
-                {name}
-              </div>
-              <Input
-                ref={phoneRef}
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                placeholder="전화번호 (하이픈 없이)"
-                className="placeholder:text-[#875A2C] text-sm p-3 w-full"
-              />
-              {error && <p className="text-red-500 text-sm pt-1">{error}</p>}
-            </motion.div>
-          )}
-
-          {step === 3 && (
-            <motion.div
-              key="step3"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-              className="text-center"
-            >
-              <div className="flex justify-center ">
-                <Image
-                  src="/icons/check-auth.svg"
-                  alt="check"
-                  width={80}
-                  height={80}
+        <div className="mb-20">
+          <AnimatePresence mode="wait">
+            {step === 1 && (
+              <motion.div
+                key="step1"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+                onAnimationComplete={() => {
+                  if (nameRef.current) {
+                    nameRef.current.focus();
+                    nameRef.current.select();
+                  }
+                }}
+              >
+                <Input
+                  ref={nameRef}
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="이름을 입력해 주세요"
+                  className="placeholder:text-[#875A2C] text-sm p-3 "
                 />
-              </div>
-              <p className="py-4 text-sm sm:text-base">회원님의 이메일은</p>
-              <div className="flex justify-center items-center">
-                <p className="font-semibold text-xl">{email}</p>
-                <button
-                  onClick={() => {
-                    navigator.clipboard.writeText(email);
-                    setCopied(true);
-                    setTimeout(() => setCopied(false), 1500);
-                  }}
-                  className="text-xs underline ml-1"
-                >
-                  <Image
-                    src={copied ? "/icons/auth-check.svg" : "/icons/copy.svg"}
-                    alt={copied ? "복사 완료" : "복사"}
-                    width={14}
-                    height={14}
-                  />
-                </button>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+                {error && (
+                  <p className="text-red-500 text-sm pt-1 pl-1">{error}</p>
+                )}
+              </motion.div>
+            )}
 
-        <div className="w-full justify-center flex">
+            {step === 2 && (
+              <motion.div
+                key="step2"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+                onAnimationComplete={() => {
+                  if (phoneRef.current) {
+                    phoneRef.current.focus();
+                    phoneRef.current.select();
+                  }
+                }}
+              >
+                <div className="my-2 py-1 text-sm text-[#875A2C] bg-[#F5F0E6] rounded-full px-4 inline-block">
+                  {name}
+                </div>
+                <Input
+                  ref={phoneRef}
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  placeholder="전화번호 (하이픈 없이)"
+                  className="placeholder:text-[#875A2C] text-sm p-3 w-full"
+                />
+                {error && <p className="text-red-500 text-sm pt-1">{error}</p>}
+              </motion.div>
+            )}
+
+            {step === 3 && (
+              <motion.div
+                key="step3"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+                className="text-center"
+              >
+                <div className="flex justify-center ">
+                  <Image
+                    src="/icons/check-auth.svg"
+                    alt="check"
+                    width={80}
+                    height={80}
+                  />
+                </div>
+                <p className="py-4 text-sm sm:text-base">회원님의 이메일은</p>
+                <div className="flex justify-center items-center">
+                  <p className="font-semibold text-xl">{email}</p>
+                  <button
+                    onClick={() => {
+                      navigator.clipboard.writeText(email);
+                      setCopied(true);
+                      setTimeout(() => setCopied(false), 1500);
+                    }}
+                    className="text-xs underline ml-1"
+                  >
+                    <Image
+                      src={copied ? "/icons/auth-check.svg" : "/icons/copy.svg"}
+                      alt={copied ? "복사 완료" : "복사"}
+                      width={14}
+                      height={14}
+                    />
+                  </button>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+
+        <div className="absolute bottom-6 left-0 w-full flex justify-center">
           <button
             onClick={
               step === 1
@@ -220,7 +223,7 @@ export default function OpenFindidModal({ findIdOpen, onClose }: ModalProps) {
                 ? handlePhoneSubmit
                 : handleComplete
             }
-            className="px-24 bg-[#578E7E] mt-20 text-white font-semibold py-3 rounded text-base flex justify-center"
+            className="px-24 bg-[#578E7E] text-white font-semibold py-3 rounded text-base"
           >
             {step === 1 ? "다음" : step === 2 ? "완료" : "확인"}
           </button>

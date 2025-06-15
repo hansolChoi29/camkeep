@@ -275,10 +275,10 @@ export default function OpenFindPasswordModal({
                   height={70}
                 />
               </div>
-              <p className="text-[#875A2C] text-sm sm:text-base">
-                비밀번호가 성공적으로 변경되었습니다.
-                <br /> 다시 로그인 해주세요.
-              </p>
+              <div className="flex flex-col justify-center items-center text-[#875A2C] text-sm sm:text-base">
+                <p>비밀번호가 성공적으로 변경되었습니다.</p>
+                <p>다시 로그인 해주세요.</p>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
