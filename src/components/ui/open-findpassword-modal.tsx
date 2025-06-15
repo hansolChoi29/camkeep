@@ -176,7 +176,7 @@ export default function OpenFindPasswordModal({
             </div>
           )}
           {step === 3 && (
-            <div className="sm:mb-10 mb-20">
+            <div className="sm:mb-0 mb-10">
               <p className="text-xl sm:text-2xl font-bold hidden sm:block">
                 비밀번호 변경
               </p>
@@ -252,7 +252,7 @@ export default function OpenFindPasswordModal({
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3 }}
-                className="mb-20  sm:px-0 px-6"
+                className="mb-10  sm:px-0 px-6"
                 onAnimationComplete={() => {
                   if (passwordRef.current) {
                     passwordRef.current.focus();
@@ -266,7 +266,7 @@ export default function OpenFindPasswordModal({
                   readOnly
                   className="bg-gray-100 text-center font-mono tracking-widest text-[#875A2C] "
                 />
-                <p className="text-sm text-gray-500 text-end pb-2">
+                <p className="text-xs text-red-500 text-end pb-2">
                   OTP는 자동 입력됩니다.
                 </p>
 
@@ -276,7 +276,7 @@ export default function OpenFindPasswordModal({
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="새 비밀번호 (6자 이상)"
-                  className="placeholder:text-[#875A2C] text-sm p-3 mb-4"
+                  className="placeholder:text-[#875A2C] text-sm p-3 mb-2"
                 />
 
                 <Input
@@ -292,7 +292,7 @@ export default function OpenFindPasswordModal({
                   }`}
                 />
 
-                {error && <p className="text-red-500 text-sm ">{error}</p>}
+                {error && <p className="text-red-500 text-sm pl-1">{error}</p>}
               </motion.div>
             )}
 
