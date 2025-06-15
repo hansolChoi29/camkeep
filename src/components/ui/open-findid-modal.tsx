@@ -87,7 +87,7 @@ export default function OpenFindidModal({ findIdOpen, onClose }: ModalProps) {
   return (
     <div
       tabIndex={-1}
-      className="bg-black bg-opacity-50 fixed inset-0 text-[#578E7E] flex justify-center items-center z-50 bg-transparent "
+      className="bg-black bg-opacity-50 fixed inset-0 text-[#578E7E] flex justify-center items-center z-50 bg-transparent"
       onKeyDownCapture={(e) => {
         if (e.key === "Enter") {
           if (step === 1) handleNameSubmit();
@@ -95,18 +95,25 @@ export default function OpenFindidModal({ findIdOpen, onClose }: ModalProps) {
         }
       }}
     >
-      <div
-        className="bg-[#FFFAEC] text-[#578E7E] shadow-lg 
-  w-full max-w-lg h-[460px] sm:h-[480px] 
-  sm:rounded-xl rounded-none p-6 relative
-  flex flex-col justify-center"
-      >
-        <button
-          onClick={handleComplete}
-          className="absolute top-4 right-4 text-gray-500"
-        >
+      <div className="bg-[#FFFAEC] text-[#578E7E] shadow-lg w-full max-w-lg h-[420px] sm:h-[460px] sm:rounded-xl rounded-none p-6 relative flex flex-col justify-center">
+        <button onClick={handleComplete} className="absolute top-4 right-4">
           <Image src="/icons/close.svg" alt="close" width={24} height={24} />
         </button>
+
+        <div className="mb-6 text-center pb-8">
+          {step === 1 && (
+            <>
+              <p className="text-xl sm:text-2xl font-bold ">아이디 찾기</p>
+              <p className="text-sm">가입정보를 확인해 주세요.</p>
+            </>
+          )}
+          {step === 2 && (
+            <>
+              <p className="text-xl sm:text-2xl font-bold ">아이디 찾기</p>
+              <p className="text-sm ">거의 완료 되었습니다.</p>
+            </>
+          )}
+        </div>
 
         <AnimatePresence mode="wait">
           {step === 1 && (
@@ -116,7 +123,6 @@ export default function OpenFindidModal({ findIdOpen, onClose }: ModalProps) {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
-              className=" flex flex-col justify-center"
               onAnimationComplete={() => {
                 if (nameRef.current) {
                   nameRef.current.focus();
@@ -124,24 +130,16 @@ export default function OpenFindidModal({ findIdOpen, onClose }: ModalProps) {
                 }
               }}
             >
-              <div className=" mb-6 text-center pb-10">
-                <p className="text-xl sm:text-2xl font-bold logo">CAMKEEP</p>
-                <p className="text-xl sm:text-xl ">가입정보를 확인해 주세요.</p>
-              </div>
               <Input
-                value={name}
                 ref={nameRef}
+                value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="이름을 입력해 주세요"
-                className="placeholder:text-[#875A2C] text-sm p-3"
+                className="placeholder:text-[#875A2C] text-sm p-3 "
               />
-              {error && <p className="text-red-500 text-sm">{error}</p>}
-              <button
-                onClick={handleNameSubmit}
-                className="px-24 bg-[#578E7E] mt-20 text-white font-semibold py-3 rounded text-base"
-              >
-                다음
-              </button>
+              {error && (
+                <p className="text-red-500 text-sm pt-1 pl-1">{error}</p>
+              )}
             </motion.div>
           )}
 
@@ -152,7 +150,6 @@ export default function OpenFindidModal({ findIdOpen, onClose }: ModalProps) {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
-              className="space-y-6"
               onAnimationComplete={() => {
                 if (phoneRef.current) {
                   phoneRef.current.focus();
@@ -160,10 +157,7 @@ export default function OpenFindidModal({ findIdOpen, onClose }: ModalProps) {
                 }
               }}
             >
-              <div className="text-xl sm:text-2xl font-bold mb-6 text-center">
-                CAMKEEP
-              </div>
-              <div className="text-sm text-[#875A2C] bg-[#F5F0E6] rounded-full px-4 py-1 inline-block">
+              <div className="my-2 py-1 text-sm text-[#5c5c5c] bg-[#daffd8] rounded-full px-4 inline-block">
                 {name}
               </div>
               <Input
@@ -171,15 +165,9 @@ export default function OpenFindidModal({ findIdOpen, onClose }: ModalProps) {
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="전화번호 (하이픈 없이)"
-                className="placeholder:text-[#875A2C] text-sm p-3"
+                className="placeholder:text-[#875A2C] text-sm p-3 w-full"
               />
-              {error && <p className="text-red-500 text-sm">{error}</p>}
-              <button
-                onClick={handlePhoneSubmit}
-                className="w-full bg-[#578E7E] text-white font-semibold py-2 rounded"
-              >
-                완료
-              </button>
+              {error && <p className="text-red-500 text-sm pt-1">{error}</p>}
             </motion.div>
           )}
 
@@ -190,9 +178,9 @@ export default function OpenFindidModal({ findIdOpen, onClose }: ModalProps) {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
-              className="text-center "
+              className="text-center"
             >
-              <div className="flex justify-center pt-20">
+              <div className="flex justify-center ">
                 <Image
                   src="/icons/check-auth.svg"
                   alt="check"
@@ -200,12 +188,9 @@ export default function OpenFindidModal({ findIdOpen, onClose }: ModalProps) {
                   height={80}
                 />
               </div>
-
-              <p className="py-4 text-sm sm:text-base">
-                회원님의 이메일은 <br />
-              </p>
-              <div className="flex justify-center text-base">
-                <p className="font-semibold text-xl ">{email}</p>
+              <p className="py-4 text-sm sm:text-base">회원님의 이메일은</p>
+              <div className="flex justify-center items-center">
+                <p className="font-semibold text-xl">{email}</p>
                 <button
                   onClick={() => {
                     navigator.clipboard.writeText(email);
@@ -222,16 +207,25 @@ export default function OpenFindidModal({ findIdOpen, onClose }: ModalProps) {
                   />
                 </button>
               </div>
-
-              <button
-                onClick={handleComplete}
-                className="px-24 bg-[#578E7E] mt-20 text-white font-semibold py-3 rounded text-base"
-              >
-                확인
-              </button>
             </motion.div>
           )}
         </AnimatePresence>
+
+        {/* Footer button stays constant */}
+        <div className="w-full justify-center flex">
+          <button
+            onClick={
+              step === 1
+                ? handleNameSubmit
+                : step === 2
+                ? handlePhoneSubmit
+                : handleComplete
+            }
+            className="px-24 bg-[#578E7E] mt-20 text-white font-semibold py-3 rounded text-base flex justify-center"
+          >
+            {step === 1 ? "다음" : step === 2 ? "완료" : "확인"}
+          </button>
+        </div>
       </div>
     </div>
   );
