@@ -211,7 +211,6 @@ export default function OpenFindidModal({ findIdOpen, onClose }: ModalProps) {
           )}
         </AnimatePresence>
 
-        {/* Footer button stays constant */}
         <div className="w-full justify-center flex">
           <button
             onClick={

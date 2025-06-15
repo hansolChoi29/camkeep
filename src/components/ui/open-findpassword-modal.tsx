@@ -121,9 +121,9 @@ export default function OpenFindPasswordModal({
       onKeyDownCapture={(e) => {
         if (e.key === "Enter") handleNext();
       }}
-      className="bg-black bg-opacity-50 fixed inset-0 text-[#578E7E] flex justify-center items-center z-50"
+      className="bg-black bg-opacity-50 fixed inset-0 text-[#578E7E] flex justify-center items-center z-50 bg-transparent"
     >
-      <div className="bg-[#FFFAEC] shadow-xl rounded-xl sm:max-w-md w-[90%] relative px-6 py-8">
+      <div className="bg-[#FFFAEC] text-[#578E7E] shadow-lg w-full max-w-lg h-[420px] sm:h-[460px] sm:rounded-xl rounded-none p-6 relative flex flex-col justify-center">
         <button
           onClick={handleClose}
           className="absolute top-4 right-4 text-gray-500"
@@ -131,19 +131,36 @@ export default function OpenFindPasswordModal({
           <Image src="/icons/close.svg" alt="close" width={24} height={24} />
         </button>
 
-        <div className="text-xl sm:text-2xl font-bold mb-6 text-center">
-          CAMKEEP
+        <div>
+          {step === 1 && (
+            <div className="mb-10">
+              <p className="text-xl sm:text-2xl font-bold ">비밀번호 변경</p>
+              <p className="text-sm">가입정보를 입력해 주세요.</p>
+            </div>
+          )}
+          {step === 2 && (
+            <div className="mb-10">
+              <p className="text-xl sm:text-2xl font-bold ">비밀번호 변경</p>
+              <p className="text-sm">가입정보를 입력해 주세요.</p>
+            </div>
+          )}
+          {step === 3 && (
+            <div className="mb-10">
+              <p className="text-xl sm:text-2xl font-bold ">비밀번호 변경</p>
+              <p className="text-sm">거의 완료 되었습니다.</p>
+            </div>
+          )}
         </div>
 
         <AnimatePresence mode="wait">
           {step === 1 && (
             <motion.div
               key="step1"
+              className="mb-20"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
-              className="space-y-6"
               onAnimationComplete={() => {
                 if (emailRef.current) {
                   emailRef.current.focus();
@@ -159,12 +176,6 @@ export default function OpenFindPasswordModal({
                 className="placeholder:text-[#875A2C] text-sm p-3"
               />
               {error && <p className="text-red-500 text-sm">{error}</p>}
-              <button
-                onClick={handleNext}
-                className="w-full bg-[#578E7E] text-white font-semibold py-2 rounded"
-              >
-                다음
-              </button>
             </motion.div>
           )}
 
@@ -175,7 +186,7 @@ export default function OpenFindPasswordModal({
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
-              className="space-y-6"
+              className="space-y-6 mb-4"
               onAnimationComplete={() => {
                 if (phoneRef.current) {
                   phoneRef.current.focus();
@@ -191,15 +202,9 @@ export default function OpenFindPasswordModal({
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="전화번호 (하이픈 없이)"
-                className="placeholder:text-[#875A2C] text-sm p-3"
+                className="placeholder:text-[#875A2C] text-sm p-3 "
               />
               {error && <p className="text-red-500 text-sm">{error}</p>}
-              <button
-                onClick={handleNext}
-                className="w-full bg-[#578E7E] text-white font-semibold py-2 rounded"
-              >
-                다음
-              </button>
             </motion.div>
           )}
 
@@ -210,7 +215,6 @@ export default function OpenFindPasswordModal({
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
-              className="space-y-6"
               onAnimationComplete={() => {
                 if (passwordRef.current) {
                   passwordRef.current.focus();
@@ -218,15 +222,15 @@ export default function OpenFindPasswordModal({
                 }
               }}
             >
-              <p className="text-sm text-gray-500 text-center">
-                OTP는 자동 입력됩니다.
-              </p>
               <Input
                 type="text"
                 value={otp}
                 readOnly
-                className="bg-gray-100 text-center font-mono tracking-widest text-[#875A2C]"
+                className="bg-gray-100 text-center font-mono tracking-widest text-[#875A2C] "
               />
+              <p className="text-sm text-gray-500 text-end pb-2">
+                OTP는 자동 입력됩니다.
+              </p>
 
               <Input
                 ref={passwordRef}
@@ -234,7 +238,7 @@ export default function OpenFindPasswordModal({
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="새 비밀번호 (6자 이상)"
-                className="placeholder:text-[#875A2C] text-sm p-3"
+                className="placeholder:text-[#875A2C] text-sm p-3 mb-4"
               />
 
               <Input
@@ -251,31 +255,19 @@ export default function OpenFindPasswordModal({
               />
 
               {error && <p className="text-red-500 text-sm">{error}</p>}
-
-              <button
-                onClick={handleNext}
-                className={`w-full text-white font-semibold py-2 rounded ${
-                  password.length >= 6 && confirmPw
-                    ? "bg-[#578E7E] hover:bg-[#4b746c]"
-                    : "bg-gray-400 cursor-not-allowed"
-                }`}
-                disabled={password.length < 6 || !confirmPw}
-              >
-                비밀번호 변경
-              </button>
             </motion.div>
           )}
 
           {step === 4 && (
             <motion.div
               key="step4"
+              className="flex-col flex justify-center items-center"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
-              className="text-center space-y-6"
             >
-              <div className="flex justify-center">
+              <div className="pb-10">
                 <Image
                   src="/icons/check-auth.svg"
                   alt="완료"
@@ -287,18 +279,20 @@ export default function OpenFindPasswordModal({
                 비밀번호가 성공적으로 변경되었습니다.
                 <br /> 다시 로그인 해주세요.
               </p>
-              <button
-                onClick={() => {
-                  handleClose();
-                  window.location.reload();
-                }}
-                className="w-full bg-[#578E7E] text-white font-semibold py-2 rounded"
-              >
-                확인
-              </button>
             </motion.div>
           )}
         </AnimatePresence>
+
+        <div className="absolute bottom-6 left-0 w-full flex justify-center">
+          <button
+            onClick={
+              step === 1 ? handleNext : step == 2 ? handleNext : handleClose
+            }
+            className="px-24 bg-[#578E7E] text-white font-semibold py-3 rounded text-base"
+          >
+            {step === 1 ? "다음" : step === 2 ? "완료" : "확인"}
+          </button>
+        </div>
       </div>
     </div>
   );
