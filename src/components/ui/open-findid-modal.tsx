@@ -95,7 +95,14 @@ export default function OpenFindidModal({ findIdOpen, onClose }: ModalProps) {
         }
       }}
     >
-      <div className="bg-[#FFFAEC] text-[#578E7E] shadow-lg w-full max-w-lg h-[420px] sm:h-[460px] sm:rounded-xl rounded-none p-6 relative flex flex-col justify-center">
+      <div
+        className="bg-[#FFFAEC] text-[#578E7E] shadow-lg 
+        w-full h-screen
+             max-w-lg 
+            sm:h-[460px] sm:rounded-xl rounded-none 
+            p-6 relative flex flex-col justify-center
+      "
+      >
         <button onClick={handleComplete} className="absolute top-4 right-4">
           <Image src="/icons/close.svg" alt="close" width={24} height={24} />
         </button>

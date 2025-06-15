@@ -123,7 +123,12 @@ export default function OpenFindPasswordModal({
       }}
       className="bg-black bg-opacity-50 fixed inset-0 text-[#578E7E] flex justify-center items-center z-50 bg-transparent"
     >
-      <div className="bg-[#FFFAEC] text-[#578E7E] shadow-lg w-full max-w-lg h-[420px] sm:h-[460px] sm:rounded-xl rounded-none p-6 relative flex flex-col justify-center">
+      <div
+        className="w-full h-screen
+             max-w-lg 
+            sm:h-[460px] sm:rounded-xl
+             bg-[#FFFAEC] text-[#578E7E] shadow-lg h-rounded-none p-6 relative flex flex-col justify-center"
+      >
         <button
           onClick={handleClose}
           className="absolute top-4 right-4 text-gray-500"
