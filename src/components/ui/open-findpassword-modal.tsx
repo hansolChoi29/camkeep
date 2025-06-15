@@ -138,19 +138,19 @@ export default function OpenFindPasswordModal({
 
         <div>
           {step === 1 && (
-            <div className="mb-10">
+            <div className="sm:mb-10 mb-20">
               <p className="text-xl sm:text-2xl font-bold ">비밀번호 변경</p>
               <p className="text-sm">가입정보를 입력해 주세요.</p>
             </div>
           )}
           {step === 2 && (
-            <div className="mb-10">
+            <div className="sm:mb-10 mb-20">
               <p className="text-xl sm:text-2xl font-bold ">비밀번호 변경</p>
               <p className="text-sm">가입정보를 입력해 주세요.</p>
             </div>
           )}
           {step === 3 && (
-            <div className="mb-10">
+            <div className="sm:mb-10 mb-20">
               <p className="text-xl sm:text-2xl font-bold ">비밀번호 변경</p>
               <p className="text-sm">거의 완료 되었습니다.</p>
             </div>
@@ -191,7 +191,7 @@ export default function OpenFindPasswordModal({
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
-              className="space-y-6 mb-4"
+              className="space-y-6 sm:mb-4 mb-20"
               onAnimationComplete={() => {
                 if (phoneRef.current) {
                   phoneRef.current.focus();
@@ -220,6 +220,7 @@ export default function OpenFindPasswordModal({
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
+              className="sm:mb-1 mb-8"
               onAnimationComplete={() => {
                 if (passwordRef.current) {
                   passwordRef.current.focus();
@@ -252,21 +253,21 @@ export default function OpenFindPasswordModal({
                 onChange={(e) => setConfirmPw(e.target.value)}
                 placeholder="비밀번호 확인"
                 disabled={password.length < 6}
-                className={`text-sm p-3 ${
+                className={`text-sm p-3  ${
                   password.length < 6
                     ? "bg-gray-100 opacity-50 cursor-not-allowed"
                     : "bg-white"
                 }`}
               />
 
-              {error && <p className="text-red-500 text-sm">{error}</p>}
+              {error && <p className="text-red-500 text-sm ">{error}</p>}
             </motion.div>
           )}
 
           {step === 4 && (
             <motion.div
               key="step4"
-              className="flex-col flex justify-center items-center"
+              className="flex-col flex justify-center items-center sm:mb-1 mb-10"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
@@ -288,11 +289,9 @@ export default function OpenFindPasswordModal({
           )}
         </AnimatePresence>
 
-        <div className="absolute bottom-6 left-0 w-full flex justify-center">
+        <div className="sm:absolute bottom-6 left-0 w-full flex justify-center">
           <button
-            onClick={
-              step === 1 ? handleNext : step == 2 ? handleNext : handleClose
-            }
+            onClick={step === 4 ? handleClose : handleNext}
             className="px-24 bg-[#578E7E] text-white font-semibold py-3 rounded text-base"
           >
             {step === 1 ? "다음" : step === 2 ? "완료" : "확인"}

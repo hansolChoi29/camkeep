@@ -209,10 +209,10 @@ export default function OpenFindidModal({ findIdOpen, onClose }: ModalProps) {
                     className="text-xs underline ml-1"
                   >
                     <Image
-                      src={copied ? "/icons/auth-check.svg" : "/icons/copy.svg"}
+                      src={copied ? "/icons/check-auth.svg" : "/icons/copy.svg"}
                       alt={copied ? "복사 완료" : "복사"}
-                      width={14}
-                      height={14}
+                      width={20}
+                      height={20}
                     />
                   </button>
                 </div>
@@ -221,7 +221,7 @@ export default function OpenFindidModal({ findIdOpen, onClose }: ModalProps) {
           </AnimatePresence>
         </div>
 
-        <div className="absolute bottom-6 left-0 w-full flex justify-center">
+        <div className="sm:absolute bottom-6 left-0 w-full flex justify-center">
           <button
             onClick={
               step === 1
