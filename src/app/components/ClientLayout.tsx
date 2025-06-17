@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import SplashScreen from "./SplashScreen";
 import Header from "@/widgets/Header";
-import GNB from "@/features/GNB/GNB";
 import { useAuthStore } from "@/store/useAuthStore";
 import CommunityModal from "@/features/community/community-modal";
 import CommunityNewPostForm from "@/features/community/community-newpost-form";
@@ -74,7 +73,6 @@ export default function ClientLayout({
       <main className="flex-1 container mx-auto px-4 sm:px-6 lg:px-8">
         {children}
       </main>
-      <GNB onCommunityClick={() => setModalOpen(true)} />
       {modalOpen && (
         <CommunityModal open={modalOpen} onClose={() => setModalOpen(false)}>
           <CommunityNewPostForm onSubmit={handleNewPost} loading={submitting} />

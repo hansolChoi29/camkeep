@@ -207,7 +207,7 @@ export default function AuthClient({ mode }: AuthFormProps) {
                 name="name"
                 type="name"
                 required
-                className="focus:border-[#578E7E] rounded w-full p-2 placeholder:text-[#578E7E] focus:outline-none text-[#578E7E] font-bold"
+                className="focus:border-[#578E7E] rounded w-full p-2  focus:outline-none placeholder:text-[#578E7E] font-bold"
                 value={values.name}
                 onChange={handleChange}
               />
@@ -224,7 +224,7 @@ export default function AuthClient({ mode }: AuthFormProps) {
               name="email"
               type="email"
               required
-              className="focus:border-[#578E7E] rounded w-full p-2 placeholder:text-[#578E7E] focus:outline-none text-[#578E7E] font-bold"
+              className="focus:border-[#578E7E] rounded w-full p-2 placeholder:text-[#578E7E] focus:outline-none font-bold"
               value={values.email}
               onChange={handleChange}
             />
@@ -240,7 +240,7 @@ export default function AuthClient({ mode }: AuthFormProps) {
               name="password"
               type="password"
               required
-              className="focus:border-[#578E7E] rounded w-full p-2 placeholder:text-[#578E7E] focus:outline-none text-[#578E7E] font-bold"
+              className="focus:border-[#578E7E] rounded w-full p-2 placeholder:text-[#578E7E] focus:outline-none  font-bold"
               value={values.password}
               onChange={handleChange}
             />
@@ -261,7 +261,7 @@ export default function AuthClient({ mode }: AuthFormProps) {
                   name="confirmPassword"
                   type="password"
                   required
-                  className="focus:border-[#578E7E] rounded w-full p-2 placeholder:text-[#578E7E] focus:outline-none text-[#578E7E] font-bold"
+                  className="focus:border-[#578E7E] rounded w-full p-2 placeholder:text-[#578E7E] focus:outline-none  font-bold"
                   value={values.confirmPassword}
                   onChange={handleChange}
                 />
@@ -279,7 +279,7 @@ export default function AuthClient({ mode }: AuthFormProps) {
                   name="nickname"
                   type="text"
                   required
-                  className="focus:border-[#578E7E] rounded w-full p-2 placeholder:text-[#578E7E] focus:outline-none text-[#578E7E] font-bold"
+                  className="focus:border-[#578E7E] rounded w-full p-2 placeholder:text-[#578E7E] focus:outline-none  font-bold"
                   value={values.nickname}
                   onChange={handleChange}
                 />
@@ -298,7 +298,7 @@ export default function AuthClient({ mode }: AuthFormProps) {
                   placeholder="하이픈('-') 없이 숫자만 입력해주세요."
                   type="tel"
                   required
-                  className="focus:border-[#578E7E] rounded w-full p-2 placeholder:text-[#578E7E] focus:outline-none text-[#578E7E] font-bold"
+                  className="focus:border-[#578E7E] rounded w-full p-2 placeholder:text-[#578E7E] focus:outline-none  font-bold"
                   value={values.phone}
                   onChange={handleChange}
                 />
