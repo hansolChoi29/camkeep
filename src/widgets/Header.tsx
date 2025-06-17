@@ -1,15 +1,21 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { gnbItems } from "@/features/GNB/gnbData";
-import HomeCampingMonth from "@/features/home/home-camping-month";
 import { usePathname } from "next/navigation";
+import HomeCampingMonth from "@/features/home/home-camping-month";
+import MenuIcon from "@/features/menu/menui-icon";
+import { useAuthStore } from "@/store/useAuthStore";
 
 export default function Header() {
-  const [open, setOpen] = useState(false);
+  const { isLoggedIn } = useAuthStore();
   const pathname = usePathname();
+  const isMainPage = pathname === "/";
+
+  const navClass = (href: string) =>
+    `${
+      pathname === href ? "text-red-500" : "text-[#578E7E]"
+    } transition-colors hover:text-red-500`;
 
   return (
     <>
@@ -21,30 +27,42 @@ export default function Header() {
           CAMKEEP
         </Link>
 
-        <nav className="hidden sm:flex flex-1 justify-center space-x-6 flex-nowrap ml-2">
-          {gnbItems.map((item) => {
-            const isActive = pathname === item.href;
-            return (
-              <Link
-                key={item.id}
-                href={item.href}
-                className={`
-        text-xl flex items-center space-x-1 font-medium 
-        text-[#578E7E] hover:text-red-500 transition-colors
-        whitespace-nowrap  /* 글자 줄 바꿈 방지 */ ${
-          isActive ? "text-red-500" : "text-[#578E7E] hover:text-red-500"
-        }
-      `}
-              >
-                <span>{item.label}</span>
-              </Link>
-            );
-          })}
-        </nav>
-
         <div className="flex-1" />
 
         <div className="flex items-center space-x-4">
+          <Link href="/camping" className={navClass("/camping")}>
+            캠핑장
+          </Link>
+          <Link href="/equipment-list" className={navClass("/equipment-list")}>
+            용품샵
+          </Link>
+          <Link href="/community" className={navClass("/community")}>
+            커뮤니티
+          </Link>
+          <Link href="/check-list" className={navClass("/check-list")}>
+            체크리스트
+          </Link>
+
+          {isLoggedIn ? (
+            <Link href="/mypage" className={navClass("/mypage")}>
+              마이페이지
+            </Link>
+          ) : (
+            !isMainPage && (
+              <>
+                <Link href="/auth/login" className={navClass("/auth/login")}>
+                  로그인
+                </Link>
+                <Link
+                  href="/auth/register"
+                  className={navClass("/auth/register")}
+                >
+                  회원가입
+                </Link>
+              </>
+            )
+          )}
+
           <Link href="/newbie-guide" className="transform hover:scale-110">
             <Image
               src="/images/header-newbie.png"
@@ -53,22 +71,8 @@ export default function Header() {
               height={32}
             />
           </Link>
+          <MenuIcon />
         </div>
-
-        {open && (
-          <nav className="absolute top-16 left-0 w-full bg-white shadow-lg sm:hidden flex flex-col divide-y divide-gray-200 z-50">
-            {gnbItems.map((item) => (
-              <Link
-                key={item.id}
-                href={item.href}
-                onClick={() => setOpen(false)}
-                className="px-4 py-3 flex items-center space-x-2 text-[#578E7E] hover:bg-gray-100"
-              >
-                <span>{item.label}</span>
-              </Link>
-            ))}
-          </nav>
-        )}
       </header>
       <HomeCampingMonth />
     </>
