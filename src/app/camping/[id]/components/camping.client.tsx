@@ -54,7 +54,7 @@ export default function CampingDetailClient({
         </div>
         <div className="flex flex-col gap-10">
           <div className="border rounded-b-2xl px-4 py-2 shadow mt-10">
-            <h1>캠핑장 소개</h1>
+            <h1 className="sm:text-base text-sm">캠핑장 소개</h1>
             <div className="flex justify-center">
               <p className="mt-4">
                 {camp.lineIntro ??
@@ -65,11 +65,16 @@ export default function CampingDetailClient({
           </div>
 
           <div className="border rounded-b-2xl px-4 py-2 shadow ">
-            <h1>이용시설</h1>
+            <h1 className="sm:text-base text-sm">이용시설</h1>
             {camp.sbrsCl ? (
-              <ul className="mt-2 flex list-disc list-inside space-x-4 place-content-evenly">
+              <ul className="flex flex-wrap justify-center list-disc list-inside space-x-2 place-content-evenly">
                 {camp.sbrsCl.split(",").map((facility, idx) => (
-                  <li key={idx}>{facility.trim()}</li>
+                  <p
+                    key={idx}
+                    className="bg-gray-200  sm:text-base  text-xs mb-1 rounded-xl px-1 py-1"
+                  >
+                    #{facility.trim()}
+                  </p>
                 ))}
               </ul>
             ) : (
@@ -78,7 +83,7 @@ export default function CampingDetailClient({
           </div>
 
           <div className=" rounded-b-2xl px-4 py-2 shadow ">
-            <h1>취사장 형태</h1>
+            <h1 className="sm:text-base text-sm">취사장 형태</h1>
             <div className="flex justify-center">
               <p className="mt-2 ">
                 {camp.brazierCl === "개별"
@@ -94,19 +99,19 @@ export default function CampingDetailClient({
         <div className="flex w-full justify-center gap-2 mt-20 mb-10">
           <Link
             href={camp.homepage!}
-            className=" bg-[#85D962] rounded-lg px-2 py-2 text-white hover:bg-[#54ac2e]"
+            className=" bg-[#85D962] sm:text-base text-xs rounded-lg px-2 py-2 text-white hover:bg-[#54ac2e]"
           >
             홈페이지로 이동
           </Link>
           <Link
             href={camp.resveUrl!}
-            className=" bg-[#85D962] rounded-lg px-2 py-2 text-white hover:bg-[#54ac2e]"
+            className=" bg-[#85D962] sm:text-base text-xs rounded-lg px-2 py-2 text-white hover:bg-[#54ac2e]"
           >
             예약사이트로 이동
           </Link>
           <Link
             href="/camping"
-            className=" bg-[#578E7E] rounded-lg px-2 py-2 text-white hover:bg-[#178e6c]"
+            className=" bg-[#578E7E] sm:text-base text-xs rounded-lg px-2 py-2 text-white hover:bg-[#178e6c]"
           >
             캠핑장 목록으로 돌아가기
           </Link>
