@@ -7,6 +7,8 @@ interface AuthState {
   user: User | null;
   setSession(session: Session | null): void;
   clearSession(): void;
+  // 모바일 헤더전용
+  isLoggedIn: boolean;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -16,6 +18,7 @@ export const useAuthStore = create<AuthState>()(
       user: null,
       setSession: (session) => set({ session, user: session?.user ?? null }),
       clearSession: () => set({ session: null, user: null }),
+      isLoggedIn: false,
     }),
     {
       name: "auth-storage",
@@ -24,3 +27,9 @@ export const useAuthStore = create<AuthState>()(
     }
   )
 );
+
+useAuthStore.subscribe((state: AuthState, prevState?: AuthState) => {
+  if (state.session !== prevState?.session) {
+    useAuthStore.setState({ isLoggedIn: state.session !== null });
+  }
+});

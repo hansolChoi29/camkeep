@@ -97,32 +97,32 @@ export default function CommunityNewPostForm({ onSubmit, loading }: Props) {
   };
 
   return (
-    <>
+    <div>
       <form onSubmit={handle} className="space-y-4">
         <input
           type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="제목"
-          className="w-full border px-3 py-2 rounded"
+          className="w-full sm:text-base text-xs border px-3 py-2 rounded"
         />
         <textarea
           value={content}
           onChange={(e) => setContent(e.target.value)}
           placeholder="내용"
-          className="w-full border px-3 py-2 rounded h-32"
+          className="w-full border px-3 py-2 rounded h-32 sm:text-base text-xs"
         />
         <input
           type="file"
           multiple
           accept="image/*"
           onChange={(e) => setFiles(e.target.files)}
-          className="w-full"
+          className="w-full sm:text-base text-xs"
         />
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-[#578E7E] text-white px-4 py-2 rounded"
+          className="w-full sm:text-base text-xs bg-[#578E7E] text-white px-4 py-2 rounded"
         >
           {loading ? "작성 중…" : "게시하기"}
         </button>
@@ -135,6 +135,6 @@ export default function CommunityNewPostForm({ onSubmit, loading }: Props) {
           onClose={() => setToast(null)}
         />
       )}
-    </>
+    </div>
   );
 }
