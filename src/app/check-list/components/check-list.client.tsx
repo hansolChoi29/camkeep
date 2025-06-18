@@ -456,7 +456,7 @@ export default function CheckListClient() {
                         </button>
                         <button onClick={() => setEditItemId(null)}>
                           <Image
-                            src="/iamges/delete.svg"
+                            src="/icons/delete.svg"
                             alt="delete"
                             width={16}
                             height={16}
