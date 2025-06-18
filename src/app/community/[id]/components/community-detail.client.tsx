@@ -91,7 +91,7 @@ export default function CommunityDetailClient({
     router.refresh();
   };
 
-  // 사진 삭제 헬퍼(*중복 방지)
+  // 사진 삭제 헬퍼
   const removePhoto = (idx: number) => {
     setPhotos((prev) => prev.filter((_, i) => i !== idx));
   };
@@ -99,9 +99,28 @@ export default function CommunityDetailClient({
   return (
     <main className="max-w-2xl mx-auto my-12 space-y-6 mb-20">
       <Card className="shadow-lg rounded-lg overflow-hidden">
-        <CardHeader className="px-4 py-2">
-          {/* 게시글 삭제 버튼 */}
-          <div className="flex justify-end">
+        <CardHeader className="px-4 py-2 space-y-2">
+          {/* 상단: 프로필+닉네임 + 삭제 버튼 */}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center">
+              {post.user?.profile && (
+                <Image
+                  src={post.user.profile}
+                  alt={post.user.nickname}
+                  width={40}
+                  height={40}
+                  className="rounded-full object-cover"
+                />
+              )}
+              <div className="ml-3">
+                <p className="font-medium">
+                  {post.user?.nickname || "익명 사용자"}
+                </p>
+                <p className="text-xs text-gray-500">
+                  {timeAgo(post.created_at)}
+                </p>
+              </div>
+            </div>
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <button className="px-3 py-1 rounded hover:bg-gray-100">
@@ -132,28 +151,7 @@ export default function CommunityDetailClient({
             </AlertDialog>
           </div>
 
-          {/* 작성자 정보 */}
-          <div className="flex items-center mb-2">
-            {post.user?.profile && (
-              <Image
-                src={post.user.profile}
-                alt={post.user.nickname}
-                width={40}
-                height={40}
-                className="rounded-full object-cover"
-              />
-            )}
-            <div className="ml-3">
-              <p className="font-medium">
-                {post.user?.nickname || "익명 사용자"}
-              </p>
-              <p className="text-xs text-gray-500">
-                {timeAgo(post.created_at)}
-              </p>
-            </div>
-          </div>
-
-          {/* 타이틀 & 수정 토글 */}
+          {/* 하단: 타이틀 + 수정 토글 */}
           <div className="flex justify-between items-center">
             {isEditing ? (
               <input
@@ -252,20 +250,22 @@ export default function CommunityDetailClient({
                   alt={post.title}
                   width={500}
                   height={500}
-                  className="object-contain"
+                  className="object-contain sm:w-auto w-60"
                 />
               </div>
             )}
 
-            <CardContent className="px-4">
-              <p className="whitespace-pre-wrap">{post.content}</p>
+            <CardContent className="px-4 mt-2">
+              <p className="whitespace-pre-wrap sm:text-xl text-sm">
+                {post.content}
+              </p>
             </CardContent>
 
             <CardFooter className="px-4 py-2 flex justify-between items-center border-t">
               <LikeButton postId={post.id} />
               <button
                 onClick={() => setOpenComments(!openComments)}
-                className="text-sm text-[#578E7E] hover:underline"
+                className="sm:text-sm text-xs text-[#578E7E] hover:underline"
               >
                 {openComments ? "댓글 숨기기" : "댓글 보기"}
               </button>
@@ -282,7 +282,7 @@ export default function CommunityDetailClient({
 
       <Link
         href="/mypage"
-        className="inline-block border p-1 bg-[#578E7E] rounded text-white transition hover:scale-105"
+        className="inline-block border p-1 bg-[#578E7E] hover:bg-[#1c6a53] rounded text-white sm:text-base text-sm"
       >
         뒤로가기
       </Link>

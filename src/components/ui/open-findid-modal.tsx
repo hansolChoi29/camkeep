@@ -87,7 +87,7 @@ export default function OpenFindidModal({ findIdOpen, onClose }: ModalProps) {
   return (
     <div
       tabIndex={-1}
-      className="bg-black bg-opacity-50 fixed inset-0 text-[#578E7E] flex justify-center items-center z-50 bg-transparent"
+      className="fixed inset-0 bg-black/70 flex justify-center items-center z-50"
       onKeyDownCapture={(e) => {
         if (e.key === "Enter") {
           if (step === 1) handleNameSubmit();
@@ -99,7 +99,7 @@ export default function OpenFindidModal({ findIdOpen, onClose }: ModalProps) {
         className="w-full h-screen
              max-w-lg 
             sm:h-[460px] sm:rounded-xl
-             bg-[#FFFAEC] text-[#578E7E] shadow-lg h-rounded-none sm:p-6 relative flex flex-col 
+             bg-[#FFFAEC] text-[#578E7E] shadow-lg h-rounded-none sm:p-6  relative flex flex-col 
       "
       >
         <div
@@ -158,7 +158,7 @@ export default function OpenFindidModal({ findIdOpen, onClose }: ModalProps) {
             {step === 1 && (
               <motion.div
                 key="step1"
-                className="mb-20 sm:px-0 px-6 sm:mt-0 mt-10"
+                className="mb-20 sm:px-0 px-12 sm:mt-0 mt-10"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
@@ -186,7 +186,7 @@ export default function OpenFindidModal({ findIdOpen, onClose }: ModalProps) {
             {step === 2 && (
               <motion.div
                 key="step2"
-                className="sm:mb-4 mb-20 sm:px-0 px-6"
+                className="sm:mb-4 mb-20 sm:px-0 px-12"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
