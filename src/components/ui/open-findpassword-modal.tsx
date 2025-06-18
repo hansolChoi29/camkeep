@@ -121,7 +121,7 @@ export default function OpenFindPasswordModal({
       onKeyDownCapture={(e) => {
         if (e.key === "Enter") handleNext();
       }}
-      className="bg-black bg-opacity-50 fixed inset-0 text-[#578E7E] flex justify-center items-center z-50 bg-transparent"
+      className="fixed inset-0 bg-black/70 flex justify-center items-center z-50"
     >
       <div
         className="w-full h-screen
@@ -193,7 +193,7 @@ export default function OpenFindPasswordModal({
             {step === 1 && (
               <motion.div
                 key="step1"
-                className="mb-20 sm:px-0 px-6 sm:mt-0 mt-10"
+                className="mb-20 sm:px-0 px-12 sm:mt-0 mt-10"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
@@ -223,7 +223,7 @@ export default function OpenFindPasswordModal({
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3 }}
-                className="space-y-6 sm:mb-4 mb-20 sm:px-0 px-6"
+                className="space-y-6 sm:mb-4 mb-20 sm:px-0 px-12"
                 onAnimationComplete={() => {
                   if (phoneRef.current) {
                     phoneRef.current.focus();
@@ -252,7 +252,7 @@ export default function OpenFindPasswordModal({
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3 }}
-                className="mb-10  sm:px-0 px-6"
+                className="mb-10  sm:px-0 px-12"
                 onAnimationComplete={() => {
                   if (passwordRef.current) {
                     passwordRef.current.focus();
@@ -313,7 +313,7 @@ export default function OpenFindPasswordModal({
                     height={70}
                   />
                 </div>
-                <div className="flex flex-col justify-center items-center text-[#875A2C] text-sm sm:text-base">
+                <div className="flex flex-col justify-center items-center text-[#578E7E] text-sm sm:text-base">
                   <p>비밀번호가 성공적으로 변경되었습니다.</p>
                   <p>다시 로그인 해주세요.</p>
                 </div>

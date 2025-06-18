@@ -182,7 +182,7 @@ export default function AuthClient({ mode }: AuthFormProps) {
   }, [searchParams]);
 
   return (
-    <div className="w-full max-w-full sm:max-w-md md:max-w-lg lg:max-w-xl px-4 flex items-center justify-center gowun bg-[#578E7E] ">
+    <div className="w-full max-w-full sm:max-w-md md:max-w-lg lg:max-w-xl sm:px-4 px-12 flex items-center justify-center gowun bg-[#578E7E] ">
       <div className="w-full max-w-md">
         <Input type="hidden" name="callbackUrl" value={callbackUrl} />
         <div className="">

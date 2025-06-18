@@ -2,14 +2,8 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { NaverItem } from "@/app/equipment-list/components/equipmentList.client";
 import EquipmentModal from "./equipment-modal";
-
-interface EquipmentListProps {
-  selected: string;
-  list: NaverItem[];
-  errors: Record<string, string>;
-}
+import { EquipmentListProps, NaverItem } from "@/types/camping";
 
 export default function EquipmentList({
   selected,

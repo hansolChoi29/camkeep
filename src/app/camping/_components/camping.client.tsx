@@ -4,13 +4,7 @@ import { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { CampingItem, fetchAllCampingList } from "@/lib/camping";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardContent,
-  CardFooter,
-} from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 
 export default function CampingClient() {
@@ -66,57 +60,62 @@ export default function CampingClient() {
           “{searchTerm}” 검색 결과가 없습니다.
         </p>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6
+        
+        "
+        >
           {filtered.map((camp) => (
-            <Card
+            <Link
               key={camp.contentId}
-              className="flex flex-col overflow-hidden"
+              href={`/camping/${camp.contentId}`}
+              passHref
             >
-              {/* 이미지 */}
-              {camp.firstImageUrl ? (
-                <div className="relative w-full h-40">
-                  <Image
-                    src={camp.firstImageUrl}
-                    alt={camp.facltNm}
-                    fill
-                    style={{ objectFit: "cover" }}
-                  />
-                </div>
-              ) : (
-                <div className="w-full h-40 bg-gray-200 flex items-center justify-center text-sm text-gray-500">
-                  <Image
-                    src="/images/noimages.svg"
-                    alt="noimages"
-                    width={1000}
-                    height={1000}
-                  />
-                </div>
-              )}
+              <Card
+                key={camp.contentId}
+                className="flex flex-col overflow-hidden  transform hover:-translate-y-1
+        transition-all duration-200"
+              >
+                {/* 이미지 */}
+                {camp.firstImageUrl ? (
+                  <>
+                    <div className="relative w-full h-40">
+                      <Image
+                        src={camp.firstImageUrl}
+                        alt={camp.facltNm}
+                        fill
+                        style={{ objectFit: "cover" }}
+                      />
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="w-full h-40 bg-gray-200 flex items-center justify-center text-sm text-gray-500">
+                      <Image
+                        src="/images/noimages.svg"
+                        alt="noimages"
+                        width={1000}
+                        height={1000}
+                      />
+                    </div>
+                  </>
+                )}
 
-              {/* 제목 */}
-              <CardHeader className="px-4 pt-4 pb-0">
-                <CardTitle className="text-base sm:text-lg">
-                  {camp.facltNm}
-                </CardTitle>
-              </CardHeader>
+                {/* 제목 */}
+                <CardHeader className="px-4 pt-4 pb-0">
+                  <CardTitle className="text-base sm:text-lg">
+                    {camp.facltNm}
+                  </CardTitle>
+                </CardHeader>
 
-              {/* 주소 */}
-              <CardContent className="px-4 py-2 flex-1">
-                <p className="text-sm text-gray-600 line-clamp-2">
-                  {camp.addr1}
-                </p>
-              </CardContent>
-
-              {/* 자세히 보기 버튼 */}
-              <CardFooter className="px-4 py-2">
-                <Link
-                  href={`/camping/${camp.contentId}`}
-                  className="text-sm text-[#578E7E] hover:underline"
-                >
-                  자세히 보기 →
-                </Link>
-              </CardFooter>
-            </Card>
+                {/* 주소 */}
+                <CardContent className="px-4 py-2 flex-1">
+                  <p className="text-sm text-gray-600 line-clamp-2">
+                    {camp.addr1}
+                  </p>
+                </CardContent>
+              </Card>
+            </Link>
           ))}
         </div>
       )}

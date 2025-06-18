@@ -14,7 +14,7 @@ import {
   CATEGORIES,
   type Category,
 } from "@/features/equipment-list/equipment-data";
-import type { NaverItem } from "@/app/equipment-list/components/equipmentList.client";
+import { NaverItem } from "@/types/camping";
 
 export default function HomeEquipmentRecommend() {
   //  카테고리별 데이터를 저장할 state

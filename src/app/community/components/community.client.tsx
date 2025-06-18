@@ -85,14 +85,25 @@ export default function CommunityClient({
   };
 
   return (
-    <div className="w-full mt-20 space-y-6 mb-20">
+    <div className="mt-10 sm:mt-20 mb-20 ">
       {error && <div className="text-red-500">{error}</div>}
       <button
         onClick={() => setModalOpen(true)}
-        className="hidden lg:inline-flex fixed bottom-8 right-8 bg-[#578E7E] text-white p-4 rounded-full shadow-lg hover:bg-[#3d665e] transition"
+        className="fixed bottom-2 right-8  mb-2        
+    sm:static sm:bottom-auto sm:right-auto  
+    inline-flex items-center justify-center
+    text-sm sm:text-base text-white bg-white border
+     p-2 sm:border-none rounded-full 
+    transition z-50"
         aria-label="새 글 작성"
       >
-        게시하기
+        <Image
+          src="/icons/write.svg"
+          alt="새 글 작성"
+          width={37}
+          height={48}
+          className="sm:w-10 w-8 "
+        />
       </button>
       <CommunityModal open={modalOpen} onClose={() => setModalOpen(false)}>
         <CommunityNewPostForm onSubmit={handleNewPost} loading={loadingPost} />
@@ -101,9 +112,9 @@ export default function CommunityClient({
       {posts.map((p) => {
         const photos = normalizePhotos(p.photos);
         return (
-          <Card key={p.id} className="rounded-lg overflow-hidden shadow-md ">
+          <Card key={p.id} className=" rounded-lg overflow-hidden shadow-md ">
             <div className="flex ">
-              <div className="w-full">
+              <div className="w-full ">
                 <div>
                   <CardHeader className="flex flex-row items-center h-full px-4">
                     {p.user?.profile && (
