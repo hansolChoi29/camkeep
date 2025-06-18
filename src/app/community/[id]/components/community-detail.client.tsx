@@ -74,8 +74,8 @@ export default function CommunityDetailClient({
   };
 
   return (
-    <main className="max-w-2xl mx-auto my-12 space-y-6 mb-20">
-      <Card className="shadow-lg rounded-lg overflow-hidden">
+    <main className="max-w-2xl  mx-auto my-12 space-y-6 mb-20">
+      <Card className="shadow-lg rounded-lg overflow-hidden  ">
         <CardHeader className="px-4 py-2">
           {/* 작성자 정보 */}
           <div className="flex items-center mb-2">
