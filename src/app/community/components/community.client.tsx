@@ -85,19 +85,25 @@ export default function CommunityClient({
   };
 
   return (
-    <div className="mt-20 mb-20 ">
+    <div className="mt-10 sm:mt-20 mb-20 ">
       {error && <div className="text-red-500">{error}</div>}
       <button
         onClick={() => setModalOpen(true)}
-        className="fixed bottom-12 right-8  mb-10        
+        className="fixed bottom-2 right-8  mb-2        
     sm:static sm:bottom-auto sm:right-auto  
     inline-flex items-center justify-center
-    text-sm sm:text-base text-white
-     p-2 rounded-full shadow-lg
-    transition"
+    text-sm sm:text-base text-white bg-white border
+     p-2 sm:border-none rounded-full 
+    transition z-50"
         aria-label="새 글 작성"
       >
-        <Image src="/icons/write.svg" alt="새 글 작성" width={48} height={48} />
+        <Image
+          src="/icons/write.svg"
+          alt="새 글 작성"
+          width={37}
+          height={48}
+          className="sm:w-10 w-8 "
+        />
       </button>
       <CommunityModal open={modalOpen} onClose={() => setModalOpen(false)}>
         <CommunityNewPostForm onSubmit={handleNewPost} loading={loadingPost} />

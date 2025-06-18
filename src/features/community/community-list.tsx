@@ -1,4 +1,5 @@
 "use client";
+
 import { SimpleToast } from "@/app/components/SimpleToast";
 import { timeAgo } from "@/lib/utils";
 import Image from "next/image";
@@ -10,6 +11,7 @@ interface Comment {
   created_at: string;
   user: { nickname: string; profile: string | null };
 }
+
 interface CommentsListProps {
   postId: string;
   onCommentAdded?: () => void;
@@ -25,9 +27,8 @@ export default function CommentsList({
   const [toast, setToast] = useState<string | null>(null);
   const [toastType, setToastType] = useState<"success" | "error" | "warning">(
     "success"
-  ); // 알림 타입 관리
+  );
 
-  // 1) 댓글 불러오기
   const fetchComments = () =>
     fetch(`/api/community/${postId}/comments`)
       .then(async (res) => {
@@ -41,7 +42,6 @@ export default function CommentsList({
     fetchComments();
   }, [postId]);
 
-  // 2) 댓글 작성
   const submit = async () => {
     if (!newComment.trim()) {
       setError("댓글 내용을 입력해 주세요.");
@@ -66,31 +66,40 @@ export default function CommentsList({
   return (
     <div className="space-y-2 w-full">
       {error && <div className="text-red-500">{error}</div>}
+
       <div className="space-y-1">
         {comments.map((c) => (
-          <div key={c.id} className="flex items-center border-t p-2 ">
-            <div className="flex items-center justify-center flex-shrink-0 ">
+          <div
+            key={c.id}
+            className="flex flex-col sm:flex-row items-start sm:items-center border-t p-2"
+          >
+            {/* 프로필 · 닉네임 · 내용 */}
+            <div className="flex items-start sm:items-center space-x-2 w-full sm:w-auto">
               {c.user.profile && (
                 <Image
-                  src={c.user.profile}
+                  src={c.user.profile ?? "/icons/myprofile.svg"}
                   alt={c.user.nickname}
                   width={32}
                   height={32}
                   className="rounded-full object-cover border"
                 />
               )}
+              {/* break-words : 강제 개행 */}
+              <div className="flex flex-col break-words w-full">
+                <p className="text-xs  text-[#578E7E] font-bold">
+                  {c.user.nickname}
+                </p>
+                <p className="text-xs break-words">{c.content}</p>
+              </div>
+            </div>
 
-              <p className="text-sm font-medium ml-1">{c.user.nickname} : </p>
-            </div>
-            <div className="w-full flex items-center ">
-              <p className="text-sm">{c.content}</p>
-            </div>
-            <div className="w-full flex justify-end">
-              <time className="text-xs  flex ">{timeAgo(c.created_at)}</time>
-            </div>
+            <time className="text-xs text-gray-500 mt-1 sm:mt-0 sm:ml-auto">
+              {timeAgo(c.created_at)}
+            </time>
           </div>
         ))}
       </div>
+
       <div className="flex space-x-2">
         <input
           className="flex-1 border px-2 py-1 rounded"
@@ -105,6 +114,7 @@ export default function CommentsList({
           등록
         </button>
       </div>
+
       {toast && (
         <SimpleToast
           message={toast}
