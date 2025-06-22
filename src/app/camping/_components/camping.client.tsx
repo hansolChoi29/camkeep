@@ -48,27 +48,25 @@ export default function CampingClient() {
   if (filtered.length === 0)
     return <p className="p-4 text-center">캠핑장 데이터가 없습니다.</p>;
 
-  // — 페이지네이션 숫자 배열 생성 헬퍼
-  function getPageRange(current: number, total: number) {
-    const delta = 2; // 현재 페이지 기준 앞뒤로 몇 개씩
+  const getPageRange = (current: number, total: number) => {
+    const delta = 2;
     const range: (number | string)[] = [];
-    let lastPage = 0;
-
+    let last = 0;
     for (let i = 1; i <= total; i++) {
       if (
         i === 1 ||
         i === total ||
         (i >= current - delta && i <= current + delta)
       ) {
-        if (lastPage && i - lastPage > 1) {
+        if (last && i - last > 1) {
           range.push("...");
         }
         range.push(i);
-        lastPage = i;
+        last = i;
       }
     }
     return range;
-  }
+  };
 
   const pages = getPageRange(pageNo, totalPages);
 
@@ -129,7 +127,6 @@ export default function CampingClient() {
         ))}
       </div>
 
-      {/* 페이지네이션 */}
       <div className="flex justify-center items-center space-x-2">
         <button
           onClick={() => setPageNo((p) => Math.max(p - 1, 1))}
@@ -139,24 +136,31 @@ export default function CampingClient() {
           이전
         </button>
 
-        {pages.map((p, idx) =>
-          typeof p === "string" ? (
-            <span key={`dot-${idx}`} className="px-2">
-              …
-            </span>
-          ) : (
-            <button
-              key={p}
-              onClick={() => setPageNo(p)}
-              className={`px-3 py-1 border rounded ${
-                pageNo === p ? "bg-[#578E7E] text-white" : ""
-              }`}
-            >
-              {p}
-            </button>
-          )
-        )}
+        <span className="sm:hidden px-2 text-sm">
+          {pageNo} / {totalPages}
+        </span>
 
+        <div className="hidden sm:flex space-x-1">
+          {pages.map((p, idx) =>
+            typeof p === "string" ? (
+              <span key={`dot-${idx}`} className="px-2">
+                …
+              </span>
+            ) : (
+              <button
+                key={p}
+                onClick={() => setPageNo(p)}
+                className={`px-3 py-1 border rounded ${
+                  pageNo === p ? "bg-blue-500 text-white" : ""
+                }`}
+              >
+                {p}
+              </button>
+            )
+          )}
+        </div>
+
+        {/* 모바일 전용 */}
         <button
           onClick={() => setPageNo((p) => Math.min(p + 1, totalPages))}
           disabled={pageNo === totalPages}
