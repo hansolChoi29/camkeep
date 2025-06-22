@@ -23,29 +23,35 @@ export interface CampingItem {
   intro?: string;
 }
 
-export interface Camp {
-  id: string;
-  name: string;
-  address: string;
-  img?: string;
+export interface CampingListResponse {
+  items: CampingItem[];
+  totalCount: number;
 }
+
 const campingListCache: {
   [key: string]: {
     data: CampingItem[];
+    totalCount: number;
     timestamp: number;
   };
 } = {};
+
 export async function fetchCampingList(
   pageNo: number = 1,
   numOfRows: number = 20
-): Promise<CampingItem[]> {
+): Promise<CampingListResponse> {
   const cacheKey = `${pageNo}-${numOfRows}`;
   const now = Date.now();
 
+  // 캐시 유효하면 캐시된 데이터와 totalCount 반환
   const cached = campingListCache[cacheKey];
   if (cached && now - cached.timestamp < 600_000) {
-    return cached.data;
+    return {
+      items: cached.data,
+      totalCount: cached.totalCount,
+    };
   }
+
   const { data } = await axios.get(
     "https://apis.data.go.kr/B551011/GoCamping/basedList",
     {
@@ -66,32 +72,20 @@ export async function fetchCampingList(
     throw new Error(header?.resultMsg || "API error");
   }
 
-  const raw = data.response.body.items?.item;
+  const body = data.response.body;
+  const raw = body.items?.item;
   const items = Array.isArray(raw) ? raw : raw ? [raw] : [];
+  // totalCount 필드가 있으면 사용, 없으면 배열 길이 사용
+  const totalCount = body.totalCount ?? items.length;
+
+  // 캐시에 저장
   campingListCache[cacheKey] = {
     data: items,
+    totalCount,
     timestamp: now,
   };
 
-  return items;
-}
-
-/* 전체 캠핑장 목록 한 번에 가져오기 (페이징 자동)
- */
-export async function fetchAllCampingList(): Promise<CampingItem[]> {
-  const pageSize = 1000;
-  let pageNo = 1;
-  const allItems: CampingItem[] = [];
-
-  while (true) {
-    const items = await fetchCampingList(pageNo, pageSize);
-    if (items.length === 0) break;
-    allItems.push(...items);
-    if (items.length < pageSize) break;
-    pageNo += 1;
-  }
-
-  return allItems;
+  return { items, totalCount };
 }
 
 // 동적세그먼트 동작 불가능 문제
@@ -99,22 +93,32 @@ export async function fetchAllCampingList(): Promise<CampingItem[]> {
 export async function fetchCampingById(
   id: string
 ): Promise<CampingItem | null> {
-  const list = await fetchAllCampingList();
-  // 여기는 contentId가 string이기 때문에 toString으로 비교
-  //detailCommon 호출 → 500 에러, catch → null 반환
-  //목록 조회 fallback (페이징 돌면서 basedList 호출) → 여기도 키 누락 등으로 빈 배열
+  const pageSize = 1000; // 한 페이지에 최대 1000개 로드
+  let pageNo = 1;
 
-  // 즉 detail API 호출을 모두 빼고, 이미 잘 받아오는 basedList 데이터만 뒤져서
-  // contentId 가 일치하는 항목을 찾으니 항상 camp 에 실제 객체가 들어오고
-  // notFound() 로 빠지지 않아서 404 없이 정상 렌더링
-  const found = list.find((item) => item.contentId.toString() === id);
-  return found ?? null;
+  while (true) {
+    const { items } = await fetchCampingList(pageNo, pageSize);
+    if (items.length === 0) break; // 더 이상 데이터 없으면 중단
+    const found = items.find((item) => item.contentId.toString() === id);
+    if (found) return found; // 발견 즉시 반환
+    if (items.length < pageSize) break; // 마지막 페이지였다면 중단
+    pageNo += 1;
+  }
+
+  return null; 
 }
-export async function getPostById(id: string) {
-  const base = process.env.NEXT_PUBLIC_BASE_URL!;
-  const res = await fetch(`${base}/api/community/${id}`, {
-    cache: "no-store",
-  });
-  if (!res.ok) throw new Error("포스트를 불러오는데 실패했습니다.");
-  return res.json();
+export async function fetchAllCampingList(): Promise<CampingItem[]> {
+  const pageSize = 1000;
+  let pageNo = 1;
+  const allItems: CampingItem[] = [];
+
+  while (true) {
+    const { items } = await fetchCampingList(pageNo, pageSize);
+    if (items.length === 0) break;
+    allItems.push(...items);
+    if (items.length < pageSize) break;
+    pageNo += 1;
+  }
+
+  return allItems;
 }

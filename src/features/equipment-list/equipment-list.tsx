@@ -33,47 +33,51 @@ export default function EquipmentList({
                2xl:grid-cols-8    /* 2xl 이상: 8열 */"
         >
           {list.map((item, i) => (
-            <li
-              key={i}
-              className="
-                     w-full flex flex-col items-center
+            <>
+              <div
+                className="w-full flex flex-col items-center
         rounded-lg overflow-hidden
         shadow-[4px_4px_4px_rgba(0,0,0,0.25)]
         transform hover:-translate-y-1
         transition-all duration-200"
-            >
-              <Image
-                src={item.image}
-                alt={item.title.replace(/<[^>]*>/g, "")}
-                width={159}
-                height={80}
-                sizes="(max-width: 640px) 100vw, 20rem"
-                className="object-cover w-full"
-              />
-
-              <div className="px-2 sm:w-43 w-38 flex-1 flex flex-col justify-between">
-                <h3
-                  className="sm:text-sm pt-1 text-sm font-semibold line-clamp-2 text-black"
-                  dangerouslySetInnerHTML={{ __html: item.title }}
-                />
-                <p className="mb-1 pt-1 sm:text-sm text-xs text-black">
-                  {item.mallName}
-                </p>
-                <div className="flex items-center justify-end">
-                  <button
-                    className="py-1 text-black text-xs"
-                    onClick={() => openModal(item)}
+              >
+                <button
+                  className="py-1 text-black text-xs"
+                  onClick={() => openModal(item)}
+                >
+                  <li
+                    key={i}
+                    className="
+                     "
                   >
-                    &lt; 자세히 보기
-                  </button>
-                </div>
-                <hr />
-                <div className=" p-1 sm:text-xl flex items-center  justify-end text-sm font-bold text-black">
-                  <p className=" text-sm pr-2">최저가</p>
-                  <p className="">{item.lprice}원</p>
-                </div>
+                    <Image
+                      src={item.image}
+                      alt={item.title.replace(/<[^>]*>/g, "")}
+                      width={159}
+                      height={80}
+                      sizes="(max-width: 640px) 100vw, 20rem"
+                      className="object-cover w-full"
+                    />
+
+                    <div className="px-2 sm:w-43 w-38 flex-1 flex flex-col justify-between">
+                      <h3
+                        className="sm:text-sm pt-1 text-sm font-semibold line-clamp-2 text-black"
+                        dangerouslySetInnerHTML={{ __html: item.title }}
+                      />
+                      <p className="mb-1 pt-1 sm:text-sm text-xs text-black">
+                        {item.mallName}
+                      </p>
+
+                      <hr />
+                      <div className=" p-1 sm:text-xl flex items-center  justify-end text-sm font-bold text-black">
+                        <p className=" text-sm pr-2">최저가</p>
+                        <p className="">{item.lprice}원</p>
+                      </div>
+                    </div>
+                  </li>
+                </button>
               </div>
-            </li>
+            </>
           ))}
         </ul>
       ) : (
