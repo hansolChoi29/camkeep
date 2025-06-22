@@ -42,7 +42,9 @@ export default function HomeCampingRecommend() {
   useEffect(() => {
     fetch("/api/go-camping?pageNo=1")
       .then((res) => res.json())
-      .then((data) => setItems(data))
+      .then((data: { items: CampingItem[]; totalCount: number }) => {
+        setItems(data.items);
+      })
       .catch(console.error);
   }, []);
 

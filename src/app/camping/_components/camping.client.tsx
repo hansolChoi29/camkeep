@@ -3,7 +3,11 @@
 import { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { CampingItem, fetchAllCampingList } from "@/lib/camping";
+import {
+  CampingItem,
+  fetchCampingList,
+  CampingListResponse,
+} from "@/lib/camping";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 
@@ -12,21 +16,26 @@ export default function CampingClient() {
   const [error, setError] = useState<string | null>(null);
   const [isPending, setIsPending] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+  const [pageNo, setPageNo] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
 
-  // 1) 전체 데이터 로드
+  const pageSize = 20;
+
   useEffect(() => {
-    fetchAllCampingList()
-      .then((items) => {
+    setIsPending(true);
+    setError(null);
+
+    fetchCampingList(pageNo, pageSize)
+      .then(({ items, totalCount }: CampingListResponse) => {
         setList(items);
-        setIsPending(false);
+        setTotalPages(Math.ceil(totalCount / pageSize));
       })
       .catch((err: unknown) => {
         setError(err instanceof Error ? err.message : String(err));
-        setIsPending(false);
-      });
-  }, []);
+      })
+      .finally(() => setIsPending(false));
+  }, [pageNo]);
 
-  // 2) 주소(addr1)에 searchTerm 포함된 항목만 필터링
   const filtered = useMemo(() => {
     if (!searchTerm.trim()) return list;
     return list.filter((camp) =>
@@ -36,14 +45,35 @@ export default function CampingClient() {
 
   if (isPending) return <p className="p-4 text-center">로딩중…</p>;
   if (error) return <p className="p-4 text-center text-red-600">{error}</p>;
-  if (list.length === 0)
+  if (filtered.length === 0)
     return <p className="p-4 text-center">캠핑장 데이터가 없습니다.</p>;
+
+  const getPageRange = (current: number, total: number) => {
+    const delta = 2;
+    const range: (number | string)[] = [];
+    let last = 0;
+    for (let i = 1; i <= total; i++) {
+      if (
+        i === 1 ||
+        i === total ||
+        (i >= current - delta && i <= current + delta)
+      ) {
+        if (last && i - last > 1) {
+          range.push("...");
+        }
+        range.push(i);
+        last = i;
+      }
+    }
+    return range;
+  };
+
+  const pages = getPageRange(pageNo, totalPages);
 
   return (
     <main className="max-w-6xl mx-auto p-4 space-y-6">
       <h1 className="text-2xl font-bold">캠핑장 목록</h1>
 
-      {/* 검색창 */}
       <div className="flex justify-center mb-6">
         <Input
           type="text"
@@ -54,71 +84,91 @@ export default function CampingClient() {
         />
       </div>
 
-      {/* 카드 그리드 */}
-      {filtered.length === 0 ? (
-        <p className="text-center text-gray-500">
-          “{searchTerm}” 검색 결과가 없습니다.
-        </p>
-      ) : (
-        <div
-          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6
-        
-        "
-        >
-          {filtered.map((camp) => (
-            <Link
-              key={camp.contentId}
-              href={`/camping/${camp.contentId}`}
-              passHref
-            >
-              <Card
-                key={camp.contentId}
-                className="flex flex-col overflow-hidden  transform hover:-translate-y-1
-        transition-all duration-200"
-              >
-                {/* 이미지 */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {filtered.map((camp) => (
+          <Link
+            key={camp.contentId}
+            href={`/camping/${camp.contentId}`}
+            className="h-full"
+          >
+            <Card className="h-full flex flex-col overflow-hidden transform hover:-translate-y-1 transition-all duration-200">
+              <div className="relative w-full h-40">
                 {camp.firstImageUrl ? (
-                  <>
-                    <div className="relative w-full h-40">
-                      <Image
-                        src={camp.firstImageUrl}
-                        alt={camp.facltNm}
-                        fill
-                        style={{ objectFit: "cover" }}
-                      />
-                    </div>
-                  </>
+                  <Image
+                    src={camp.firstImageUrl}
+                    alt={camp.facltNm}
+                    fill
+                    style={{ objectFit: "cover" }}
+                  />
                 ) : (
-                  <>
-                    <div className="w-full h-40 bg-gray-200 flex items-center justify-center text-sm text-gray-500">
-                      <Image
-                        src="/images/noimages.svg"
-                        alt="noimages"
-                        width={1000}
-                        height={1000}
-                      />
-                    </div>
-                  </>
+                  <div className="w-full h-full bg-gray-200 flex items-center justify-center text-sm text-gray-500">
+                    <Image
+                      src="/images/noimages.svg"
+                      alt="noimages"
+                      width={1000}
+                      height={1000}
+                    />
+                  </div>
                 )}
+              </div>
 
-                {/* 제목 */}
-                <CardHeader className="px-4 pt-4 pb-0">
-                  <CardTitle className="text-base sm:text-lg">
-                    {camp.facltNm}
-                  </CardTitle>
-                </CardHeader>
+              <CardHeader className="px-4 pt-4 pb-0">
+                <CardTitle className="text-base sm:text-lg">
+                  {camp.facltNm}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="px-4 py-2 flex-1">
+                <p className="text-sm text-gray-600 line-clamp-2">
+                  {camp.addr1}
+                </p>
+              </CardContent>
+            </Card>
+          </Link>
+        ))}
+      </div>
 
-                {/* 주소 */}
-                <CardContent className="px-4 py-2 flex-1">
-                  <p className="text-sm text-gray-600 line-clamp-2">
-                    {camp.addr1}
-                  </p>
-                </CardContent>
-              </Card>
-            </Link>
-          ))}
+      <div className="flex justify-center items-center space-x-2">
+        <button
+          onClick={() => setPageNo((p) => Math.max(p - 1, 1))}
+          disabled={pageNo === 1}
+          className="px-3 py-1 border rounded disabled:opacity-50"
+        >
+          이전
+        </button>
+
+        <span className="sm:hidden px-2 text-sm">
+          {pageNo} / {totalPages}
+        </span>
+
+        <div className="hidden sm:flex space-x-1">
+          {pages.map((p, idx) =>
+            typeof p === "string" ? (
+              <span key={`dot-${idx}`} className="px-2">
+                …
+              </span>
+            ) : (
+              <button
+                key={p}
+                onClick={() => setPageNo(p)}
+                className={`px-3 py-1 border rounded ${
+                  pageNo === p ? "bg-blue-500 text-white" : ""
+                }`}
+              >
+                {p}
+              </button>
+            )
+          )}
         </div>
-      )}
+
+        {/* 모바일 전용 */}
+        <button
+          onClick={() => setPageNo((p) => Math.min(p + 1, totalPages))}
+          disabled={pageNo === totalPages}
+          className="px-3 py-1 border rounded disabled:opacity-50"
+        >
+          다음
+        </button>
+      </div>
     </main>
   );
 }
