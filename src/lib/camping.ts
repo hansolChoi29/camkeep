@@ -105,5 +105,20 @@ export async function fetchCampingById(
     pageNo += 1;
   }
 
-  return null; // 못 찾으면 null
+  return null; 
+}
+export async function fetchAllCampingList(): Promise<CampingItem[]> {
+  const pageSize = 1000;
+  let pageNo = 1;
+  const allItems: CampingItem[] = [];
+
+  while (true) {
+    const { items } = await fetchCampingList(pageNo, pageSize);
+    if (items.length === 0) break;
+    allItems.push(...items);
+    if (items.length < pageSize) break;
+    pageNo += 1;
+  }
+
+  return allItems;
 }
