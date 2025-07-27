@@ -96,9 +96,7 @@ export default function AuthClient({ mode }: AuthFormProps) {
     setErrors((prev) => ({ ...prev, [name]: msg }));
   };
 
-  const handleSubmit: React.MouseEventHandler<HTMLButtonElement> = async (
-    e
-  ) => {
+  const handleSubmit: React.MouseEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
 
     const newErrors: Partial<Record<keyof Values, string>> = {};
@@ -182,7 +180,10 @@ export default function AuthClient({ mode }: AuthFormProps) {
   }, [searchParams]);
 
   return (
-    <div className="w-full max-w-full sm:max-w-md md:max-w-lg lg:max-w-xl sm:px-4 px-12 flex items-center justify-center gowun bg-[#578E7E] ">
+    <form
+      onSubmit={handleSubmit}
+      className="w-full max-w-full sm:max-w-md md:max-w-lg lg:max-w-xl sm:px-4 px-12 flex items-center justify-center gowun bg-[#578E7E] "
+    >
       <div className="w-full max-w-md">
         <Input type="hidden" name="callbackUrl" value={callbackUrl} />
         <div className="">
@@ -338,9 +339,9 @@ export default function AuthClient({ mode }: AuthFormProps) {
           {/* 제출 버튼 */}
           <div className="w-full flex justify-center ">
             <Button
-              type="submit"
               className="w-80 h-12 flex justify-center bg-[#FFFAEC] text-sm sm:text-base text-[#3D3D3D] py-2 rounded hover:bg-[#c7b29e] hover:text-white transition mt-10"
-              onClick={handleSubmit}
+              // onClick={handleSubmit}
+              type="submit"
             >
               {mode === "login" ? "로그인" : "완료"}
             </Button>
@@ -425,6 +426,6 @@ export default function AuthClient({ mode }: AuthFormProps) {
           onClose={() => setToast(null)}
         />
       )}
-    </div>
+    </form>
   );
 }
